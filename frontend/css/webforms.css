@@ -1,0 +1,82 @@
+/* Page background */
+html {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    font-family: "Segoe UI", Arial, Helvetica, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Glass container (wrap your content in a div with class="glass") */
+.glass {
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 16px;
+    padding: 40px 50px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    text-align: center;
+}
+
+/* Heading */
+h1 {
+    color: #ffffff;
+    font-size: 46px;
+    margin-bottom: 30px;
+    text-shadow: 0 0 12px rgba(255, 255, 255, 0.25);
+}
+
+/* Labels */
+label {
+    color: #8ab4f8;
+    font-size: 17px;
+    font-weight: 600;
+    display: block;
+    margin: 15px 0 6px;
+}
+
+/* Inputs */
+input {
+    width: 280px;
+    padding: 12px;
+    font-size: 16px;
+    color: #ffffff;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 10px;
+    outline: none;
+    transition: 0.3s ease;
+}
+
+/* Input focus */
+input:focus {
+    border-color: #8ab4f8;
+    box-shadow: 0 0 10px rgba(138, 180, 248, 0.6);
+}
+
+/* Button */
+button {
+    margin-top: 25px;
+    padding: 14px 32px;
+    font-size: 18px;
+    color: #ffffff;
+    background: linear-gradient(135deg, #1f1f1f, #3a3a3a);
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+    transition: all 0.3s ease;
+}
+
+/* Button hover */
+button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+}
+
+/* Button click */
+button:active {
+    transform: scale(0.96);
+}

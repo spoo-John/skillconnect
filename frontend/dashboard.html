@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dashboard — SkillConnect</title>
+  <link rel="stylesheet" href="css/style.css"/>
+  <style>
+    .dash-page {
+      position: relative; z-index: 1;
+      padding-top: var(--nav-h);
+      min-height: 100vh;
+    }
+
+    .dash-layout { display: flex; }
+
+    /* LEFT SIDEBAR NAV */
+    .dash-nav {
+      width: 240px; flex-shrink: 0;
+      border-right: 1px solid var(--border);
+      min-height: calc(100vh - var(--nav-h));
+      padding: 32px 0;
+      background: rgba(7,13,20,0.5);
+      position: sticky; top: var(--nav-h);
+      height: calc(100vh - var(--nav-h));
+      overflow-y: auto;
+    }
+    .dash-user { padding: 0 20px 24px; border-bottom: 1px solid var(--border); margin-bottom: 20px; }
+    .dash-user-av { width: 52px; height: 52px; font-size: 20px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-family: 'Syne', sans-serif; font-weight: 800; color: white; background: linear-gradient(135deg,#ff6b6b,#ff8e53); margin-bottom: 10px; }
+    .dash-user-name { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 15px; }
+    .dash-user-role { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+
+    .dash-nav-section { padding: 0 12px; margin-bottom: 8px; }
+    .dash-nav-label { font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-muted); font-weight: 700; padding: 0 8px; margin-bottom: 4px; }
+    .dash-nav-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 12px; border-radius: 10px;
+      color: var(--text-muted); font-size: 14px; font-weight: 500;
+      cursor: pointer; text-decoration: none; transition: all 0.2s;
+      margin-bottom: 2px;
+    }
+    .dash-nav-item:hover { background: rgba(255,255,255,0.05); color: var(--text); }
+    .dash-nav-item.active { background: rgba(0,212,255,0.1); color: var(--accent); font-weight: 600; }
+    .dash-nav-item .nav-icon { font-size: 16px; width: 20px; text-align: center; }
+    .dash-nav-badge { margin-left: auto; background: var(--accent); color: var(--bg-deep); font-size: 10px; font-weight: 800; padding: 2px 7px; border-radius: 50px; }
+
+    /* MAIN CONTENT */
+    .dash-main { flex: 1; padding: 36px 40px 60px; min-width: 0; }
+
+    .dash-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 32px; }
+    .dash-welcome h2 { font-size: 28px; margin-bottom: 4px; }
+    .dash-welcome p { color: var(--text-muted); font-size: 14px; }
+
+    /* Stats row */
+    .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 32px; }
+    .stat-card {
+      padding: 20px 22px;
+      border-radius: var(--radius);
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      transition: transform 0.2s;
+    }
+    .stat-card:hover { transform: translateY(-2px); }
+    .stat-card-icon { font-size: 24px; margin-bottom: 12px; }
+    .stat-card-val { font-family: 'Syne', sans-serif; font-size: 28px; font-weight: 800; line-height: 1; margin-bottom: 4px; }
+    .stat-card-label { font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+    .stat-card-change { font-size: 11px; color: #00e682; margin-top: 6px; font-weight: 600; }
+
+    /* Section header */
+    .section-hd { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+    .section-hd h3 { font-size: 18px; }
+
+    /* Posts table */
+    .posts-table { width: 100%; border-collapse: collapse; }
+    .posts-table th { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-weight: 600; }
+    .posts-table td { padding: 14px 14px; font-size: 14px; border-bottom: 1px solid rgba(255,255,255,0.04); vertical-align: middle; }
+    .posts-table tr:hover td { background: rgba(255,255,255,0.02); }
+    .post-title-cell { font-weight: 600; }
+    .post-title-sub { font-size: 12px; color: var(--text-muted); margin-top: 2px; font-weight: 400; }
+    .status-pill { padding: 4px 12px; border-radius: 50px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+    .status-open { background: rgba(0,230,130,0.12); color: #00e682; }
+    .status-closed { background: rgba(255,255,255,0.06); color: var(--text-muted); }
+    .status-draft { background: rgba(255,201,64,0.12); color: #ffc940; }
+    .table-action { font-size: 12px; color: var(--text-muted); cursor: pointer; margin-right: 8px; transition: color 0.2s; background: none; border: none; font-family: 'DM Sans', sans-serif; padding: 0; }
+    .table-action:hover { color: var(--accent); }
+    .table-action.del:hover { color: var(--accent3); }
+
+    /* Messages preview */
+    .msg-preview-list { display: flex; flex-direction: column; gap: 10px; }
+    .msg-prev-item {
+      display: flex; gap: 12px; align-items: center;
+      padding: 14px 16px;
+      border-radius: var(--radius-sm);
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      cursor: pointer; text-decoration: none;
+      transition: all 0.2s;
+    }
+    .msg-prev-item:hover { border-color: rgba(0,212,255,0.3); transform: translateX(3px); }
+    .msg-prev-av { width: 40px; height: 40px; font-size: 14px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-family: 'Syne', sans-serif; font-weight: 700; color: white; flex-shrink: 0; }
+    .msg-prev-body { flex: 1; min-width: 0; }
+    .msg-prev-name { font-weight: 700; font-size: 14px; }
+    .msg-prev-text { font-size: 12px; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .msg-prev-time { font-size: 11px; color: var(--text-muted); }
+
+    /* Recommended pros */
+    .rec-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .rec-card {
+      padding: 18px;
+      border-radius: var(--radius);
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      transition: all 0.3s;
+    }
+    .rec-card:hover { transform: translateY(-3px); border-color: rgba(0,212,255,0.25); }
+    .rec-top { display: flex; gap: 10px; align-items: center; margin-bottom: 10px; }
+    .rec-av { width: 38px; height: 38px; font-size: 14px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-family: 'Syne', sans-serif; font-weight: 700; color: white; }
+    .rec-name { font-weight: 700; font-size: 13px; }
+    .rec-role { font-size: 11px; color: var(--text-muted); }
+    .rec-rating { font-size: 11px; color: #ffc940; }
+    .rec-skills { margin-bottom: 12px; }
+
+    /* Tab system */
+    .tab-bar { display: flex; gap: 4px; margin-bottom: 20px; background: rgba(0,0,0,0.2); padding: 4px; border-radius: 10px; width: fit-content; }
+    .tab-btn { padding: 8px 20px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; border: none; background: transparent; color: var(--text-muted); font-family: 'DM Sans', sans-serif; transition: all 0.2s; }
+    .tab-btn.active { background: rgba(0,212,255,0.12); color: var(--accent); }
+
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .full-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; margin-bottom: 24px; }
+  </style>
+</head>
+<body>
+  <div class="orb orb-1" style="opacity:0.1;"></div>
+  <div class="orb orb-2" style="opacity:0.1;"></div>
+
+  <nav>
+    <a href="index.html" class="nav-logo">Skill<span>Connect</span></a>
+    <a href="browse.html">Browse Pros</a>
+    <a href="post-need.html">Post a Need</a>
+    <a href="messages.html">Messages <span style="background:var(--accent);color:var(--bg-deep);font-size:11px;font-weight:800;padding:1px 7px;border-radius:50px;margin-left:4px;">2</span></a>
+    <div class="avatar" style="width:36px;height:36px;font-size:14px;background:linear-gradient(135deg,#ff6b6b,#ff8e53);cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:700;color:white;border-radius:10px;">GW</div>
+  </nav>
+
+  <div class="dash-page">
+    <div class="dash-layout">
+
+      <!-- SIDEBAR -->
+      <div class="dash-nav">
+        <div class="dash-user">
+          <div class="dash-user-av">GW</div>
+          <div class="dash-user-name">Grace Wambui</div>
+          <div class="dash-user-role">Client Account</div>
+        </div>
+
+        <div class="dash-nav-section">
+          <div class="dash-nav-label">Main</div>
+          <a href="dashboard.html" class="dash-nav-item active"><span class="nav-icon">🏠</span> Dashboard</a>
+          <a href="messages.html" class="dash-nav-item"><span class="nav-icon">💬</span> Messages <span class="dash-nav-badge">2</span></a>
+          <a href="post-need.html" class="dash-nav-item"><span class="nav-icon">📋</span> My Posts</a>
+          <a href="browse.html" class="dash-nav-item"><span class="nav-icon">🔍</span> Browse Pros</a>
+        </div>
+        <div class="dash-nav-section" style="margin-top:16px;">
+          <div class="dash-nav-label">Account</div>
+          <a href="#" class="dash-nav-item"><span class="nav-icon">👤</span> Profile</a>
+          <a href="#" class="dash-nav-item"><span class="nav-icon">🔔</span> Notifications</a>
+          <a href="#" class="dash-nav-item"><span class="nav-icon">⚙️</span> Settings</a>
+        </div>
+        <div class="dash-nav-section" style="margin-top:16px;">
+          <a href="login.html" class="dash-nav-item" style="color:var(--accent3);"><span class="nav-icon">🚪</span> Sign Out</a>
+        </div>
+      </div>
+
+      <!-- MAIN -->
+      <div class="dash-main">
+        <!-- TOP -->
+        <div class="dash-top fade-up">
+          <div class="dash-welcome">
+            <h2>Good morning, Grace 👋</h2>
+            <p>Here's what's happening with your account today — Wednesday, March 11</p>
+          </div>
+          <a href="post-need.html" class="btn btn-primary">+ Post a New Need</a>
+        </div>
+
+        <!-- STATS -->
+        <div class="stats-row fade-up">
+          <div class="stat-card">
+            <div class="stat-card-icon">📋</div>
+            <div class="stat-card-val">3</div>
+            <div class="stat-card-label">Active Posts</div>
+            <div class="stat-card-change">↑ 1 new this week</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card-icon">💬</div>
+            <div class="stat-card-val">12</div>
+            <div class="stat-card-label">Responses</div>
+            <div class="stat-card-change">↑ 3 new today</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card-icon">🤝</div>
+            <div class="stat-card-val">2</div>
+            <div class="stat-card-label">Active Chats</div>
+            <div class="stat-card-change" style="color:var(--accent);">2 unread</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card-icon">✅</div>
+            <div class="stat-card-val">1</div>
+            <div class="stat-card-label">Jobs Completed</div>
+            <div class="stat-card-change">Since joining</div>
+          </div>
+        </div>
+
+        <!-- POSTS + MESSAGES -->
+        <div class="two-col fade-up-2">
+          <!-- MY POSTS -->
+          <div class="full-card">
+            <div class="section-hd">
+              <h3>My Posts</h3>
+              <a href="post-need.html" class="btn btn-ghost" style="padding:7px 16px;font-size:12px;">+ New</a>
+            </div>
+            <div class="tab-bar" style="margin-bottom:16px;">
+              <button class="tab-btn active" onclick="switchTab(this,'open')">Open (2)</button>
+              <button class="tab-btn" onclick="switchTab(this,'closed')">Closed (1)</button>
+              <button class="tab-btn" onclick="switchTab(this,'draft')">Drafts (1)</button>
+            </div>
+            <table class="posts-table" id="postsTable">
+              <thead>
+                <tr>
+                  <th>Post</th>
+                  <th>Responses</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="postsBody">
+                <tr>
+                  <td><div class="post-title-cell">Landing page for my bakery</div><div class="post-title-sub">Frontend Dev · KSh 15,000</div></td>
+                  <td><span style="font-weight:700;color:var(--accent);">4</span></td>
+                  <td><span class="status-pill status-open">Open</span></td>
+                  <td><button class="table-action">Edit</button><button class="table-action del">Delete</button></td>
+                </tr>
+                <tr>
+                  <td><div class="post-title-cell">Online ordering system</div><div class="post-title-sub">Backend Dev · KSh 25,000</div></td>
+                  <td><span style="font-weight:700;color:var(--accent);">8</span></td>
+                  <td><span class="status-pill status-open">Open</span></td>
+                  <td><button class="table-action">Edit</button><button class="table-action del">Delete</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- RECENT MESSAGES -->
+          <div class="full-card">
+            <div class="section-hd">
+              <h3>Recent Messages</h3>
+              <a href="messages.html" class="btn btn-ghost" style="padding:7px 16px;font-size:12px;">View All</a>
+            </div>
+            <div class="msg-preview-list">
+              <a href="messages.html" class="msg-prev-item">
+                <div class="msg-prev-av" style="background:linear-gradient(135deg,#00d4ff,#7b61ff);">AM</div>
+                <div class="msg-prev-body">
+                  <div class="msg-prev-name">Alex Mwangi <span style="background:var(--accent);color:var(--bg-deep);font-size:9px;font-weight:800;padding:1px 6px;border-radius:50px;margin-left:4px;">2</span></div>
+                  <div class="msg-prev-text">Sure! I can start on Thursday if that works for you...</div>
+                </div>
+                <div class="msg-prev-time">2m</div>
+              </a>
+              <a href="messages.html" class="msg-prev-item">
+                <div class="msg-prev-av" style="background:linear-gradient(135deg,#ff6b6b,#ff8e53);">SK</div>
+                <div class="msg-prev-body">
+                  <div class="msg-prev-name">Sara Kimani</div>
+                  <div class="msg-prev-text">I've sent over the security report. Please review...</div>
+                </div>
+                <div class="msg-prev-time">1h</div>
+              </a>
+              <a href="messages.html" class="msg-prev-item">
+                <div class="msg-prev-av" style="background:linear-gradient(135deg,#00e682,#00d4ff);">DO</div>
+                <div class="msg-prev-body">
+                  <div class="msg-prev-name">David Osei</div>
+                  <div class="msg-prev-text">The API is ready for testing. Let me know what...</div>
+                </div>
+                <div class="msg-prev-time">Yesterday</div>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- RECOMMENDED PROS -->
+        <div class="full-card fade-up-3">
+          <div class="section-hd">
+            <h3>Recommended Professionals</h3>
+            <a href="browse.html" class="btn btn-ghost" style="padding:7px 16px;font-size:12px;">Browse All →</a>
+          </div>
+          <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px;">Based on your posts about frontend development and backend systems</p>
+          <div class="rec-grid">
+            <div class="rec-card">
+              <div class="rec-top">
+                <div class="rec-av" style="background:linear-gradient(135deg,#00d4ff,#7b61ff);">AM</div>
+                <div><div class="rec-name">Alex Mwangi</div><div class="rec-role">Frontend Developer</div><div class="rec-rating">★★★★★ 5.0</div></div>
+              </div>
+              <div class="rec-skills"><span class="skill-tag">React</span><span class="skill-tag">CSS</span></div>
+              <a href="profile.html" class="btn btn-ghost" style="width:100%;justify-content:center;padding:8px;font-size:12px;">View Profile</a>
+            </div>
+            <div class="rec-card">
+              <div class="rec-top">
+                <div class="rec-av" style="background:linear-gradient(135deg,#00e682,#00d4ff);">DO</div>
+                <div><div class="rec-name">David Osei</div><div class="rec-role">Backend Engineer</div><div class="rec-rating">★★★★★ 4.8</div></div>
+              </div>
+              <div class="rec-skills"><span class="skill-tag">Node.js</span><span class="skill-tag">MongoDB</span></div>
+              <a href="profile.html" class="btn btn-ghost" style="width:100%;justify-content:center;padding:8px;font-size:12px;">View Profile</a>
+            </div>
+            <div class="rec-card">
+              <div class="rec-top">
+                <div class="rec-av" style="background:linear-gradient(135deg,#7b61ff,#ff6b6b);">NW</div>
+                <div><div class="rec-name">Naomi Wanjiku</div><div class="rec-role">UI / UX Designer</div><div class="rec-rating">★★★★☆ 4.7</div></div>
+              </div>
+              <div class="rec-skills"><span class="skill-tag">Figma</span><span class="skill-tag">UX</span></div>
+              <a href="profile.html" class="btn btn-ghost" style="width:100%;justify-content:center;padding:8px;font-size:12px;">View Profile</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function switchTab(btn, type) {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const tbody = document.getElementById('postsBody');
+      if (type === 'closed') {
+        tbody.innerHTML = `<tr><td><div class="post-title-cell">Logo design for bakery</div><div class="post-title-sub">UI/UX · KSh 5,000</div></td><td><span style="font-weight:700;">3</span></td><td><span class="status-pill status-closed">Closed</span></td><td><button class="table-action">Reopen</button></td></tr>`;
+      } else if (type === 'draft') {
+        tbody.innerHTML = `<tr><td><div class="post-title-cell">Social media graphics pack</div><div class="post-title-sub">UI/UX · Budget TBD</div></td><td>—</td><td><span class="status-pill status-draft">Draft</span></td><td><button class="table-action">Edit</button><button class="table-action del">Delete</button></td></tr>`;
+      } else {
+        tbody.innerHTML = `
+          <tr><td><div class="post-title-cell">Landing page for my bakery</div><div class="post-title-sub">Frontend Dev · KSh 15,000</div></td><td><span style="font-weight:700;color:var(--accent);">4</span></td><td><span class="status-pill status-open">Open</span></td><td><button class="table-action">Edit</button><button class="table-action del">Delete</button></td></tr>
+          <tr><td><div class="post-title-cell">Online ordering system</div><div class="post-title-sub">Backend Dev · KSh 25,000</div></td><td><span style="font-weight:700;color:var(--accent);">8</span></td><td><span class="status-pill status-open">Open</span></td><td><button class="table-action">Edit</button><button class="table-action del">Delete</button></td></tr>`;
+      }
+    }
+  </script>
+</body>
+</html>
