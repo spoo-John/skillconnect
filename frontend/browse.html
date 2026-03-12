@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Browse Professionals — SkillConnect</title>
+  <link rel="stylesheet" href="css/style.css"/>
+  <style>
+    .browse-page { position: relative; z-index: 1; padding-top: var(--nav-h); }
+
+    .browse-hero {
+      background: linear-gradient(180deg, rgba(0,212,255,0.05) 0%, transparent 100%);
+      border-bottom: 1px solid var(--border);
+      padding: 48px 40px 40px;
+      text-align: center;
+    }
+    .browse-hero h1 { font-size: clamp(32px,5vw,52px); margin-bottom: 12px; }
+    .browse-hero p { color: var(--text-muted); font-size: 16px; margin-bottom: 32px; }
+
+    /* Search bar */
+    .search-bar {
+      display: flex; gap: 12px; max-width: 700px; margin: 0 auto 24px;
+      background: var(--glass-bg);
+      border: 1px solid var(--border);
+      border-radius: 50px;
+      padding: 8px 8px 8px 20px;
+    
+      transition: border-color 0.25s;
+    }
+    .search-bar:focus-within { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(0,212,255,0.1); }
+    .search-bar input {
+      flex: 1; border: none; background: transparent;
+      font-size: 15px; color: var(--text); outline: none; padding: 0;
+    }
+    .search-bar button {
+      padding: 11px 24px; background: var(--accent);
+      color: var(--bg-deep); border: none; border-radius: 50px;
+      font-family: 'Syne', sans-serif; font-weight: 700; font-size: 14px;
+      cursor: pointer; transition: all 0.2s;
+    }
+    .search-bar button:hover { transform: scale(1.03); }
+
+    /* Filter chips */
+    .filter-chips { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
+    .chip {
+      padding: 7px 18px;
+      border-radius: 50px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text-muted);
+      font-size: 13px; font-weight: 600;
+      cursor: pointer; transition: all 0.2s;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .chip:hover { border-color: var(--accent); color: var(--accent); }
+    .chip.active { background: rgba(0,212,255,0.12); border-color: var(--accent); color: var(--accent); }
+
+    /* Main layout */
+    .browse-body { display: flex; gap: 0; max-width: 1300px; margin: 0 auto; padding: 0 40px 80px; }
+
+    /* Sidebar filters */
+    .sidebar {
+      width: 240px; flex-shrink: 0;
+      padding: 32px 0 32px 0;
+      padding-right: 32px;
+      border-right: 1px solid var(--border);
+    }
+    .sidebar-section { margin-bottom: 28px; }
+    .sidebar-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); margin-bottom: 12px; }
+    .sidebar-option { display: flex; align-items: center; gap: 10px; padding: 8px 0; cursor: pointer; color: var(--text-muted); font-size: 14px; transition: color 0.2s; }
+    .sidebar-option:hover { color: var(--text); }
+    .sidebar-option input[type="checkbox"] { accent-color: var(--accent); width: 15px; height: 15px; cursor: pointer; }
+    .sidebar-option.active { color: var(--accent); }
+
+    .availability-toggle { display: flex; align-items: center; justify-content: space-between; padding: 8px 0; }
+    .toggle-sw {
+      width: 42px; height: 24px; border-radius: 12px;
+      background: rgba(255,255,255,0.1); border: 1px solid var(--border);
+      position: relative; cursor: pointer; transition: background 0.3s;
+    }
+    .toggle-sw.on { background: var(--accent); }
+    .toggle-sw::after {
+      content: ''; position: absolute; width: 18px; height: 18px;
+      border-radius: 50%; background: white;
+      top: 2px; left: 2px; transition: transform 0.3s;
+    }
+    .toggle-sw.on::after { transform: translateX(18px); }
+
+    /* Results area */
+    .results-area { flex: 1; padding: 32px 0 0 32px; }
+    .results-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+    .results-count { font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 700; }
+    .results-count span { color: var(--text-muted); font-family: 'DM Sans', sans-serif; font-weight: 400; font-size: 14px; }
+    .sort-select { padding: 9px 16px; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 14px; outline: none; cursor: pointer; }
+
+    /* Pro cards */
+    .pros-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+    .pro-card {
+      padding: 24px;
+      border-radius: var(--radius);
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      transition: all 0.3s;
+      display: flex; flex-direction: column;
+    }
+    .pro-card:hover { transform: translateY(-5px); border-color: rgba(0,212,255,0.3); box-shadow: 0 12px 40px rgba(0,0,0,0.3); }
+
+    .pro-card-top { display: flex; gap: 14px; align-items: flex-start; margin-bottom: 14px; }
+    .pro-avatar { width: 52px; height: 52px; font-size: 20px; }
+    .pro-avail { width: 10px; height: 10px; border-radius: 50%; background: #00e682; border: 2px solid var(--bg-deep); position: absolute; bottom: 2px; right: 2px; }
+    .pro-av-wrap { position: relative; display: inline-flex; }
+    .pro-info { flex: 1; }
+    .pro-name { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 16px; margin-bottom: 3px; }
+    .pro-role-title { font-size: 13px; color: var(--text-muted); margin-bottom: 6px; }
+    .pro-rating { display: flex; align-items: center; gap: 5px; font-size: 13px; }
+    .pro-rating .count { color: var(--text-muted); }
+
+    .pro-bio { font-size: 13px; color: var(--text-muted); line-height: 1.6; margin-bottom: 14px; flex: 1; }
+    .pro-skills { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 16px; }
+    .pro-card-footer { display: flex; justify-content: space-between; align-items: center; margin-top: auto; padding-top: 14px; border-top: 1px solid var(--border); }
+    .pro-rate { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 15px; }
+    .pro-rate span { font-family: 'DM Sans', sans-serif; font-weight: 400; font-size: 12px; color: var(--text-muted); }
+
+    /* Pagination */
+    .pagination { display: flex; justify-content: center; align-items: center; gap: 8px; margin-top: 40px; }
+    .page-btn {
+      width: 40px; height: 40px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      background: var(--bg-card); border: 1px solid var(--border);
+      color: var(--text-muted); font-size: 14px; font-weight: 600;
+      cursor: pointer; transition: all 0.2s; font-family: 'Syne', sans-serif;
+      text-decoration: none;
+    }
+    .page-btn:hover, .page-btn.active { background: rgba(0,212,255,0.12); border-color: var(--accent); color: var(--accent); }
+    .page-btn.active { cursor: default; }
+  </style>
+</head>
+<body>
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+
+  <nav>
+    <a href="index.html" class="nav-logo">Skill<span>Connect</span></a>
+    <a href="browse.html" style="color:var(--accent)">Browse Pros</a>
+    <a href="post-need.html">Post a Need</a>
+    <a href="login.html" class="nav-btn nav-btn-outline">Log In</a>
+    <a href="register.html" class="nav-btn nav-btn-filled">Get Started</a>
+  </nav>
+
+  <div class="browse-page">
+    <div class="browse-hero fade-up">
+      <h1>Find your <em class="accent">perfect</em> match</h1>
+      <p>Browse 500+ verified tech professionals across 12 skill categories</p>
+      <div class="search-bar">
+        <input type="text" placeholder="Search by name, skill, or keyword..." id="searchInput"/>
+        <button onclick="filterCards()">Search</button>
+      </div>
+      <div class="filter-chips">
+        <button class="chip active" onclick="filterBy(this,'all')">All</button>
+        <button class="chip" onclick="filterBy(this,'Frontend Dev')">Frontend Dev</button>
+        <button class="chip" onclick="filterBy(this,'Backend Dev')">Backend Dev</button>
+        <button class="chip" onclick="filterBy(this,'Cybersecurity')">Cybersecurity</button>
+        <button class="chip" onclick="filterBy(this,'Mobile Dev')">Mobile Dev</button>
+        <button class="chip" onclick="filterBy(this,'UI/UX')">UI / UX</button>
+        <button class="chip" onclick="filterBy(this,'Data Analysis')">Data Analysis</button>
+        <button class="chip" onclick="filterBy(this,'DevOps')">DevOps</button>
+      </div>
+    </div>
+
+    <div class="browse-body">
+      <!-- SIDEBAR -->
+      <div class="sidebar fade-up">
+        <div class="sidebar-section">
+          <div class="sidebar-title">Availability</div>
+          <div class="availability-toggle">
+            <span style="font-size:14px;color:var(--text-muted);">Available Now</span>
+            <div class="toggle-sw on" onclick="this.classList.toggle('on')"></div>
+          </div>
+        </div>
+        <div class="sidebar-section">
+          <div class="sidebar-title">Skills</div>
+          <label class="sidebar-option"><input type="checkbox" checked/> Frontend Dev</label>
+          <label class="sidebar-option"><input type="checkbox" checked/> Backend Dev</label>
+          <label class="sidebar-option"><input type="checkbox"/> Cybersecurity</label>
+          <label class="sidebar-option"><input type="checkbox"/> Mobile Dev</label>
+          <label class="sidebar-option"><input type="checkbox"/> UI / UX Design</label>
+          <label class="sidebar-option"><input type="checkbox"/> Data Analysis</label>
+          <label class="sidebar-option"><input type="checkbox"/> DevOps</label>
+          <label class="sidebar-option"><input type="checkbox"/> IT Support</label>
+        </div>
+        <div class="sidebar-section">
+          <div class="sidebar-title">Min Rating</div>
+          <label class="sidebar-option"><input type="radio" name="rating"/> Any</label>
+          <label class="sidebar-option"><input type="radio" name="rating" checked/> ⭐ 4+ Stars</label>
+          <label class="sidebar-option"><input type="radio" name="rating"/> ⭐ 4.5+ Stars</label>
+          <label class="sidebar-option"><input type="radio" name="rating"/> ⭐ 5 Stars only</label>
+        </div>
+      </div>
+
+      <!-- RESULTS -->
+      <div class="results-area">
+        <div class="results-header">
+          <div class="results-count">24 professionals <span>found</span></div>
+            <select><class="sort-select">
+            <option>Sort: Most Relevant</option>
+            <option>Highest Rated</option>
+            <option>Newest</option>
+            <option>Most Reviews</option>
+          </select>
+        </div>
+
+        <div class="pros-grid" id="prosGrid">
+          <!-- Card 1 -->
+          <div class="pro-card" data-skill="Frontend Dev">
+            <div class="pro-card-top">
+              <div class="pro-av-wrap">
+                <div class="avatar pro-avatar" style="background:linear-gradient(135deg,#00d4ff,#7b61ff);">AM</div>
+                <span class="pro-avail"></span>
+              </div>
+              <div class="pro-info">
+                <div class="pro-name">Alex Mwangi</div>
+                <div class="pro-role-title">Frontend Developer</div>
+                <div class="pro-rating"><span class="stars">★★★★★</span><span>5.0</span><span class="count">(34)</span></div>
+              </div>
+            </div>
+            <p class="pro-bio">Specialist in building beautiful, responsive websites for small businesses. 5 years building with React and vanilla JS.</p>
+            <div class="pro-skills">
+              <span class="skill-tag">React</span><span class="skill-tag">HTML/CSS</span><span class="skill-tag">Figma</span><span class="skill-tag">JS</span>
+            </div>
+            <div class="pro-card-footer">
+              <div class="pro-rate">KSh 2,500 <span>/ hr</span></div>
+              <a href="profile.html" class="btn btn-ghost" style="padding:8px 18px;font-size:13px;">View Profile</a>
+            </div>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="pro-card" data-skill="Cybersecurity">
+            <div class="pro-card-top">
+              <div class="pro-av-wrap">
+                <div class="avatar pro-avatar" style="background:linear-gradient(135deg,#ff6b6b,#ff8e53);">SK</div>
+                <span class="pro-avail"></span>
+              </div>
+              <div class="pro-info">
+                <div class="pro-name">Sara Kimani</div>
+                <div class="pro-role-title">Cybersecurity Analyst</div>
+                <div class="pro-rating"><span class="stars">★★★★★</span><span>4.9</span><span class="count">(21)</span></div>
+              </div>
+            </div>
+            <p class="pro-bio">Certified ethical hacker helping businesses secure their systems. Specialised in vulnerability assessments and SIEM tools.</p>
+            <div class="pro-skills">
+              <span class="skill-tag">Pen Testing</span><span class="skill-tag">SIEM</span><span class="skill-tag">Kali Linux</span>
+            </div>
+            <div class="pro-card-footer">
+              <div class="pro-rate">KSh 4,000 <span>/ hr</span></div>
+              <a href="profile.html" class="btn btn-ghost" style="padding:8px 18px;font-size:13px;">View Profile</a>
+            </div>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="pro-card" data-skill="Backend Dev">
+            <div class="pro-card-top">
+              <div class="pro-av-wrap">
+                <div class="avatar pro-avatar" style="background:linear-gradient(135deg,#00e682,#00d4ff);">DO</div>
+                <span class="pro-avail"></span>
+              </div>
+              <div class="pro-info">
+                <div class="pro-name">David Osei</div>
+                <div class="pro-role-title">Backend Engineer</div>
+                <div class="pro-rating"><span class="stars">★★★★★</span><span>4.8</span><span class="count">(18)</span></div>
+              </div>
+            </div>
+            <p class="pro-bio">Node.js and Python backend developer. Builds fast, scalable APIs for startups and growing businesses. Clean code guaranteed.</p>
+            <div class="pro-skills">
+              <span class="skill-tag">Node.js</span><span class="skill-tag">Python</span><span class="skill-tag">MongoDB</span>
+            </div>
+            <div class="pro-card-footer">
+              <div class="pro-rate">KSh 3,200 <span>/ hr</span></div>
+              <a href="profile.html" class="btn btn-ghost" style="padding:8px 18px;font-size:13px;">View Profile</a>
+            </div>
+          </div>
+
+          <!-- Card 4 -->
+          <div class="pro-card" data-skill="UI/UX">
+            <div class="pro-card-top">
+              <div class="pro-av-wrap">
+                <div class="avatar pro-avatar" style="background:linear-gradient(135deg,#7b61ff,#ff6b6b);">NW</div>
+                <span class="pro-avail" style="background:#ffc940;"></span>
+              </div>
+              <div class="pro-info">
+                <div class="pro-name">Naomi Wanjiku</div>
+                <div class="pro-role-title">UI/UX Designer</div>
+                <div class="pro-rating"><span class="stars">★★★★☆</span><span>4.7</span><span class="count">(29)</span></div>
+              </div>
+            </div>
+            <p class="pro-bio">Creates intuitive, user-centred designs that convert visitors to customers. Experienced in Figma, wireframing, and user research.</p>
+            <div class="pro-skills">
+              <span class="skill-tag">Figma</span><span class="skill-tag">Wireframing</span><span class="skill-tag">Prototyping</span>
+            </div>
+            <div class="pro-card-footer">
+              <div class="pro-rate">KSh 2,800 <span>/ hr</span></div>
+              <a href="profile.html" class="btn btn-ghost" style="padding:8px 18px;font-size:13px;">View Profile</a>
+            </div>
+          </div>
+
+          <!-- Card 5 -->
+          <div class="pro-card" data-skill="Mobile Dev">
+            <div class="pro-card-top">
+              <div class="pro-av-wrap">
+                <div class="avatar pro-avatar" style="background:linear-gradient(135deg,#ffc940,#ff6b6b);">KO</div>
+                <span class="pro-avail"></span>
+              </div>
+              <div class="pro-info">
+                <div class="pro-name">Kwame Ofori</div>
+                <div class="pro-role-title">Mobile Developer</div>
+                <div class="pro-rating"><span class="stars">★★★★★</span><span>5.0</span><span class="count">(12)</span></div>
+              </div>
+            </div>
+            <p class="pro-bio">Flutter and React Native specialist. Builds cross-platform mobile apps for both iOS and Android from a single codebase.</p>
+            <div class="pro-skills">
+              <span class="skill-tag">Flutter</span><span class="skill-tag">React Native</span><span class="skill-tag">Firebase</span>
+            </div>
+            <div class="pro-card-footer">
+              <div class="pro-rate">KSh 3,500 <span>/ hr</span></div>
+              <a href="profile.html" class="btn btn-ghost" style="padding:8px 18px;font-size:13px;">View Profile</a>
+            </div>
+          </div>
+
+          <!-- Card 6 -->
+          <div class="pro-card" data-skill="Data Analysis">
+            <div class="pro-card-top">
+              <div class="pro-av-wrap">
+                <div class="avatar pro-avatar" style="background:linear-gradient(135deg,#00d4ff,#00e682);">ZA</div>
+                <span class="pro-avail" style="background:#ffc940;"></span>
+              </div>
+              <div class="pro-info">
+                <div class="pro-name">Zara Adeyemi</div>
+                <div class="pro-role-title">Data Analyst</div>
+                <div class="pro-rating"><span class="stars">★★★★☆</span><span>4.6</span><span class="count">(15)</span></div>
+              </div>
+            </div>
+            <p class="pro-bio">Turns raw data into actionable business insights. Expert in Python, Excel dashboards, and Power BI reporting for SMEs.</p>
+            <div class="pro-skills">
+              <span class="skill-tag">Python</span><span class="skill-tag">Power BI</span><span class="skill-tag">SQL</span>
+            </div>
+            <div class="pro-card-footer">
+              <div class="pro-rate">KSh 2,200 <span>/ hr</span></div>
+              <a href="profile.html" class="btn btn-ghost" style="padding:8px 18px;font-size:13px;">View Profile</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="pagination">
+          <a class="page-btn">←</a>
+          <a class="page-btn active">1</a>
+          <a class="page-btn">2</a>
+          <a class="page-btn">3</a>
+          <a class="page-btn">4</a>
+          <a class="page-btn">→</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function filterBy(btn, skill) {
+      document.querySelectorAll('.filter-chips .chip').forEach(c => c.classList.remove('active'));
+      btn.classList.add('active');
+      const cards = document.querySelectorAll('.pro-card');
+      cards.forEach(card => {
+        card.style.display = (skill === 'all' || card.dataset.skill === skill) ? '' : 'none';
+      });
+    }
+
+    function filterCards() {
+      const query = document.getElementById('searchInput').value.toLowerCase();
+      document.querySelectorAll('.pro-card').forEach(card => {
+        card.style.display = card.textContent.toLowerCase().includes(query) ? '' : 'none';
+      });
+    }
+
+    document.getElementById('searchInput').addEventListener('keydown', e => {
+      if (e.key === 'Enter') filterCards();
+    });
+  </script>
+</body>
+</html>

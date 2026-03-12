@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Register — SkillConnect</title>
+  <link rel="stylesheet" href="css/style.css"/>
+  <style>
+    .register-page {
+      min-height: calc(100vh - var(--nav-h));
+      display: flex; align-items: center; justify-content: center;
+      padding: 60px 20px;
+      position: relative; z-index: 1;
+    }
+    .register-box {
+      width: 100%; max-width: 520px;
+      padding: 48px;
+      border-radius: 20px;
+    }
+    .reg-title { font-size: 32px; margin-bottom: 6px; }
+    .reg-sub { color: var(--text-muted); font-size: 15px; margin-bottom: 36px; }
+
+    /* Role toggle */
+    .role-toggle { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 28px; }
+    .role-card {
+      padding: 18px 16px;
+      border-radius: var(--radius);
+      border: 2px solid var(--border);
+      cursor: pointer;
+      transition: all 0.25s;
+      text-align: center;
+     
+    }
+    .role-card:hover { border-color: rgba(0,212,255,0.4); }
+    .role-card.active { border-color: var(--accent); background: rgba(0,212,255,0.08); }
+    .role-card-icon { font-size: 28px; margin-bottom: 8px; }
+    .role-card-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 14px; margin-bottom: 4px; }
+    .role-card-desc { font-size: 12px; color: var(--text-muted); line-height: 1.4; }
+
+    /* Pro extra fields */
+    .pro-fields { display: none; }
+    .pro-fields.visible { display: block; }
+
+    .skills-multi {
+      display: flex; flex-wrap: wrap; gap: 8px;
+      padding: 12px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      min-height: 52px;
+      cursor: pointer;
+      transition: border-color 0.25s;
+    }
+    .skills-multi:focus-within { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(0,212,255,0.12); }
+    .skill-chip {
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 4px 10px;
+      border-radius: 50px;
+      background: rgba(0,212,255,0.12);
+      color: var(--accent);
+      font-size: 13px; font-weight: 600;
+      cursor: pointer;
+    }
+    .skill-chip:hover { background: rgba(0,212,255,0.2); }
+
+    .skills-dropdown {
+      display: none;
+      flex-wrap: wrap; gap: 8px;
+      padding: 12px;
+      background: var(--bg-mid);
+      border: 1px solid var(--border);
+      border-top: none;
+      border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+    }
+    .skills-dropdown.open { display: flex; }
+    .skill-option {
+      padding: 6px 14px;
+      border-radius: 50px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      font-size: 13px; font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .skill-option:hover, .skill-option.selected { background: rgba(0,212,255,0.12); color: var(--accent); border-color: rgba(0,212,255,0.3); }
+
+    .submit-btn {
+      width: 100%; padding: 15px;
+      background: var(--accent);
+      color: var(--bg-deep);
+      font-family: 'Syne', sans-serif;
+      font-weight: 700; font-size: 16px;
+      border: none; border-radius: 50px;
+      cursor: pointer; margin-top: 8px;
+      transition: all 0.25s;
+    }
+    .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(0,212,255,0.4); }
+
+    .login-link { text-align: center; margin-top: 24px; font-size: 14px; color: var(--text-muted); }
+    .login-link a { color: var(--accent); text-decoration: none; font-weight: 600; }
+
+    .pw-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+    .section-label {
+      font-size: 11px; text-transform: uppercase; letter-spacing: 1.2px;
+      color: var(--text-muted); font-weight: 600;
+      margin: 24px 0 16px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+  </style>
+</head>
+<body>
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+
+  <nav>
+    <a href="index.html" class="nav-logo">Skill<span>Connect</span></a>
+    <a href="browse.html">Browse Pros</a>
+    <a href="post-need.html">Post a Need</a>
+    <a href="login.html" class="nav-btn nav-btn-outline">Log In</a>
+  </nav>
+
+  <div class="page register-page">
+    <div class="glass register-box fade-up">
+      <h2 class="reg-title">Create account</h2>
+      <p class="reg-sub">Join thousands of clients and professionals on SkillConnect.</p>
+
+      <!-- Role Selection -->
+      <div style="margin-bottom:8px;">
+        <label style="margin-bottom:12px;">I am joining as...</label>
+        <div class="role-toggle">
+          <div class="role-card active" id="roleClient" onclick="setRole('client')">
+            <div class="role-card-icon">🏢</div>
+            <div class="role-card-title">A Client</div>
+            <div class="role-card-desc">I need help with a project or task</div>
+          </div>
+          <div class="role-card" id="rolePro" onclick="setRole('professional')">
+            <div class="role-card-icon">💻</div>
+            <div class="role-card-title">A Professional</div>
+            <div class="role-card-desc">I offer tech skills and services</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-label">Your Details</div>
+
+      <div class="form-group">
+        <label>Full Name</label>
+        <input type="text" placeholder="e.g. John Doe"/>
+      </div>
+
+      <div class="form-group">
+        <label>Email Address</label>
+        <input type="email" placeholder="you@example.com"/>
+      </div>
+
+      <div class="pw-row">
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" placeholder="Min. 8 characters"/>
+        </div>
+        <div class="form-group">
+          <label>Confirm Password</label>
+          <input type="password" placeholder="Repeat password"/>
+        </div>
+      </div>
+
+      <!-- Professional Extra Fields -->
+      <div class="pro-fields" id="proFields">
+        <div class="section-label">Professional Details</div>
+
+        <div class="form-group">
+          <label>Your Skills <span style="color:var(--text-muted);text-transform:none;letter-spacing:0;">(click to add)</span></label>
+          <div class="skills-multi" id="selectedSkills" onclick="toggleDropdown()">
+            <span style="color:var(--text-muted);font-size:14px;padding:2px;">Click to select skills...</span>
+          </div>
+          <div class="skills-dropdown" id="skillsDropdown">
+            <span class="skill-option" onclick="toggleSkill(this)">Frontend Dev</span>
+            <span class="skill-option" onclick="toggleSkill(this)">Backend Dev</span>
+            <span class="skill-option" onclick="toggleSkill(this)">UI / UX Design</span>
+            <span class="skill-option" onclick="toggleSkill(this)">Cybersecurity</span>
+            <span class="skill-option" onclick="toggleSkill(this)">Mobile Dev</span>
+            <span class="skill-option" onclick="toggleSkill(this)">Data Analysis</span>
+            <span class="skill-option" onclick="toggleSkill(this)">DevOps</span>
+            <span class="skill-option" onclick="toggleSkill(this)">IT Support</span>
+            <span class="skill-option" onclick="toggleSkill(this)">Database Admin</span>
+            <span class="skill-option" onclick="toggleSkill(this)">QA Testing</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Short Bio</label>
+          <textarea placeholder="Tell clients a little about yourself, your experience and what makes you stand out..."></textarea>
+        </div>
+
+        <div class="form-group">
+          <label>Portfolio Link <span style="color:var(--text-muted);text-transform:none;letter-spacing:0;">(optional)</span></label>
+          <input type="url" placeholder="https://yourportfolio.com"/>
+        </div>
+      </div>
+
+      <button class="submit-btn" onclick="window.location='dashboard.html'">Create My Account →</button>
+
+      <p class="login-link">Already have an account? <a href="login.html">Sign in</a></p>
+    </div>
+  </div>
+
+  <script>
+    let selectedSkillsList = [];
+
+    function setRole(role) {
+      document.getElementById('roleClient').classList.toggle('active', role === 'client');
+      document.getElementById('rolePro').classList.toggle('active', role === 'professional');
+      document.getElementById('proFields').classList.toggle('visible', role === 'professional');
+    }
+
+    function toggleDropdown() {
+      document.getElementById('skillsDropdown').classList.toggle('open');
+    }
+
+    function toggleSkill(el) {
+      const skill = el.textContent;
+      el.classList.toggle('selected');
+      if (el.classList.contains('selected')) {
+        selectedSkillsList.push(skill);
+      } else {
+        selectedSkillsList = selectedSkillsList.filter(s => s !== skill);
+      }
+      renderSelected();
+    }
+
+    function renderSelected() {
+      const container = document.getElementById('selectedSkills');
+      if (selectedSkillsList.length === 0) {
+        container.innerHTML = '<span style="color:var(--text-muted);font-size:14px;padding:2px;">Click to select skills...</span>';
+      } else {
+        container.innerHTML = selectedSkillsList.map(s =>
+          `<span class="skill-chip">${s} <span onclick="removeSkill('${s}')">×</span></span>`
+        ).join('');
+      }
+    }
+
+    function removeSkill(skill) {
+      selectedSkillsList = selectedSkillsList.filter(s => s !== skill);
+      document.querySelectorAll('.skill-option').forEach(el => {
+        if (el.textContent === skill) el.classList.remove('selected');
+      });
+      renderSelected();
+      event.stopPropagation();
+    }
+
+    document.addEventListener('click', function(e) {
+      const dropdown = document.getElementById('skillsDropdown');
+      const trigger = document.getElementById('selectedSkills');
+      if (!trigger.contains(e.target) && !dropdown.contains(e.target)) {
+        dropdown.classList.remove('open');
+      }
+    });
+  </script>
+</body>
+</html>
