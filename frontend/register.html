@@ -6,130 +6,168 @@
   <title>Register — SkillConnect</title>
   <link rel="stylesheet" href="css/style.css"/>
   <style>
-    .register-page {
-      min-height: calc(100vh - var(--nav-h));
+    body {
+      min-height: 100vh;
       display: flex; align-items: center; justify-content: center;
-      padding: 60px 20px;
-      position: relative; z-index: 1;
+      background: var(--bg);
+      padding: 40px 20px;
     }
-    .register-box {
-      width: 100%; max-width: 520px;
-      padding: 48px;
-      border-radius: 20px;
+
+    .register-wrap {
+      display: flex;
+      width: 940px; max-width: 95vw;
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-lg);
     }
-    .reg-title { font-size: 32px; margin-bottom: 6px; }
-    .reg-sub { color: var(--text-muted); font-size: 15px; margin-bottom: 36px; }
+
+    /* Left panel */
+    .reg-panel {
+      background: var(--ink);
+      color: #fff;
+      width: 280px; flex-shrink: 0;
+      padding: 44px 36px;
+      display: flex; flex-direction: column; justify-content: space-between;
+    }
+    .reg-panel-logo { font-family: var(--font-head); font-size: 20px; font-weight: 700; color: #fff; margin-bottom: 40px; }
+    .reg-panel-logo span { color: var(--accent); }
+    .reg-panel h2 { font-family: var(--font-head); font-size: 24px; font-weight: 600; color: #fff; line-height: 1.25; margin-bottom: 14px; }
+    .reg-panel p { font-size: 14px; color: rgba(255,255,255,0.5); line-height: 1.7; margin-bottom: 32px; }
+
+    .perks { display: flex; flex-direction: column; gap: 12px; }
+    .perk { display: flex; gap: 10px; align-items: flex-start; }
+    .perk-icon { font-size: 14px; margin-top: 1px; }
+    .perk-text { font-size: 13px; color: rgba(255,255,255,0.65); line-height: 1.5; }
+    .perk-text strong { color: rgba(255,255,255,0.9); font-weight: 600; }
+
+    /* Right — form */
+    .reg-form-wrap {
+      flex: 1; background: var(--bg-card);
+      padding: 44px 40px;
+      overflow-y: auto;
+    }
+    .reg-form-wrap h3 { font-family: var(--font-head); font-size: 24px; font-weight: 600; margin-bottom: 4px; }
+    .reg-subtitle { font-size: 14px; color: var(--ink-3); margin-bottom: 28px; }
 
     /* Role toggle */
-    .role-toggle { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 28px; }
+    .role-toggle { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 24px; }
     .role-card {
-      padding: 18px 16px;
-      border-radius: var(--radius);
-      border: 2px solid var(--border);
-      cursor: pointer;
-      transition: all 0.25s;
-      text-align: center;
-     
+      padding: 16px 14px;
+      border-radius: var(--radius-sm);
+      border: 1.5px solid var(--border);
+      cursor: pointer; transition: all 0.2s; text-align: center;
     }
-    .role-card:hover { border-color: rgba(0,212,255,0.4); }
-    .role-card.active { border-color: var(--accent); background: rgba(0,212,255,0.08); }
-    .role-card-icon { font-size: 28px; margin-bottom: 8px; }
-    .role-card-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 14px; margin-bottom: 4px; }
-    .role-card-desc { font-size: 12px; color: var(--text-muted); line-height: 1.4; }
+    .role-card:hover { border-color: var(--border-2); }
+    .role-card.active { border-color: var(--ink); background: var(--bg); }
+    .role-card-icon { font-size: 24px; margin-bottom: 7px; }
+    .role-card-title { font-family: var(--font-head); font-weight: 600; font-size: 14px; color: var(--ink); margin-bottom: 3px; }
+    .role-card-desc { font-size: 12px; color: var(--ink-3); line-height: 1.4; }
 
-    /* Pro extra fields */
+    .form-group { margin-bottom: 16px; }
+    label {
+      display: block; font-size: 13px; font-weight: 600;
+      color: var(--ink-2); margin-bottom: 6px;
+    }
+    input[type="text"], input[type="email"], input[type="password"],
+    input[type="url"], textarea {
+      width: 100%; padding: 10px 13px;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: var(--bg);
+      font-family: var(--font-body); font-size: 14px; color: var(--ink);
+      outline: none; transition: border-color 0.2s;
+    }
+    input::placeholder, textarea::placeholder { color: var(--ink-3); }
+    input:focus, textarea:focus { border-color: var(--ink); background: var(--bg-card); }
+
+    .pw-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+    .section-divider {
+      font-size: 11px; text-transform: uppercase; letter-spacing: 1.2px;
+      color: var(--ink-3); font-weight: 700;
+      margin: 20px 0 14px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .section-divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
     .pro-fields { display: none; }
     .pro-fields.visible { display: block; }
 
+    /* Skills multi-select */
     .skills-multi {
-      display: flex; flex-wrap: wrap; gap: 8px;
-      padding: 12px;
-      background: rgba(0,0,0,0.3);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
-      min-height: 52px;
-      cursor: pointer;
-      transition: border-color 0.25s;
+      display: flex; flex-wrap: wrap; gap: 6px; padding: 10px 12px;
+      background: var(--bg); border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm); min-height: 48px;
+      cursor: pointer; transition: border-color 0.2s;
     }
-    .skills-multi:focus-within { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(0,212,255,0.12); }
+    .skills-multi:focus-within { border-color: var(--ink); }
     .skill-chip {
-      display: inline-flex; align-items: center; gap: 5px;
-      padding: 4px 10px;
-      border-radius: 50px;
-      background: rgba(0,212,255,0.12);
-      color: var(--accent);
-      font-size: 13px; font-weight: 600;
-      cursor: pointer;
-    }
-    .skill-chip:hover { background: rgba(0,212,255,0.2); }
-
-    .skills-dropdown {
-      display: none;
-      flex-wrap: wrap; gap: 8px;
-      padding: 12px;
-      background: var(--bg-mid);
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 3px 10px; border-radius: var(--radius-pill);
+      background: var(--bg-card); color: var(--ink);
       border: 1px solid var(--border);
-      border-top: none;
-      border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+      font-size: 12px; font-weight: 600; cursor: pointer;
+    }
+    .skill-chip:hover { border-color: var(--accent); color: var(--accent); }
+    .skills-dropdown {
+      display: none; flex-wrap: wrap; gap: 7px; padding: 12px;
+      background: var(--bg-card); border: 1.5px solid var(--border);
+      border-top: none; border-radius: 0 0 var(--radius-sm) var(--radius-sm);
     }
     .skills-dropdown.open { display: flex; }
     .skill-option {
-      padding: 6px 14px;
-      border-radius: 50px;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid var(--border);
-      color: var(--text-muted);
-      font-size: 13px; font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s;
+      padding: 5px 12px; border-radius: var(--radius-pill);
+      background: var(--bg); border: 1px solid var(--border);
+      color: var(--ink-2); font-size: 13px; font-weight: 500;
+      cursor: pointer; transition: all 0.15s;
     }
-    .skill-option:hover, .skill-option.selected { background: rgba(0,212,255,0.12); color: var(--accent); border-color: rgba(0,212,255,0.3); }
+    .skill-option:hover { border-color: var(--border-2); color: var(--ink); }
+    .skill-option.selected { background: var(--ink); color: #fff; border-color: var(--ink); }
 
-    .submit-btn {
-      width: 100%; padding: 15px;
-      background: var(--accent);
-      color: var(--bg-deep);
-      font-family: 'Syne', sans-serif;
-      font-weight: 700; font-size: 16px;
-      border: none; border-radius: 50px;
-      cursor: pointer; margin-top: 8px;
-      transition: all 0.25s;
+    .btn-register {
+      width: 100%; padding: 13px;
+      background: var(--ink); color: #fff;
+      font-family: var(--font-body); font-weight: 700; font-size: 15px;
+      border: none; border-radius: var(--radius-sm);
+      cursor: pointer; margin-top: 6px; transition: background 0.2s;
     }
-    .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(0,212,255,0.4); }
+    .btn-register:hover { background: var(--accent); }
 
-    .login-link { text-align: center; margin-top: 24px; font-size: 14px; color: var(--text-muted); }
-    .login-link a { color: var(--accent); text-decoration: none; font-weight: 600; }
+    .login-link { text-align: center; margin-top: 18px; font-size: 14px; color: var(--ink-3); }
+    .login-link a { color: var(--ink); font-weight: 600; text-decoration: none; }
+    .login-link a:hover { color: var(--accent); }
 
-    .pw-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-
-    .section-label {
-      font-size: 11px; text-transform: uppercase; letter-spacing: 1.2px;
-      color: var(--text-muted); font-weight: 600;
-      margin: 24px 0 16px;
-      display: flex; align-items: center; gap: 10px;
+    @media (max-width: 640px) {
+      .reg-panel { display: none; }
+      .reg-form-wrap { padding: 32px 24px; }
     }
-    .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
   </style>
 </head>
 <body>
-  <div class="orb orb-1"></div>
-  <div class="orb orb-2"></div>
+  <div class="register-wrap fade-up">
+    <!-- Left -->
+    <div class="reg-panel">
+      <div>
+        <div class="reg-panel-logo">Skill<span>Connect</span></div>
+        <h2>Join Africa's tech talent marketplace.</h2>
+        <p>Connect directly with professionals or clients — no agencies, no middlemen.</p>
+        <div class="perks">
+          <div class="perk"><span class="perk-icon">✅</span><div class="perk-text"><strong>Free to join</strong> — no subscription fees</div></div>
+          <div class="perk"><span class="perk-icon">🔍</span><div class="perk-text"><strong>500+ verified</strong> professionals</div></div>
+          <div class="perk"><span class="perk-icon">💬</span><div class="perk-text"><strong>Direct messaging</strong> — no middlemen</div></div>
+          <div class="perk"><span class="perk-icon">🌍</span><div class="perk-text"><strong>Pan-African</strong> talent network</div></div>
+        </div>
+      </div>
+    </div>
 
-  <nav>
-    <a href="index.html" class="nav-logo">Skill<span>Connect</span></a>
-    <a href="browse.html">Browse Pros</a>
-    <a href="post-need.html">Post a Need</a>
-    <a href="login.html" class="nav-btn nav-btn-outline">Log In</a>
-  </nav>
+    <!-- Right -->
+    <div class="reg-form-wrap">
+      <h3>Create your account</h3>
+      <p class="reg-subtitle">Join thousands of clients and professionals on SkillConnect.</p>
 
-  <div class="page register-page">
-    <div class="glass register-box fade-up">
-      <h2 class="reg-title">Create account</h2>
-      <p class="reg-sub">Join thousands of clients and professionals on SkillConnect.</p>
-
-      <!-- Role Selection -->
-      <div style="margin-bottom:8px;">
-        <label style="margin-bottom:12px;">I am joining as...</label>
+      <div style="margin-bottom:6px;">
+        <label style="margin-bottom:10px;">I am joining as...</label>
         <div class="role-toggle">
           <div class="role-card active" id="roleClient" onclick="setRole('client')">
             <div class="role-card-icon">🏢</div>
@@ -144,18 +182,16 @@
         </div>
       </div>
 
-      <div class="section-label">Your Details</div>
+      <div class="section-divider">Your Details</div>
 
       <div class="form-group">
         <label>Full Name</label>
         <input type="text" placeholder="e.g. John Doe"/>
       </div>
-
       <div class="form-group">
         <label>Email Address</label>
         <input type="email" placeholder="you@example.com"/>
       </div>
-
       <div class="pw-row">
         <div class="form-group">
           <label>Password</label>
@@ -167,14 +203,12 @@
         </div>
       </div>
 
-      <!-- Professional Extra Fields -->
       <div class="pro-fields" id="proFields">
-        <div class="section-label">Professional Details</div>
-
+        <div class="section-divider">Professional Details</div>
         <div class="form-group">
-          <label>Your Skills <span style="color:var(--text-muted);text-transform:none;letter-spacing:0;">(click to add)</span></label>
+          <label>Your Skills <span style="font-weight:400;color:var(--ink-3);">(click to add)</span></label>
           <div class="skills-multi" id="selectedSkills" onclick="toggleDropdown()">
-            <span style="color:var(--text-muted);font-size:14px;padding:2px;">Click to select skills...</span>
+            <span style="color:var(--ink-3);font-size:13px;padding:2px;">Click to select skills...</span>
           </div>
           <div class="skills-dropdown" id="skillsDropdown">
             <span class="skill-option" onclick="toggleSkill(this)">Frontend Dev</span>
@@ -189,74 +223,52 @@
             <span class="skill-option" onclick="toggleSkill(this)">QA Testing</span>
           </div>
         </div>
-
         <div class="form-group">
           <label>Short Bio</label>
-          <textarea placeholder="Tell clients a little about yourself, your experience and what makes you stand out..."></textarea>
+          <textarea rows="3" placeholder="Tell clients about yourself, your experience, and what makes you stand out..."></textarea>
         </div>
-
         <div class="form-group">
-          <label>Portfolio Link <span style="color:var(--text-muted);text-transform:none;letter-spacing:0;">(optional)</span></label>
+          <label>Portfolio Link <span style="font-weight:400;color:var(--ink-3);">(optional)</span></label>
           <input type="url" placeholder="https://yourportfolio.com"/>
         </div>
       </div>
 
-      <button class="submit-btn" onclick="window.location='dashboard.html'">Create My Account →</button>
-
+      <button class="btn-register" onclick="window.location='dashboard.html'">Create My Account →</button>
       <p class="login-link">Already have an account? <a href="login.html">Sign in</a></p>
     </div>
   </div>
 
   <script>
     let selectedSkillsList = [];
-
     function setRole(role) {
       document.getElementById('roleClient').classList.toggle('active', role === 'client');
       document.getElementById('rolePro').classList.toggle('active', role === 'professional');
       document.getElementById('proFields').classList.toggle('visible', role === 'professional');
     }
-
-    function toggleDropdown() {
-      document.getElementById('skillsDropdown').classList.toggle('open');
-    }
-
+    function toggleDropdown() { document.getElementById('skillsDropdown').classList.toggle('open'); }
     function toggleSkill(el) {
       const skill = el.textContent;
       el.classList.toggle('selected');
-      if (el.classList.contains('selected')) {
-        selectedSkillsList.push(skill);
-      } else {
-        selectedSkillsList = selectedSkillsList.filter(s => s !== skill);
-      }
+      if (el.classList.contains('selected')) selectedSkillsList.push(skill);
+      else selectedSkillsList = selectedSkillsList.filter(s => s !== skill);
       renderSelected();
     }
-
     function renderSelected() {
-      const container = document.getElementById('selectedSkills');
-      if (selectedSkillsList.length === 0) {
-        container.innerHTML = '<span style="color:var(--text-muted);font-size:14px;padding:2px;">Click to select skills...</span>';
-      } else {
-        container.innerHTML = selectedSkillsList.map(s =>
-          `<span class="skill-chip">${s} <span onclick="removeSkill('${s}')">×</span></span>`
-        ).join('');
-      }
+      const c = document.getElementById('selectedSkills');
+      c.innerHTML = selectedSkillsList.length === 0
+        ? '<span style="color:var(--ink-3);font-size:13px;padding:2px;">Click to select skills...</span>'
+        : selectedSkillsList.map(s => `<span class="skill-chip">${s} <span onclick="removeSkill('${s}',event)">×</span></span>`).join('');
     }
-
-    function removeSkill(skill) {
+    function removeSkill(skill, e) {
+      e.stopPropagation();
       selectedSkillsList = selectedSkillsList.filter(s => s !== skill);
-      document.querySelectorAll('.skill-option').forEach(el => {
-        if (el.textContent === skill) el.classList.remove('selected');
-      });
+      document.querySelectorAll('.skill-option').forEach(el => { if (el.textContent === skill) el.classList.remove('selected'); });
       renderSelected();
-      event.stopPropagation();
     }
-
     document.addEventListener('click', function(e) {
-      const dropdown = document.getElementById('skillsDropdown');
-      const trigger = document.getElementById('selectedSkills');
-      if (!trigger.contains(e.target) && !dropdown.contains(e.target)) {
-        dropdown.classList.remove('open');
-      }
+      const dd = document.getElementById('skillsDropdown');
+      const tr = document.getElementById('selectedSkills');
+      if (!tr.contains(e.target) && !dd.contains(e.target)) dd.classList.remove('open');
     });
   </script>
 </body>

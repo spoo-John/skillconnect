@@ -7,109 +7,141 @@
   <link rel="stylesheet" href="css/style.css"/>
   <style>
     .post-page {
-      position: relative; z-index: 1;
       padding: calc(var(--nav-h) + 60px) 40px 80px;
       max-width: 1100px; margin: 0 auto;
     }
-    .post-header { text-align: center; margin-bottom: 56px; }
-    .post-header h1 { font-size: clamp(32px,5vw,52px); margin: 16px 0 12px; }
-    .post-header p { color: var(--text-muted); font-size: 16px; max-width: 500px; margin: 0 auto; }
+    .post-header { text-align: center; margin-bottom: 52px; }
+    .post-header h1 { font-size: clamp(28px,4vw,46px); margin: 14px 0 12px; }
+    .post-header p { color: var(--ink-2); font-size: 16px; max-width: 480px; margin: 0 auto; }
 
-    .post-body { display: grid; grid-template-columns: 1fr 340px; gap: 32px; align-items: start; }
+    .post-body { display: grid; grid-template-columns: 1fr 320px; gap: 28px; align-items: start; }
 
-    .post-form { padding: 40px; border-radius: 20px; }
+    /* Form card */
+    .post-form {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 36px;
+    }
 
-    .step-indicator { display: flex; align-items: center; gap: 0; margin-bottom: 36px; }
-    .step { display: flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 600; }
+    /* Step indicator */
+    .step-indicator { display: flex; align-items: center; margin-bottom: 32px; }
+    .step { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; }
     .step-num {
-      width: 30px; height: 30px; border-radius: 50%;
+      width: 28px; height: 28px; border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
-      font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700;
+      font-size: 12px; font-weight: 700; font-family: var(--font-body);
     }
-    .step.done .step-num { background: var(--accent); color: var(--bg-deep); }
-    .step.active .step-num { background: rgba(0,212,255,0.2); color: var(--accent); border: 2px solid var(--accent); }
-    .step.inactive .step-num { background: var(--bg-card); color: var(--text-muted); border: 1px solid var(--border); }
-    .step.done span, .step.active span { color: var(--text); }
-    .step.inactive span { color: var(--text-muted); }
-    .step-line { flex: 1; height: 1px; background: var(--border); margin: 0 8px; }
+    .step.done .step-num { background: var(--accent-2); color: #fff; }
+    .step.active .step-num { background: var(--ink); color: #fff; }
+    .step.inactive .step-num { background: var(--bg); color: var(--ink-3); border: 1.5px solid var(--border); }
+    .step.done span, .step.active span { color: var(--ink); font-weight: 600; }
+    .step.inactive span { color: var(--ink-3); }
+    .step-line { flex: 1; height: 1px; background: var(--border); margin: 0 10px; }
 
-    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-
-    .char-count { text-align: right; font-size: 12px; color: var(--text-muted); margin-top: 4px; }
-
-    .budget-row { display: grid; grid-template-columns: 120px 1fr; gap: 12px; }
-    .budget-currency { padding: 13px 16px; background: rgba(0,0,0,0.3); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text); font-family: 'Syne', sans-serif; font-weight: 700; font-size: 15px; text-align: center; }
-
-    .contact-options { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-    .contact-opt {
-      padding: 14px;
-      border: 2px solid var(--border);
+    /* Form elements */
+    .form-group { margin-bottom: 20px; }
+    label, .form-label {
+      display: block; font-size: 13px; font-weight: 600;
+      color: var(--ink-2); margin-bottom: 7px; letter-spacing: 0.2px;
+    }
+    input[type="text"], input[type="number"], input[type="url"],
+    input[type="date"], input[type="email"], select, textarea {
+      width: 100%; padding: 11px 14px;
+      border: 1.5px solid var(--border);
       border-radius: var(--radius-sm);
-      display: flex; align-items: center; gap: 10px;
-      cursor: pointer; transition: all 0.2s;
-      font-size: 14px; font-weight: 600;
+      background: var(--bg);
+      font-family: var(--font-body); font-size: 14px; color: var(--ink);
+      outline: none; transition: border-color 0.2s;
+      appearance: none;
     }
-    .contact-opt:hover { border-color: rgba(0,212,255,0.4); }
-    .contact-opt.active { border-color: var(--accent); background: rgba(0,212,255,0.08); color: var(--accent); }
+    input::placeholder, textarea::placeholder { color: var(--ink-3); }
+    input:focus, select:focus, textarea:focus { border-color: var(--ink); background: var(--bg-card); }
+    textarea { resize: vertical; line-height: 1.6; }
+    select { cursor: pointer; }
+
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+    .char-count { text-align: right; font-size: 12px; color: var(--ink-3); margin-top: 4px; }
+
+    .budget-row { display: grid; grid-template-columns: 110px 1fr; gap: 10px; }
+
+    .contact-options { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .contact-opt {
+      padding: 13px;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      display: flex; align-items: center; gap: 8px;
+      cursor: pointer; transition: all 0.2s;
+      font-size: 14px; font-weight: 500; color: var(--ink-2);
+    }
+    .contact-opt:hover { border-color: var(--border-2); color: var(--ink); }
+    .contact-opt.active { border-color: var(--ink); background: var(--bg); color: var(--ink); font-weight: 600; }
     .contact-opt input { display: none; }
 
-    .submit-area { margin-top: 32px; display: flex; gap: 16px; }
-    .submit-btn-main {
-      flex: 1; padding: 16px;
-      background: var(--accent); color: var(--bg-deep);
-      font-family: 'Syne', sans-serif; font-weight: 800; font-size: 16px;
-      border: none; border-radius: 50px; cursor: pointer; transition: all 0.25s;
+    .submit-area { margin-top: 28px; display: flex; gap: 12px; }
+    .btn-post-main {
+      flex: 1; padding: 14px;
+      background: var(--ink); color: #fff;
+      font-family: var(--font-body); font-weight: 700; font-size: 15px;
+      border: none; border-radius: var(--radius-sm); cursor: pointer; transition: background 0.2s;
     }
-    .submit-btn-main:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(0,212,255,0.4); }
+    .btn-post-main:hover { background: var(--accent); }
 
-    /* Tips sidebar */
-    .tips-sidebar { position: sticky; top: calc(var(--nav-h) + 24px); }
-    .tips-card { padding: 28px; border-radius: var(--radius); background: var(--bg-card); border: 1px solid var(--border); margin-bottom: 16px; }
-    .tips-card h4 { font-size: 14px; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
-    .tip-item { display: flex; gap: 10px; margin-bottom: 12px; align-items: flex-start; font-size: 13px; color: var(--text-muted); line-height: 1.5; }
-    .tip-icon { font-size: 15px; margin-top: 1px; flex-shrink: 0; }
+    /* Sidebar */
+    .tips-sidebar { position: sticky; top: calc(var(--nav-h) + 24px); display: flex; flex-direction: column; gap: 14px; }
+    .tips-card {
+      padding: 24px;
+      border-radius: var(--radius);
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+    }
+    .tips-card h4 { font-size: 14px; margin-bottom: 14px; display: flex; align-items: center; gap: 6px; }
+    .tip-item { display: flex; gap: 10px; margin-bottom: 10px; align-items: flex-start; font-size: 13px; color: var(--ink-2); line-height: 1.55; }
+    .tip-item:last-child { margin-bottom: 0; }
+    .tip-icon { font-size: 14px; margin-top: 1px; flex-shrink: 0; }
 
-    .recent-posts-card { padding: 28px; border-radius: var(--radius); border: 1px solid rgba(0,212,255,0.15); background: rgba(0,212,255,0.04); }
-    .recent-posts-card h4 { font-size: 14px; margin-bottom: 14px; color: var(--accent); }
-    .recent-post-item { padding: 12px 0; border-bottom: 1px solid var(--border); }
-    .recent-post-item:last-child { border-bottom: none; padding-bottom: 0; }
-    .recent-post-title { font-size: 13px; font-weight: 600; margin-bottom: 4px; }
-    .recent-post-meta { font-size: 12px; color: var(--text-muted); }
-
-    /* Preview card */
     .preview-card {
-      padding: 20px; border-radius: var(--radius);
-      border: 1px solid var(--border); background: var(--bg-card);
-      margin-bottom: 16px;
+      padding: 20px;
+      border-radius: var(--radius);
+      background: var(--bg-card);
+      border: 1px solid var(--border);
     }
-    .preview-label { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); margin-bottom: 8px; }
-    .preview-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 16px; margin-bottom: 6px; }
-    .preview-desc { font-size: 13px; color: var(--text-muted); line-height: 1.6; }
-    .preview-badges { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+    .preview-label { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--ink-3); margin-bottom: 10px; font-weight: 700; }
+    .preview-title { font-family: var(--font-head); font-weight: 600; font-size: 15px; margin-bottom: 6px; color: var(--ink); }
+    .preview-desc { font-size: 13px; color: var(--ink-2); line-height: 1.6; }
+    .preview-badges { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
+
+    .recent-posts-card {
+      padding: 22px;
+      border-radius: var(--radius);
+      background: var(--accent-bg);
+      border: 1px solid rgba(200,73,12,0.15);
+    }
+    .recent-posts-card h4 { font-size: 13px; margin-bottom: 12px; color: var(--accent); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+    .recent-post-item { padding: 10px 0; border-bottom: 1px solid rgba(200,73,12,0.1); }
+    .recent-post-item:last-child { border-bottom: none; padding-bottom: 0; }
+    .recent-post-title { font-size: 13px; font-weight: 600; color: var(--ink); margin-bottom: 3px; }
+    .recent-post-meta { font-size: 12px; color: var(--ink-3); }
   </style>
 </head>
 <body>
-  <div class="orb orb-1"></div>
-  <div class="orb orb-2"></div>
-
   <nav>
     <a href="index.html" class="nav-logo">Skill<span>Connect</span></a>
     <a href="browse.html">Browse Pros</a>
-    <a href="post-need.html" style="color:var(--accent)">Post a Need</a>
+    <a href="post-need.html" style="color:var(--accent);font-weight:600;">Post a Need</a>
     <a href="login.html" class="nav-btn nav-btn-outline">Log In</a>
     <a href="register.html" class="nav-btn nav-btn-filled">Get Started</a>
   </nav>
 
   <div class="post-page">
     <div class="post-header fade-up">
-      <span class="badge badge-cyan">📋 Post a Need</span>
-      <h1>Tell us what you<br>need <em class="accent">done</em></h1>
+      <span class="badge badge-rust">📋 Post a Need</span>
+      <h1>Tell us what you<br>need <em>done</em></h1>
       <p>No tech knowledge needed — just describe what you want to achieve and let professionals come to you.</p>
     </div>
 
     <div class="post-body">
-      <!-- MAIN FORM -->
-      <div class="glass post-form fade-up">
+      <div class="post-form fade-up">
         <div class="step-indicator">
           <div class="step done"><div class="step-num">✓</div><span>Account</span></div>
           <div class="step-line"></div>
@@ -119,13 +151,13 @@
         </div>
 
         <div class="form-group">
-          <label>Post Title <span style="color:var(--text-muted);text-transform:none;letter-spacing:0;">(be specific)</span></label>
+          <label>Post Title <span style="font-weight:400;color:var(--ink-3);">(be specific)</span></label>
           <input type="text" placeholder='e.g. "Need a landing page for my bakery business"' id="titleInput" oninput="updatePreview()"/>
         </div>
 
         <div class="form-group">
           <label>Describe What You Need</label>
-          <textarea rows="5" placeholder="Explain what you want built or done. The more detail you give, the better responses you'll get. You don't need to use tech language — just describe the end result you want." id="descInput" oninput="updatePreview(); updateCount(this, 'descCount', 1000)"></textarea>
+          <textarea rows="5" placeholder="Explain what you want built or done. The more detail, the better responses you'll get. No tech language needed — just describe the end result." id="descInput" oninput="updatePreview(); updateCount(this,'descCount',1000)"></textarea>
           <div class="char-count"><span id="descCount">0</span> / 1000</div>
         </div>
 
@@ -155,11 +187,8 @@
         <div class="form-group">
           <label>Budget</label>
           <div class="budget-row">
-            <select style="border-radius:var(--radius-sm);padding:13px 16px;">
-              <option>KSh</option>
-              <option>USD</option>
-              <option>EUR</option>
-              <option>GBP</option>
+            <select>
+              <option>KSh</option><option>USD</option><option>EUR</option><option>GBP</option>
             </select>
             <input type="number" placeholder="e.g. 15000"/>
           </div>
@@ -178,34 +207,32 @@
         </div>
 
         <div class="form-group">
-          <label>Additional Notes <span style="color:var(--text-muted);text-transform:none;letter-spacing:0;">(optional)</span></label>
+          <label>Additional Notes <span style="font-weight:400;color:var(--ink-3);">(optional)</span></label>
           <textarea rows="3" placeholder="Any specific requirements, style preferences, examples of work you like, or anything else professionals should know..."></textarea>
         </div>
 
         <div class="submit-area">
           <a href="dashboard.html" class="btn btn-secondary">Save Draft</a>
-          <button class="submit-btn-main" onclick="window.location='dashboard.html'">Post My Need →</button>
+          <button class="btn-post-main" onclick="window.location='dashboard.html'">Post My Need →</button>
         </div>
       </div>
 
-      <!-- SIDEBAR -->
       <div class="tips-sidebar fade-up-2">
-        <!-- Live preview -->
         <div class="preview-card">
-          <div class="preview-label">📄 Live Preview</div>
-          <div class="preview-title" id="previewTitle" style="color:var(--text-muted)">Your title will appear here...</div>
-          <div class="preview-desc" id="previewDesc">Description preview...</div>
+          <div class="preview-label">Live Preview</div>
+          <div class="preview-title" id="previewTitle" style="color:var(--ink-3);font-family:var(--font-body);font-weight:400;">Your title will appear here...</div>
+          <div class="preview-desc" id="previewDesc" style="color:var(--ink-3);">Description preview...</div>
           <div class="preview-badges">
-            <span class="badge badge-cyan" id="previewSkill" style="display:none"></span>
+            <span class="badge badge-rust" id="previewSkill" style="display:none"></span>
           </div>
         </div>
 
         <div class="tips-card">
           <h4>💡 Tips for a great post</h4>
           <div class="tip-item"><span class="tip-icon">🎯</span><span><strong>Be specific.</strong> Instead of "need a website" say "need a 5-page website for my bakery with an online menu"</span></div>
-          <div class="tip-item"><span class="tip-icon">💰</span><span><strong>Set a realistic budget.</strong> Professionals are more likely to respond if budget expectations are clear</span></div>
-          <div class="tip-item"><span class="tip-icon">📅</span><span><strong>Give a real deadline.</strong> This helps pros know if they have the availability</span></div>
-          <div class="tip-item"><span class="tip-icon">🔗</span><span><strong>Share examples.</strong> Link to websites or apps you like in the notes field</span></div>
+          <div class="tip-item"><span class="tip-icon">💰</span><span><strong>Set a realistic budget.</strong> Professionals respond more readily when expectations are clear</span></div>
+          <div class="tip-item"><span class="tip-icon">📅</span><span><strong>Give a real deadline.</strong> Helps pros know if they have availability</span></div>
+          <div class="tip-item"><span class="tip-icon">🔗</span><span><strong>Share examples.</strong> Link to sites or apps you like in the notes field</span></div>
         </div>
 
         <div class="recent-posts-card">
@@ -232,34 +259,29 @@
       const title = document.getElementById('titleInput').value;
       const desc = document.getElementById('descInput').value;
       const skill = document.getElementById('skillSelect').value;
-
-      const previewTitle = document.getElementById('previewTitle');
-      const previewDesc = document.getElementById('previewDesc');
-      const previewSkill = document.getElementById('previewSkill');
-
-      previewTitle.style.color = title ? 'var(--text)' : 'var(--text-muted)';
-      previewTitle.textContent = title || 'Your title will appear here...';
-      previewDesc.textContent = desc ? desc.substring(0, 120) + (desc.length > 120 ? '...' : '') : 'Description preview...';
-
-      if (skill) { previewSkill.textContent = skill; previewSkill.style.display = 'inline-flex'; }
-      else { previewSkill.style.display = 'none'; }
+      const pt = document.getElementById('previewTitle');
+      const pd = document.getElementById('previewDesc');
+      const ps = document.getElementById('previewSkill');
+      pt.style.color = title ? 'var(--ink)' : 'var(--ink-3)';
+      pt.style.fontFamily = title ? 'var(--font-head)' : 'var(--font-body)';
+      pt.style.fontWeight = title ? '600' : '400';
+      pt.textContent = title || 'Your title will appear here...';
+      pd.style.color = desc ? 'var(--ink-2)' : 'var(--ink-3)';
+      pd.textContent = desc ? desc.substring(0, 120) + (desc.length > 120 ? '...' : '') : 'Description preview...';
+      if (skill) { ps.textContent = skill; ps.style.display = 'inline-flex'; }
+      else { ps.style.display = 'none'; }
     }
-
-    function updateCount(el, countId, max) {
-      const count = el.value.length;
-      document.getElementById(countId).textContent = count;
-      if (count > max * 0.9) document.getElementById(countId).style.color = 'var(--accent3)';
-      else document.getElementById(countId).style.color = 'var(--text-muted)';
+    function updateCount(el, id, max) {
+      const n = el.value.length;
+      const el2 = document.getElementById(id);
+      el2.textContent = n;
+      el2.style.color = n > max * 0.9 ? 'var(--accent)' : 'var(--ink-3)';
     }
-
     function selectContact(el) {
       document.querySelectorAll('.contact-opt').forEach(o => o.classList.remove('active'));
       el.classList.add('active');
     }
-
-    // Set min date to today
-    const today = new Date().toISOString().split('T')[0];
-    document.getElementById('deadlineInput').min = today;
+    document.getElementById('deadlineInput').min = new Date().toISOString().split('T')[0];
   </script>
 </body>
 </html>

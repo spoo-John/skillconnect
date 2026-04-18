@@ -1,175 +1,175 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Login</title>
+  <title>Sign In — SkillConnect</title>
+  <link rel="stylesheet" href="css/style.css"/>
   <style>
-    /* Page background */
-    html {
-      min-height: 100vh;
-      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-      font-family: "Segoe UI", Arial, Helvetica, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
     body {
-      display: flex;
-      justify-content: center;
-      align-items: center;
       min-height: 100vh;
-      margin: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg);
     }
 
-    /* Glass container */
-    .glass {
-      background: rgba(255, 255, 255, 0.12);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border-radius: 16px;
-      padding: 40px 50px;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      text-align: center;
-      width: 360px;
-      animation: fadeInUp 0.6s ease both;
+    .login-wrap {
+      display: flex;
+      width: 900px;
+      max-width: 95vw;
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-lg);
     }
 
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(30px); }
-      to   { opacity: 1; transform: translateY(0); }
+    /* Left panel */
+    .login-panel {
+      background: var(--ink);
+      color: #fff;
+      flex: 1;
+      padding: 52px 44px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
+    .login-panel-logo { font-family: var(--font-head); font-size: 22px; font-weight: 700; color: #fff; margin-bottom: 48px; }
+    .login-panel-logo span { color: var(--accent); }
+    .login-panel h2 { font-family: var(--font-head); font-size: 30px; font-weight: 600; color: #fff; line-height: 1.2; margin-bottom: 16px; }
+    .login-panel p { font-size: 15px; color: rgba(255,255,255,0.55); line-height: 1.7; margin-bottom: 36px; }
 
-    /* Heading */
-    h1 {
-      color: #ffffff;
-      font-size: 46px;
-      margin-bottom: 30px;
-      margin-top: 0;
-      text-shadow: 0 0 12px rgba(255, 255, 255, 0.25);
-      letter-spacing: -1px;
+    .login-testimonial {
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: var(--radius-sm);
+      padding: 22px;
     }
+    .login-testimonial p { font-family: var(--font-head); font-style: italic; font-size: 14px; color: rgba(255,255,255,0.75); margin-bottom: 14px; }
+    .lt-author { display: flex; align-items: center; gap: 10px; }
+    .lt-av { width: 34px; height: 34px; border-radius: var(--radius-sm); background: linear-gradient(135deg,#C8490C,#E8723A); display: flex; align-items: center; justify-content: center; font-family: var(--font-head); font-weight: 700; font-size: 13px; color: #fff; }
+    .lt-name { font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.85); }
+    .lt-role { font-size: 11px; color: rgba(255,255,255,0.45); }
 
-    /* Labels */
-    label {
-      color: #8ab4f8;
-      font-size: 17px;
-      font-weight: 600;
-      display: block;
-      margin: 15px 0 6px;
-      text-align: left;
+    /* Right panel — form */
+    .login-form-wrap {
+      flex: 1;
+      background: var(--bg-card);
+      padding: 52px 44px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
     }
+    .login-form-wrap h3 { font-family: var(--font-head); font-size: 26px; font-weight: 600; margin-bottom: 6px; }
+    .login-form-wrap .subtitle { font-size: 14px; color: var(--ink-3); margin-bottom: 32px; }
 
-    /* Inputs */
-    input {
-      width: 280px;
-      padding: 12px;
-      font-size: 16px;
-      color: #ffffff;
-      background: rgba(0, 0, 0, 0.4);
-      border: 1px solid rgba(255, 255, 255, 0.25);
-      border-radius: 10px;
-      outline: none;
-      transition: 0.3s ease;
-      box-sizing: border-box;
+    .form-group { margin-bottom: 20px; }
+    .form-label { display: block; font-size: 13px; font-weight: 600; color: var(--ink-2); margin-bottom: 7px; letter-spacing: 0.2px; }
+    .form-input {
+      width: 100%; padding: 12px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: var(--bg);
+      font-family: var(--font-body); font-size: 15px; color: var(--ink);
+      outline: none; transition: border-color 0.2s;
     }
+    .form-input::placeholder { color: var(--ink-3); }
+    .form-input:focus { border-color: var(--ink); background: var(--bg-card); }
 
-    input::placeholder {
-      color: rgba(255, 255, 255, 0.3);
+    .form-footer-link { text-align: right; margin-top: -12px; margin-bottom: 24px; }
+    .form-footer-link a { font-size: 13px; color: var(--ink-3); text-decoration: none; }
+    .form-footer-link a:hover { color: var(--accent); }
+
+    .btn-login {
+      width: 100%; padding: 13px;
+      background: var(--ink); color: #fff;
+      border: none; border-radius: var(--radius-sm);
+      font-family: var(--font-body); font-size: 15px; font-weight: 600;
+      cursor: pointer; transition: background 0.2s;
     }
+    .btn-login:hover { background: var(--accent); }
 
-    /* Input focus */
-    input:focus {
-      border-color: #8ab4f8;
-      box-shadow: 0 0 10px rgba(138, 180, 248, 0.6);
+    .login-divider { display: flex; align-items: center; gap: 14px; margin: 22px 0; }
+    .login-divider span { flex: 1; height: 1px; background: var(--border); }
+    .login-divider p { font-size: 12px; color: var(--ink-3); white-space: nowrap; }
+
+    .btn-google {
+      width: 100%; padding: 12px;
+      background: var(--bg); color: var(--ink);
+      border: 1.5px solid var(--border); border-radius: var(--radius-sm);
+      font-family: var(--font-body); font-size: 14px; font-weight: 600;
+      cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 10px;
     }
+    .btn-google:hover { border-color: var(--border-2); }
 
-    /* Button */
-    button {
-      margin-top: 25px;
-      padding: 14px 32px;
-      font-size: 18px;
-      color: #ffffff;
-      background: linear-gradient(135deg, #1f1f1f, #3a3a3a);
-      border: none;
-      border-radius: 12px;
-      cursor: pointer;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
-      transition: all 0.3s ease;
-      width: 100%;
-      font-family: "Segoe UI", Arial, Helvetica, sans-serif;
-      font-weight: 600;
-      letter-spacing: 0.5px;
-    }
+    .register-link { text-align: center; margin-top: 24px; font-size: 14px; color: var(--ink-3); }
+    .register-link a { color: var(--ink); font-weight: 600; text-decoration: none; }
+    .register-link a:hover { color: var(--accent); }
 
-    /* Button hover */
-    button:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
-    }
-
-    /* Button click */
-    button:active {
-      transform: scale(0.96);
-    }
-
-    .divider {
-      margin: 20px 0 0;
-      color: rgba(255, 255, 255, 0.35);
-      font-size: 13px;
-    }
-
-    .divider a {
-      color: #8ab4f8;
-      text-decoration: none;
-      font-weight: 600;
-      transition: opacity 0.2s;
-    }
-
-    .divider a:hover {
-      opacity: 0.75;
-    }
-
-    .field-wrap {
-      text-align: left;
+    @media (max-width: 640px) {
+      .login-panel { display: none; }
+      .login-form-wrap { padding: 36px 28px; }
     }
   </style>
 </head>
 <body>
-  <div class="glass">
-    <h1>Sign In</h1>
-    <form action="#" method="POST" novalidate>
+  <div class="login-wrap fade-up">
+    <!-- Left -->
+    <div class="login-panel">
+      <div>
+        <div class="login-panel-logo">Skill<span>Connect</span></div>
+        <h2>Connect with the talent you actually need.</h2>
+        <p>No agencies, no middlemen. Find verified tech professionals and get work done — fast.</p>
+      </div>
+      <div class="login-testimonial">
+        <p>"Found an amazing developer within 2 days. The whole process was incredibly easy."</p>
+        <div class="lt-author">
+          <div class="lt-av">G</div>
+          <div>
+            <div class="lt-name">Grace Wambui</div>
+            <div class="lt-role">Restaurant Owner, Nairobi</div>
+          </div>
+        </div>
+      </div>
+    </div>
 
-      <div class="field-wrap">
-        <label for="email">Email</label>
-        <input
-          type="email"
-          id="email"
-          name="email"
-          placeholder="you@example.com"
-          autocomplete="email"
-          required
-        />
+    <!-- Right -->
+    <div class="login-form-wrap">
+      <h3>Welcome back</h3>
+      <p class="subtitle">Sign in to your SkillConnect account</p>
+
+      <div class="form-group">
+        <label class="form-label" for="email">Email address</label>
+        <input class="form-input" type="email" id="email" placeholder="you@example.com" autocomplete="email"/>
       </div>
 
-      <div class="field-wrap">
-        <label for="password">Password</label>
-        <input
-          type="password"
-          id="password"
-          name="password"
-          placeholder="••••••••"
-          autocomplete="current-password"
-          required
-        />
+      <div class="form-group">
+        <label class="form-label" for="password">Password</label>
+        <input class="form-input" type="password" id="password" placeholder="••••••••" autocomplete="current-password"/>
       </div>
 
-      <button type="submit">Login</button>
-    </form>
+      <div class="form-footer-link">
+        <a href="#">Forgot password?</a>
+      </div>
 
-    <p class="divider">Don't have an account? <a href="#">Register</a></p>
+      <button class="btn-login">Sign In</button>
+
+      <div class="login-divider">
+        <span></span><p>or continue with</p><span></span>
+      </div>
+
+      <button class="btn-google">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844a4.14 4.14 0 01-1.796 2.716v2.259h2.908c1.702-1.567 2.684-3.875 2.684-6.615z" fill="#4285F4"/>
+          <path d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 009 18z" fill="#34A853"/>
+          <path d="M3.964 10.71A5.41 5.41 0 013.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 000 9c0 1.452.348 2.827.957 4.042l3.007-2.332z" fill="#FBBC05"/>
+          <path d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 00.957 4.958L3.964 7.29C4.672 5.163 6.656 3.58 9 3.58z" fill="#EA4335"/>
+        </svg>
+        Continue with Google
+      </button>
+
+      <p class="register-link">Don't have an account? <a href="register.html">Sign up free</a></p>
+    </div>
   </div>
 </body>
 </html>
