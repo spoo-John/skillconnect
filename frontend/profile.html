@@ -6,138 +6,158 @@
   <title>Alex Mwangi — SkillConnect Profile</title>
   <link rel="stylesheet" href="css/style.css"/>
   <style>
-    .profile-page {
-      position: relative; z-index: 1;
-      padding-top: var(--nav-h);
-    }
+    .profile-page { padding-top: var(--nav-h); }
 
-    /* HEADER BANNER */
     .profile-banner {
-      height: 200px;
-      background: linear-gradient(135deg, rgba(0,212,255,0.15), rgba(123,97,255,0.15));
+      height: 180px;
+      background: var(--ink);
       border-bottom: 1px solid var(--border);
-      position: relative;
+      position: relative; overflow: hidden;
     }
-    .banner-pattern {
+    .banner-dots {
       position: absolute; inset: 0;
-      background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.06) 1px, transparent 0);
-      background-size: 32px 32px;
+      background-image: radial-gradient(circle, rgba(255,255,255,0.06) 1px, transparent 0);
+      background-size: 28px 28px;
     }
+    .banner-accent { position: absolute; bottom: 0; left: 0; right: 0; height: 3px; background: var(--accent); }
 
     .profile-body { max-width: 1100px; margin: 0 auto; padding: 0 40px 80px; }
 
-    /* PROFILE HEADER */
     .profile-header {
-      display: flex; gap: 28px; align-items: flex-end;
-      margin-top: -50px; margin-bottom: 40px; position: relative;
+      display: flex; gap: 24px; align-items: flex-end;
+      margin-top: -46px; margin-bottom: 36px;
     }
     .profile-big-av {
-      width: 100px; height: 100px; font-size: 36px;
-      border-radius: 20px;
-      border: 3px solid var(--bg-deep);
+      width: 92px; height: 92px; font-size: 32px;
+      border-radius: var(--radius);
+      border: 3px solid var(--bg);
       display: flex; align-items: center; justify-content: center;
-      font-family: 'Syne', sans-serif; font-weight: 800; color: white;
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      font-family: var(--font-head); font-weight: 700; color: white;
+      background: linear-gradient(135deg, #C8490C, #E8723A);
       flex-shrink: 0; position: relative;
     }
     .avail-badge {
-      position: absolute; bottom: -6px; right: -6px;
-      background: #00e682; color: var(--bg-deep);
-      font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px;
-      padding: 3px 8px; border-radius: 50px;
-      border: 2px solid var(--bg-deep);
+      position: absolute; bottom: -8px; right: -8px;
+      background: var(--accent-2); color: #fff;
+      font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;
+      padding: 3px 8px; border-radius: var(--radius-pill);
+      border: 2px solid var(--bg);
     }
-    .profile-header-info { flex: 1; padding-bottom: 6px; }
-    .profile-name { font-size: 32px; margin-bottom: 4px; line-height: 1; }
-    .profile-role { font-size: 16px; color: var(--text-muted); margin-bottom: 10px; }
-    .profile-meta { display: flex; gap: 20px; flex-wrap: wrap; align-items: center; }
-    .meta-item { display: flex; align-items: center; gap: 6px; font-size: 14px; color: var(--text-muted); }
-    .profile-header-actions { display: flex; gap: 12px; align-items: flex-end; padding-bottom: 6px; }
+    .profile-header-info { flex: 1; padding-bottom: 4px; }
+    .profile-name { font-size: 30px; margin-bottom: 3px; }
+    .profile-role { font-size: 15px; color: var(--ink-2); margin-bottom: 10px; }
+    .profile-meta { display: flex; gap: 18px; flex-wrap: wrap; align-items: center; }
+    .meta-item { display: flex; align-items: center; gap: 5px; font-size: 13px; color: var(--ink-2); }
+    .meta-item .stars { color: var(--gold); }
+    .profile-header-actions { display: flex; gap: 10px; align-items: flex-end; padding-bottom: 4px; }
 
-    /* MAIN LAYOUT */
-    .profile-layout { display: grid; grid-template-columns: 1fr 300px; gap: 28px; align-items: start; }
+    .profile-layout { display: grid; grid-template-columns: 1fr 280px; gap: 24px; align-items: start; }
 
-    /* LEFT COL */
-    .profile-section { margin-bottom: 28px; }
+    .profile-section { margin-bottom: 24px; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; }
     .section-heading {
-      font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 700;
+      font-size: 15px; font-weight: 600; font-family: var(--font-head);
       margin-bottom: 16px; padding-bottom: 12px;
       border-bottom: 1px solid var(--border);
-      display: flex; align-items: center; gap: 8px;
+      display: flex; align-items: center; gap: 6px;
     }
-    .about-text { color: var(--text-muted); font-size: 15px; line-height: 1.8; }
+    .about-text { color: var(--ink-2); font-size: 14px; line-height: 1.8; }
+    .about-text + .about-text { margin-top: 10px; }
 
     .skills-cloud { display: flex; flex-wrap: wrap; gap: 8px; }
     .skill-pill {
-      padding: 8px 18px; border-radius: 50px;
-      background: rgba(0,212,255,0.08);
-      border: 1px solid rgba(0,212,255,0.2);
-      color: var(--accent); font-size: 13px; font-weight: 600;
+      padding: 7px 16px; border-radius: var(--radius-pill);
+      background: var(--bg); border: 1.5px solid var(--border);
+      color: var(--ink-2); font-size: 13px; font-weight: 500;
       transition: all 0.2s; cursor: default;
     }
-    .skill-pill:hover { background: rgba(0,212,255,0.15); transform: scale(1.04); }
+    .skill-pill:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-bg); }
 
-    /* Portfolio */
-    .portfolio-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+    .portfolio-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
     .portfolio-card {
-      border-radius: var(--radius);
+      border-radius: var(--radius-sm);
       border: 1px solid var(--border);
       overflow: hidden;
-      background: var(--bg-card);
-      transition: all 0.3s;
+      background: var(--bg);
+      transition: all 0.25s;
     }
-    .portfolio-card:hover { transform: translateY(-4px); border-color: rgba(0,212,255,0.3); }
+    .portfolio-card:hover { transform: translateY(-3px); border-color: var(--border-2); box-shadow: var(--shadow-md); }
     .portfolio-thumb {
-      height: 130px;
+      height: 110px;
       display: flex; align-items: center; justify-content: center;
-      font-size: 40px;
+      font-size: 36px;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
     }
-    .portfolio-t1 { background: linear-gradient(135deg, rgba(0,212,255,0.15), rgba(123,97,255,0.1)); }
-    .portfolio-t2 { background: linear-gradient(135deg, rgba(255,107,107,0.1), rgba(255,142,83,0.1)); }
-    .portfolio-t3 { background: linear-gradient(135deg, rgba(0,230,130,0.1), rgba(0,212,255,0.1)); }
-    .portfolio-t4 { background: linear-gradient(135deg, rgba(123,97,255,0.15), rgba(255,107,107,0.1)); }
     .portfolio-info { padding: 14px; }
-    .portfolio-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 14px; margin-bottom: 4px; }
-    .portfolio-desc { font-size: 12px; color: var(--text-muted); line-height: 1.5; }
+    .portfolio-title { font-family: var(--font-head); font-weight: 600; font-size: 14px; margin-bottom: 4px; }
+    .portfolio-desc { font-size: 12px; color: var(--ink-2); line-height: 1.5; }
     .portfolio-link { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; color: var(--accent); margin-top: 8px; text-decoration: none; font-weight: 600; }
 
-    /* Reviews */
-    .review-summary { display: flex; gap: 24px; align-items: center; padding: 20px; background: var(--bg-card); border-radius: var(--radius); border: 1px solid var(--border); margin-bottom: 20px; }
-    .big-rating { font-family: 'Syne', sans-serif; font-size: 52px; font-weight: 800; line-height: 1; color: var(--accent); }
+    .review-summary {
+      display: flex; gap: 24px; align-items: center;
+      padding: 18px; background: var(--bg); border-radius: var(--radius-sm);
+      border: 1px solid var(--border); margin-bottom: 16px;
+    }
+    .big-rating { font-family: var(--font-head); font-size: 48px; font-weight: 700; line-height: 1; color: var(--ink); }
+    .big-stars { font-size: 18px; color: var(--gold); margin: 4px 0; }
     .rating-bars { flex: 1; }
-    .rating-bar-row { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; font-size: 12px; color: var(--text-muted); }
-    .rating-bar-row .bar-track { flex: 1; height: 6px; background: rgba(255,255,255,0.06); border-radius: 3px; }
-    .bar-fill { height: 100%; border-radius: 3px; background: #ffc940; }
+    .rating-bar-row { display: flex; align-items: center; gap: 10px; margin-bottom: 5px; font-size: 12px; color: var(--ink-3); }
+    .bar-track { flex: 1; height: 5px; background: var(--border); border-radius: 3px; }
+    .bar-fill { height: 100%; border-radius: 3px; background: var(--gold); }
 
-    .review-card { padding: 20px; border-radius: var(--radius); background: var(--bg-card); border: 1px solid var(--border); margin-bottom: 12px; }
+    .review-card { padding: 18px; border-radius: var(--radius-sm); background: var(--bg); border: 1px solid var(--border); margin-bottom: 10px; }
+    .review-card:last-child { margin-bottom: 0; }
     .review-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
     .reviewer { display: flex; align-items: center; gap: 10px; }
-    .rev-av { width: 36px; height: 36px; font-size: 14px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Syne', sans-serif; font-weight: 700; color: white; }
-    .rev-name { font-weight: 700; font-size: 14px; }
-    .rev-date { font-size: 12px; color: var(--text-muted); }
-    .review-text { font-size: 14px; color: var(--text-muted); line-height: 1.6; }
+    .rev-av { width: 34px; height: 34px; font-size: 13px; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; font-family: var(--font-head); font-weight: 700; color: white; }
+    .rev-name { font-weight: 600; font-size: 14px; color: var(--ink); }
+    .rev-date { font-size: 12px; color: var(--ink-3); }
+    .rev-stars { color: var(--gold); font-size: 14px; }
+    .review-text { font-size: 14px; color: var(--ink-2); line-height: 1.65; }
 
-    /* RIGHT COL — Contact Card */
-    .contact-card { padding: 28px; border-radius: var(--radius); background: var(--bg-card); border: 1px solid var(--border); position: sticky; top: calc(var(--nav-h) + 20px); }
-    .contact-rate { text-align: center; margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid var(--border); }
-    .rate-big { font-family: 'Syne', sans-serif; font-size: 36px; font-weight: 800; color: var(--accent); }
-    .rate-label { font-size: 13px; color: var(--text-muted); }
-    .contact-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
-    .c-stat { text-align: center; padding: 12px; background: rgba(0,0,0,0.2); border-radius: 10px; }
-    .c-stat-val { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 18px; }
-    .c-stat-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
-    .contact-btn-main { width: 100%; padding: 15px; background: var(--accent); color: var(--bg-deep); font-family: 'Syne', sans-serif; font-weight: 800; font-size: 15px; border: none; border-radius: 50px; cursor: pointer; transition: all 0.25s; margin-bottom: 10px; }
-    .contact-btn-main:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(0,212,255,0.4); }
-    .contact-btn-sec { width: 100%; padding: 13px; background: transparent; color: var(--text); font-family: 'DM Sans', sans-serif; font-weight: 600; font-size: 14px; border: 1px solid var(--border); border-radius: 50px; cursor: pointer; transition: all 0.2s; }
-    .contact-btn-sec:hover { border-color: var(--text); }
-    .response-time { text-align: center; margin-top: 14px; font-size: 12px; color: var(--text-muted); }
-    .response-time span { color: #00e682; font-weight: 600; }
+    /* Contact card */
+    .contact-card {
+      padding: 24px; border-radius: var(--radius);
+      background: var(--bg-card); border: 1px solid var(--border);
+      position: sticky; top: calc(var(--nav-h) + 20px);
+    }
+    .contact-rate { text-align: center; margin-bottom: 18px; padding-bottom: 18px; border-bottom: 1px solid var(--border); }
+    .rate-big { font-family: var(--font-head); font-size: 34px; font-weight: 700; color: var(--ink); }
+    .rate-label { font-size: 13px; color: var(--ink-3); }
+    .contact-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 18px; }
+    .c-stat { text-align: center; padding: 10px; background: var(--bg); border-radius: var(--radius-sm); border: 1px solid var(--border); }
+    .c-stat-val { font-family: var(--font-head); font-weight: 700; font-size: 18px; color: var(--ink); }
+    .c-stat-label { font-size: 10px; color: var(--ink-3); text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
+    .btn-hire {
+      width: 100%; padding: 13px;
+      background: var(--ink); color: #fff;
+      font-family: var(--font-body); font-weight: 700; font-size: 15px;
+      border: none; border-radius: var(--radius-sm); cursor: pointer;
+      transition: background 0.2s; margin-bottom: 8px;
+    }
+    .btn-hire:hover { background: var(--accent); }
+    .btn-quote {
+      width: 100%; padding: 11px;
+      background: transparent; color: var(--ink);
+      font-family: var(--font-body); font-weight: 600; font-size: 14px;
+      border: 1.5px solid var(--border); border-radius: var(--radius-sm); cursor: pointer;
+      transition: border-color 0.2s;
+    }
+    .btn-quote:hover { border-color: var(--border-2); }
+    .response-time { text-align: center; margin-top: 12px; font-size: 12px; color: var(--ink-3); }
+    .response-time span { color: var(--accent-2); font-weight: 600; }
+
+    .verified-card {
+      margin-top: 12px; padding: 16px;
+      border-radius: var(--radius-sm);
+      background: var(--accent-2-bg);
+      border: 1px solid rgba(46,94,62,0.2);
+    }
+    .verified-title { font-size: 13px; font-weight: 700; color: var(--accent-2); margin-bottom: 6px; }
+    .verified-text { font-size: 12px; color: var(--ink-2); line-height: 1.6; }
   </style>
 </head>
 <body>
-  <div class="orb orb-1"></div>
-  <div class="orb orb-2"></div>
-
   <nav>
     <a href="index.html" class="nav-logo">Skill<span>Connect</span></a>
     <a href="browse.html">Browse Pros</a>
@@ -147,50 +167,45 @@
   </nav>
 
   <div class="profile-page">
-    <div class="profile-banner"><div class="banner-pattern"></div></div>
+    <div class="profile-banner">
+      <div class="banner-dots"></div>
+      <div class="banner-accent"></div>
+    </div>
 
     <div class="profile-body">
-      <!-- HEADER -->
       <div class="profile-header fade-up">
         <div class="profile-big-av">AM<span class="avail-badge">Available</span></div>
         <div class="profile-header-info">
           <h1 class="profile-name">Alex Mwangi</h1>
           <div class="profile-role">Frontend Developer · Nairobi, Kenya</div>
           <div class="profile-meta">
-            <span class="meta-item"><span class="stars">★★★★★</span> 5.0 <span style="color:var(--border)">·</span> 34 reviews</span>
+            <span class="meta-item"><span class="stars">★★★★★</span> 5.0 · 34 reviews</span>
             <span class="meta-item">🕐 Member since Jan 2024</span>
             <span class="meta-item">✅ 28 jobs completed</span>
           </div>
         </div>
         <div class="profile-header-actions">
-          <a href="messages.html" class="btn btn-secondary" style="padding:10px 20px;font-size:13px;">💬 Message</a>
-          <a href="messages.html" class="btn btn-primary" style="padding:10px 22px;font-size:13px;">Hire Alex →</a>
+          <a href="messages.html" class="btn btn-secondary" style="padding:10px 18px;font-size:13px;">💬 Message</a>
+          <a href="messages.html" class="btn btn-primary" style="padding:10px 20px;font-size:13px;">Hire Alex →</a>
         </div>
       </div>
 
       <div class="profile-layout">
-        <!-- LEFT -->
         <div>
           <div class="profile-section fade-up">
             <div class="section-heading">👤 About</div>
             <p class="about-text">I'm a frontend developer based in Nairobi with 5+ years of experience building beautiful, fast, and accessible websites for small businesses and startups across East Africa.</p>
-            <p class="about-text" style="margin-top:12px;">I specialise in translating designs into pixel-perfect, responsive websites that work on every device. I've worked with restaurants, NGOs, retail brands, and tech startups — so I understand that every client has different needs, and I speak plain English, not tech jargon.</p>
-            <p class="about-text" style="margin-top:12px;">If you need a website that looks great and actually converts visitors into customers, I'm your guy.</p>
+            <p class="about-text">I specialise in translating designs into pixel-perfect, responsive websites that work on every device. I've worked with restaurants, NGOs, retail brands, and tech startups — and I speak plain English, not tech jargon.</p>
+            <p class="about-text">If you need a website that looks great and actually converts visitors into customers, I'm your guy.</p>
           </div>
 
           <div class="profile-section fade-up-2">
             <div class="section-heading">🛠️ Skills & Technologies</div>
             <div class="skills-cloud">
-              <span class="skill-pill">React.js</span>
-              <span class="skill-pill">HTML5 / CSS3</span>
-              <span class="skill-pill">JavaScript</span>
-              <span class="skill-pill">Figma</span>
-              <span class="skill-pill">Tailwind CSS</span>
-              <span class="skill-pill">Next.js</span>
-              <span class="skill-pill">Responsive Design</span>
-              <span class="skill-pill">Git / GitHub</span>
-              <span class="skill-pill">WordPress</span>
-              <span class="skill-pill">SEO Basics</span>
+              <span class="skill-pill">React.js</span><span class="skill-pill">HTML5 / CSS3</span><span class="skill-pill">JavaScript</span>
+              <span class="skill-pill">Figma</span><span class="skill-pill">Tailwind CSS</span><span class="skill-pill">Next.js</span>
+              <span class="skill-pill">Responsive Design</span><span class="skill-pill">Git / GitHub</span>
+              <span class="skill-pill">WordPress</span><span class="skill-pill">SEO Basics</span>
             </div>
           </div>
 
@@ -198,7 +213,7 @@
             <div class="section-heading">💼 Portfolio</div>
             <div class="portfolio-grid">
               <div class="portfolio-card">
-                <div class="portfolio-thumb portfolio-t1">🍽️</div>
+                <div class="portfolio-thumb">🍽️</div>
                 <div class="portfolio-info">
                   <div class="portfolio-title">Mama's Kitchen Website</div>
                   <div class="portfolio-desc">A full restaurant website with online menu, gallery and contact booking form.</div>
@@ -206,7 +221,7 @@
                 </div>
               </div>
               <div class="portfolio-card">
-                <div class="portfolio-thumb portfolio-t2">🛒</div>
+                <div class="portfolio-thumb">🛒</div>
                 <div class="portfolio-info">
                   <div class="portfolio-title">Fashion Store E-Commerce</div>
                   <div class="portfolio-desc">Shopify-based storefront with custom product pages and cart integration.</div>
@@ -214,7 +229,7 @@
                 </div>
               </div>
               <div class="portfolio-card">
-                <div class="portfolio-thumb portfolio-t3">🌿</div>
+                <div class="portfolio-thumb">🌿</div>
                 <div class="portfolio-info">
                   <div class="portfolio-title">NGO Landing Page</div>
                   <div class="portfolio-desc">Clean, accessible landing page for a health NGO with donation integration.</div>
@@ -222,7 +237,7 @@
                 </div>
               </div>
               <div class="portfolio-card">
-                <div class="portfolio-thumb portfolio-t4">📱</div>
+                <div class="portfolio-thumb">📱</div>
                 <div class="portfolio-info">
                   <div class="portfolio-title">Startup Dashboard UI</div>
                   <div class="portfolio-desc">React-based admin dashboard with charts, tables, and dark mode.</div>
@@ -235,7 +250,11 @@
           <div class="profile-section fade-up">
             <div class="section-heading">⭐ Reviews (34)</div>
             <div class="review-summary">
-              <div><div class="big-rating">5.0</div><div class="stars" style="font-size:18px;">★★★★★</div><div style="font-size:12px;color:var(--text-muted);margin-top:4px;">34 reviews</div></div>
+              <div>
+                <div class="big-rating">5.0</div>
+                <div class="big-stars">★★★★★</div>
+                <div style="font-size:12px;color:var(--ink-3);margin-top:2px;">34 reviews</div>
+              </div>
               <div class="rating-bars">
                 <div class="rating-bar-row"><span>5★</span><div class="bar-track"><div class="bar-fill" style="width:88%"></div></div><span>30</span></div>
                 <div class="rating-bar-row"><span>4★</span><div class="bar-track"><div class="bar-fill" style="width:12%"></div></div><span>4</span></div>
@@ -244,34 +263,30 @@
                 <div class="rating-bar-row"><span>1★</span><div class="bar-track"><div class="bar-fill" style="width:0%"></div></div><span>0</span></div>
               </div>
             </div>
-
             <div class="review-card">
               <div class="review-header">
-                <div class="reviewer"><div class="rev-av" style="background:linear-gradient(135deg,#ff6b6b,#ff8e53);">G</div><div><div class="rev-name">Grace Wambui</div><div class="rev-date">March 2025</div></div></div>
-                <div class="stars">★★★★★</div>
+                <div class="reviewer"><div class="rev-av" style="background:linear-gradient(135deg,#C8490C,#E8723A);">G</div><div><div class="rev-name">Grace Wambui</div><div class="rev-date">March 2025</div></div></div>
+                <div class="rev-stars">★★★★★</div>
               </div>
               <p class="review-text">Alex built my restaurant website in under a week. He was patient with my changes and the final result was beyond what I expected. Highly recommend!</p>
             </div>
-
             <div class="review-card">
               <div class="review-header">
-                <div class="reviewer"><div class="rev-av" style="background:linear-gradient(135deg,#00e682,#00d4ff);">P</div><div><div class="rev-name">Peter Njoroge</div><div class="rev-date">February 2025</div></div></div>
-                <div class="stars">★★★★★</div>
+                <div class="reviewer"><div class="rev-av" style="background:linear-gradient(135deg,#2E5E3E,#4A8C62);">P</div><div><div class="rev-name">Peter Njoroge</div><div class="rev-date">February 2025</div></div></div>
+                <div class="rev-stars">★★★★★</div>
               </div>
               <p class="review-text">Professional, fast, and great communication throughout. The website works perfectly on mobile too. Will definitely hire again.</p>
             </div>
-
             <div class="review-card">
               <div class="review-header">
-                <div class="reviewer"><div class="rev-av" style="background:linear-gradient(135deg,#7b61ff,#ff6b6b);">L</div><div><div class="rev-name">Linda Ouma</div><div class="rev-date">January 2025</div></div></div>
-                <div class="stars">★★★★☆</div>
+                <div class="reviewer"><div class="rev-av" style="background:linear-gradient(135deg,#7B3F9E,#A86CC1);">L</div><div><div class="rev-name">Linda Ouma</div><div class="rev-date">January 2025</div></div></div>
+                <div class="rev-stars">★★★★☆</div>
               </div>
-              <p class="review-text">Great work overall. Alex delivered on time and was easy to work with. Only small feedback is I wanted slightly more updates during the project, but result was excellent.</p>
+              <p class="review-text">Great work overall. Alex delivered on time and was easy to work with. Only small feedback is I wanted slightly more updates during the project, but the result was excellent.</p>
             </div>
           </div>
         </div>
 
-        <!-- RIGHT — CONTACT CARD -->
         <div>
           <div class="contact-card fade-up-2">
             <div class="contact-rate">
@@ -284,14 +299,14 @@
               <div class="c-stat"><div class="c-stat-val">100%</div><div class="c-stat-label">On Time</div></div>
               <div class="c-stat"><div class="c-stat-val">1 hr</div><div class="c-stat-label">Avg Reply</div></div>
             </div>
-            <button class="contact-btn-main" onclick="window.location='messages.html'">💬 Send a Message</button>
-            <button class="contact-btn-sec">📋 Request a Quote</button>
+            <button class="btn-hire" onclick="window.location='messages.html'">💬 Send a Message</button>
+            <button class="btn-quote">📋 Request a Quote</button>
             <div class="response-time">Typically responds in <span>under 1 hour</span></div>
           </div>
 
-          <div style="margin-top:16px;padding:20px;border-radius:var(--radius);background:rgba(0,230,130,0.06);border:1px solid rgba(0,230,130,0.15);">
-            <div style="font-size:13px;font-weight:700;color:#00e682;margin-bottom:8px;">✅ Verified Professional</div>
-            <div style="font-size:12px;color:var(--text-muted);line-height:1.6;">Identity verified · Portfolio reviewed · Background checked by SkillConnect team</div>
+          <div class="verified-card">
+            <div class="verified-title">✅ Verified Professional</div>
+            <div class="verified-text">Identity verified · Portfolio reviewed · Background checked by SkillConnect team</div>
           </div>
         </div>
       </div>
