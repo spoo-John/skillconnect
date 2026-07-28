@@ -4,143 +4,324 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Post a Need — SkillConnect</title>
-  <link rel="stylesheet" href="css/style.css"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    .post-page {
-      padding: calc(var(--nav-h) + 60px) 40px 80px;
-      max-width: 1100px; margin: 0 auto;
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      /* Core palette — clean & trustworthy */
+      --bg-page: #F6F8F7;
+      --bg-surface: #FFFFFF;
+      --bg-surface-2: #FBFCFB;
+      --bg-accent-soft: #E7F0EB;
+      --bg-accent-soft-strong: #D9E9E1;
+
+      --border: #DDE4E1;
+      --border-strong: #C3D0CA;
+
+      --text-primary: #16332B;
+      --text-secondary: #56655F;
+      --text-muted: #8B958F;
+      --text-on-accent: #FFFFFF;
+
+      --accent: #1B5E45;
+      --accent-hover: #164B38;
+      --accent-strong: #103D2E;
+
+      --danger: #B3261E;
+      --danger-bg: #FCEDEC;
+      --danger-border: #F3CAC7;
+
+      --success: #1B5E45;
+      --success-bg: #E7F0EB;
+      --success-border: #BFDACD;
+
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 18px;
+      --shadow-card: 0 1px 2px rgba(22,51,43,0.04), 0 4px 16px rgba(22,51,43,0.04);
     }
-    .post-header { text-align: center; margin-bottom: 52px; }
-    .post-header h1 { font-size: clamp(28px,4vw,46px); margin: 14px 0 12px; }
-    .post-header p { color: var(--ink-2); font-size: 16px; max-width: 480px; margin: 0 auto; }
+
+    html, body {
+      min-height: 100vh;
+      background: var(--bg-page);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text-primary);
+    }
+
+    /* NAV */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      display: flex; align-items: center; gap: 24px;
+      padding: 0 32px; height: 64px;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo { font-size: 19px; font-weight: 700; color: var(--text-primary); text-decoration: none; margin-right: auto; letter-spacing: -0.2px; }
+    .nav-logo span { color: var(--accent); }
+    nav a { color: var(--text-secondary); text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.2s; }
+    nav a:hover { color: var(--text-primary); }
+    nav a.active { color: var(--accent); }
+    .nav-avatar {
+      width: 34px; height: 34px; border-radius: 50%;
+      background: var(--accent);
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 600; font-size: 12px; cursor: pointer; color: #fff;
+    }
+    .nav-btn { padding: 8px 18px; border-radius: var(--radius-sm); font-weight: 600; font-size: 13px; text-decoration: none; transition: all 0.2s; }
+    .nav-btn-outline { border: 1px solid var(--border-strong); color: var(--text-primary); }
+    .nav-btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+    .nav-btn-filled { background: var(--accent); color: #fff; }
+    .nav-btn-filled:hover { background: var(--accent-hover); }
+
+    /* PAGE */
+    .post-page {
+      max-width: 1100px; margin: 0 auto;
+      padding: 56px 40px 80px;
+      position: relative; z-index: 1;
+    }
+
+    .post-header { text-align: center; margin-bottom: 48px; }
+    .badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 14px; border-radius: 50px; font-size: 12px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.6px;
+      background: var(--bg-accent-soft); color: var(--accent);
+      border: 1px solid var(--bg-accent-soft-strong);
+      margin-bottom: 18px;
+    }
+    .post-header h1 { font-size: clamp(28px,4vw,44px); font-weight: 700; margin-bottom: 12px; line-height: 1.2; letter-spacing: -0.5px; }
+    .post-header h1 em { font-style: normal; color: var(--accent); }
+    .post-header p { color: var(--text-secondary); font-size: 15px; max-width: 500px; margin: 0 auto; line-height: 1.5; }
 
     .post-body { display: grid; grid-template-columns: 1fr 320px; gap: 28px; align-items: start; }
 
-    /* Form card */
+    /* FORM CARD */
     .post-form {
-      background: var(--bg-card);
+      background: var(--bg-surface);
       border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 36px;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-card);
+      padding: 40px;
     }
 
-    /* Step indicator */
-    .step-indicator { display: flex; align-items: center; margin-bottom: 32px; }
-    .step { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; }
+    /* STEP INDICATOR */
+    .step-indicator { display: flex; align-items: center; margin-bottom: 36px; }
+    .step { display: flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 600; }
     .step-num {
       width: 28px; height: 28px; border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
-      font-size: 12px; font-weight: 700; font-family: var(--font-body);
+      font-size: 12px; font-weight: 700;
     }
-    .step.done .step-num { background: var(--accent-2); color: #fff; }
-    .step.active .step-num { background: var(--ink); color: #fff; }
-    .step.inactive .step-num { background: var(--bg); color: var(--ink-3); border: 1.5px solid var(--border); }
-    .step.done span, .step.active span { color: var(--ink); font-weight: 600; }
-    .step.inactive span { color: var(--ink-3); }
+    .step.done .step-num { background: var(--accent); color: #fff; }
+    .step.active .step-num { background: var(--bg-accent-soft); color: var(--accent); border: 2px solid var(--accent); }
+    .step.inactive .step-num { background: var(--bg-surface-2); color: var(--text-muted); border: 1px solid var(--border); }
+    .step.done span, .step.active span { color: var(--text-primary); }
+    .step.inactive span { color: var(--text-muted); }
     .step-line { flex: 1; height: 1px; background: var(--border); margin: 0 10px; }
 
-    /* Form elements */
-    .form-group { margin-bottom: 20px; }
-    label, .form-label {
+    /* FORM ELEMENTS */
+    .form-group { margin-bottom: 22px; }
+    label {
       display: block; font-size: 13px; font-weight: 600;
-      color: var(--ink-2); margin-bottom: 7px; letter-spacing: 0.2px;
+      color: var(--text-primary); margin-bottom: 8px;
     }
-    input[type="text"], input[type="number"], input[type="url"],
-    input[type="date"], input[type="email"], select, textarea {
-      width: 100%; padding: 11px 14px;
-      border: 1.5px solid var(--border);
-      border-radius: var(--radius-sm);
-      background: var(--bg);
-      font-family: var(--font-body); font-size: 14px; color: var(--ink);
-      outline: none; transition: border-color 0.2s;
-      appearance: none;
+    input, select, textarea {
+      width: 100%; padding: 12px 14px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius-sm); color: var(--text-primary);
+      font-size: 14px; font-family: 'Inter', sans-serif;
+      outline: none; transition: border-color 0.2s, box-shadow 0.2s;
+      resize: vertical;
     }
-    input::placeholder, textarea::placeholder { color: var(--ink-3); }
-    input:focus, select:focus, textarea:focus { border-color: var(--ink); background: var(--bg-card); }
-    textarea { resize: vertical; line-height: 1.6; }
-    select { cursor: pointer; }
+    input::placeholder, textarea::placeholder { color: var(--text-muted); }
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--bg-accent-soft);
+    }
+    select option { background: #fff; color: var(--text-primary); }
 
-    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
-    .char-count { text-align: right; font-size: 12px; color: var(--ink-3); margin-top: 4px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .char-count { text-align: right; font-size: 12px; color: var(--text-muted); margin-top: 4px; }
 
-    .budget-row { display: grid; grid-template-columns: 110px 1fr; gap: 10px; }
+    .budget-row { display: grid; grid-template-columns: 110px 1fr; gap: 12px; }
 
-    .contact-options { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    /* CONTACT OPTIONS */
+    .contact-options { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
     .contact-opt {
-      padding: 13px;
-      border: 1.5px solid var(--border);
+      padding: 12px 16px;
+      border: 1.5px solid var(--border-strong);
       border-radius: var(--radius-sm);
-      display: flex; align-items: center; gap: 8px;
+      display: flex; align-items: center; gap: 10px;
       cursor: pointer; transition: all 0.2s;
-      font-size: 14px; font-weight: 500; color: var(--ink-2);
+      font-size: 14px; font-weight: 500;
+      color: var(--text-secondary);
+      background: var(--bg-surface-2);
     }
-    .contact-opt:hover { border-color: var(--border-2); color: var(--ink); }
-    .contact-opt.active { border-color: var(--ink); background: var(--bg); color: var(--ink); font-weight: 600; }
+    .contact-opt:hover { border-color: var(--accent); color: var(--text-primary); }
+    .contact-opt.active { border-color: var(--accent); background: var(--bg-accent-soft); color: var(--accent); }
     .contact-opt input { display: none; }
 
-    .submit-area { margin-top: 28px; display: flex; gap: 12px; }
-    .btn-post-main {
+    /* SUBMIT */
+    .submit-area { margin-top: 28px; display: flex; gap: 14px; }
+    .btn-draft {
+      padding: 13px 22px;
+      background: var(--bg-surface-2);
+      border: 1px solid var(--border-strong);
+      border-radius: 50px; color: var(--text-secondary);
+      font-size: 14px; font-weight: 600;
+      cursor: pointer; text-decoration: none; transition: all 0.2s;
+      white-space: nowrap;
+      display: flex; align-items: center;
+    }
+    .btn-draft:hover { background: var(--border); color: var(--text-primary); }
+    .submit-btn-main {
       flex: 1; padding: 14px;
-      background: var(--ink); color: #fff;
-      font-family: var(--font-body); font-weight: 700; font-size: 15px;
-      border: none; border-radius: var(--radius-sm); cursor: pointer; transition: background 0.2s;
+      background: var(--accent); color: #fff;
+      font-weight: 600; font-size: 15px;
+      border: none; border-radius: 50px; cursor: pointer; transition: all 0.2s;
+      font-family: 'Inter', sans-serif;
     }
-    .btn-post-main:hover { background: var(--accent); }
+    .submit-btn-main:hover { background: var(--accent-hover); }
+    .submit-btn-main:disabled { opacity: 0.6; cursor: not-allowed; }
 
-    /* Sidebar */
-    .tips-sidebar { position: sticky; top: calc(var(--nav-h) + 24px); display: flex; flex-direction: column; gap: 14px; }
-    .tips-card {
-      padding: 24px;
-      border-radius: var(--radius);
-      background: var(--bg-card);
+    /* MSG */
+    .msg { margin-top: 16px; padding: 10px 16px; border-radius: var(--radius-sm); font-size: 14px; display: none; font-weight: 500; }
+    .msg.error { background: var(--danger-bg); border: 1px solid var(--danger-border); color: var(--danger); display: block; }
+    .msg.success { background: var(--success-bg); border: 1px solid var(--success-border); color: var(--success); display: block; }
+
+    /* SIDEBAR */
+    .tips-sidebar { position: sticky; top: 84px; }
+
+    .glass-card {
+      background: var(--bg-surface);
       border: 1px solid var(--border);
+      border-radius: var(--radius-md); padding: 22px;
+      margin-bottom: 16px;
+      box-shadow: var(--shadow-card);
     }
-    .tips-card h4 { font-size: 14px; margin-bottom: 14px; display: flex; align-items: center; gap: 6px; }
-    .tip-item { display: flex; gap: 10px; margin-bottom: 10px; align-items: flex-start; font-size: 13px; color: var(--ink-2); line-height: 1.55; }
-    .tip-item:last-child { margin-bottom: 0; }
-    .tip-icon { font-size: 14px; margin-top: 1px; flex-shrink: 0; }
 
-    .preview-card {
-      padding: 20px;
-      border-radius: var(--radius);
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-    }
-    .preview-label { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--ink-3); margin-bottom: 10px; font-weight: 700; }
-    .preview-title { font-family: var(--font-head); font-weight: 600; font-size: 15px; margin-bottom: 6px; color: var(--ink); }
-    .preview-desc { font-size: 13px; color: var(--ink-2); line-height: 1.6; }
-    .preview-badges { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
+    .preview-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text-muted); margin-bottom: 10px; font-weight: 700; }
+    .preview-title { font-weight: 600; font-size: 16px; margin-bottom: 6px; color: var(--text-muted); }
+    .preview-title.has-value { color: var(--text-primary); }
+    .preview-desc { font-size: 13px; color: var(--text-secondary); line-height: 1.6; }
+    .preview-badges { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+    .preview-badge { padding: 3px 10px; border-radius: 50px; background: var(--bg-accent-soft); color: var(--accent); font-size: 11px; font-weight: 600; }
 
-    .recent-posts-card {
-      padding: 22px;
-      border-radius: var(--radius);
-      background: var(--accent-bg);
-      border: 1px solid rgba(200,73,12,0.15);
-    }
-    .recent-posts-card h4 { font-size: 13px; margin-bottom: 12px; color: var(--accent); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
-    .recent-post-item { padding: 10px 0; border-bottom: 1px solid rgba(200,73,12,0.1); }
+    .tips-card h4 { font-size: 14px; font-weight: 700; margin-bottom: 14px; color: var(--text-primary); }
+    .tip-item { display: flex; gap: 10px; margin-bottom: 12px; font-size: 13px; color: var(--text-secondary); line-height: 1.5; }
+    .tip-item strong { color: var(--text-primary); }
+    .tip-icon { font-size: 15px; flex-shrink: 0; margin-top: 1px; }
+
+    .recent-card { border-color: var(--bg-accent-soft-strong); }
+    .recent-card h4 { color: var(--accent); font-size: 14px; font-weight: 700; margin-bottom: 14px; }
+    .recent-post-item { padding: 10px 0; border-bottom: 1px solid var(--border); }
     .recent-post-item:last-child { border-bottom: none; padding-bottom: 0; }
-    .recent-post-title { font-size: 13px; font-weight: 600; color: var(--ink); margin-bottom: 3px; }
-    .recent-post-meta { font-size: 12px; color: var(--ink-3); }
+    .recent-post-title { font-size: 13px; font-weight: 600; margin-bottom: 4px; color: var(--text-primary); }
+    .recent-post-meta { font-size: 12px; color: var(--text-muted); }
+
+    @keyframes fadeInUp { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+    .fade-up { animation: fadeInUp 0.4s ease both; }
+    .fade-up-2 { animation: fadeInUp 0.4s 0.08s ease both; }
   </style>
+
+  <!-- MOBILE RESPONSIVE STYLES -->
+  <style>
+    @media (max-width: 768px) {
+      html, body { overflow-x: hidden; }
+      nav { padding: 0 16px !important; height: 56px !important; gap: 12px !important; }
+      .nav-logo { font-size: 17px !important; }
+      nav a:not(.nav-logo):not(.nav-btn):not(.nav-avatar):not(#navDash):not(#navMessages):not(.active) { display: none !important; }
+      .hamburger { display: flex !important; }
+      .mobile-menu.open { display: flex !important; }
+      .hero { flex-direction: column !important; padding: 40px 20px !important; gap: 32px !important; min-height: auto !important; text-align: center; }
+      .hero-right { display: none !important; }
+      .hero-ctas, .cta-banner-btns { justify-content: center !important; }
+      .hero-eyebrow { justify-content: center; }
+      .stats-bar { display: grid !important; grid-template-columns: repeat(2,1fr) !important; padding: 24px 20px !important; gap: 20px !important; }
+      section { padding: 48px 20px !important; }
+      .how-grid, .testi-grid, .why-grid { grid-template-columns: 1fr !important; gap: 14px !important; }
+      .cat-grid { grid-template-columns: repeat(2,1fr) !important; gap: 12px !important; }
+      .cta-banner { margin: 0 16px 48px !important; padding: 36px 20px !important; }
+      .cta-banner-btns { flex-direction: column !important; align-items: center; }
+      footer { flex-direction: column !important; text-align: center; gap: 12px !important; padding: 24px 20px !important; }
+      .footer-links { flex-wrap: wrap; justify-content: center; }
+    }
+    @media (max-width: 900px) {
+      .dash-layout, .admin-layout, .messages-layout { flex-direction: column !important; }
+      .dash-nav, .dash-sidebar, .admin-sidebar { width: 100% !important; height: auto !important; position: relative !important; top: 0 !important; border-right: none !important; border-bottom: 1px solid var(--border) !important; padding: 10px 12px !important; display: flex !important; flex-direction: row !important; flex-wrap: wrap !important; gap: 4px !important; overflow-x: auto !important; }
+      .dash-user, .sidebar-user, .dash-nav-section, .dash-nav-label, .sidebar-label { display: none !important; }
+      .dash-nav-item, .sidebar-item { flex: none !important; padding: 8px 12px !important; font-size: 12px !important; width: auto !important; }
+      .dash-main, .admin-main { padding: 20px 16px 40px !important; }
+      .stats-row, .stats-grid { grid-template-columns: repeat(2,1fr) !important; gap: 12px !important; }
+      .two-col, .post-body { grid-template-columns: 1fr !important; gap: 16px !important; }
+      .rec-grid, .pros-grid { grid-template-columns: repeat(2,1fr) !important; gap: 12px !important; }
+      .dash-top { flex-direction: column !important; gap: 16px !important; align-items: flex-start !important; }
+      .browse-body { flex-direction: column !important; padding: 0 20px 60px !important; }
+      .sidebar { width: 100% !important; border-right: none !important; border-bottom: 1px solid var(--border) !important; padding: 20px 0 !important; }
+      .profile-layout { grid-template-columns: 1fr !important; }
+      .contact-card { position: relative !important; top: 0 !important; }
+      .profile-header { flex-wrap: wrap !important; margin-top: -30px !important; }
+      .profile-body { padding: 0 20px 60px !important; }
+      .tips-sidebar { position: relative !important; top: 0 !important; }
+      .form-row, .contact-options { grid-template-columns: 1fr !important; gap: 0 !important; }
+      .submit-area { flex-direction: column !important; }
+      .charts-grid { grid-template-columns: 1fr !important; }
+      .portfolio-grid { grid-template-columns: 1fr !important; }
+    }
+    @media (max-width: 600px) {
+      .glass { padding: 28px 20px !important; }
+      .register-box { padding: 28px 20px !important; }
+      .pw-row { grid-template-columns: 1fr !important; }
+      .pros-grid, .rec-grid { grid-template-columns: 1fr !important; }
+      input, select, textarea { font-size: 16px !important; }
+      .full-card, .glass-card { padding: 16px !important; }
+      .post-form { padding: 24px 18px !important; }
+      .search-input, .filter-select { width: 100% !important; }
+      .filter-bar { flex-direction: column !important; gap: 8px !important; }
+    }
+    @media (max-width: 768px) {
+      body.messages-page { overflow: auto !important; }
+      .conv-sidebar { width: 100% !important; height: 220px !important; border-right: none !important; border-bottom: 1px solid var(--border) !important; flex-shrink: 0 !important; }
+      .chat-window { height: calc(100vh - 276px) !important; min-height: 380px !important; }
+      .msg-bubble { max-width: 85% !important; }
+    }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; background: none; border: none; }
+    .hamburger span { display: block; width: 22px; height: 2px; background: var(--text-primary); border-radius: 2px; transition: all 0.3s; }
+    .mobile-menu { display: none; position: fixed; top: 56px; left: 0; right: 0; background: rgba(255,255,255,0.98); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); padding: 12px 16px; z-index: 99; flex-direction: column; gap: 4px; }
+    .mobile-menu a { padding: 12px 16px; border-radius: 10px; color: var(--text-secondary) !important; text-decoration: none; font-size: 15px; font-weight: 500; display: block !important; }
+    .mobile-menu a:hover { background: var(--bg-surface-2); color: var(--text-primary) !important; }
+    .mobile-menu .menu-divider { height: 1px; background: var(--border); margin: 8px 0; }
+    @media (max-width: 768px) { .hamburger { display: flex !important; } }
+  </style>
+
 </head>
 <body>
+
   <nav>
     <a href="index.html" class="nav-logo">Skill<span>Connect</span></a>
     <a href="browse.html">Browse Pros</a>
-    <a href="post-need.html" style="color:var(--accent);font-weight:600;">Post a Need</a>
-    <a href="login.html" class="nav-btn nav-btn-outline">Log In</a>
-    <a href="register.html" class="nav-btn nav-btn-filled">Get Started</a>
+    <a href="post-need.html" class="active">Post a Need</a>
+    <a href="messages.html" id="navMessages" style="display:none">Messages</a>
+    <div class="nav-avatar" id="navAvatar" style="display:none">?</div>
+    <a href="login.html" class="nav-btn nav-btn-outline" id="navLogin">Log In</a>
+    <a href="register.html" class="nav-btn nav-btn-filled" id="navRegister">Get Started</a>
   </nav>
 
   <div class="post-page">
     <div class="post-header fade-up">
-      <span class="badge badge-rust">📋 Post a Need</span>
+      <span class="badge">Post a Need</span>
       <h1>Tell us what you<br>need <em>done</em></h1>
       <p>No tech knowledge needed — just describe what you want to achieve and let professionals come to you.</p>
     </div>
 
     <div class="post-body">
+
+      <!-- MAIN FORM -->
       <div class="post-form fade-up">
         <div class="step-indicator">
           <div class="step done"><div class="step-num">✓</div><span>Account</span></div>
@@ -151,31 +332,31 @@
         </div>
 
         <div class="form-group">
-          <label>Post Title <span style="font-weight:400;color:var(--ink-3);">(be specific)</span></label>
-          <input type="text" placeholder='e.g. "Need a landing page for my bakery business"' id="titleInput" oninput="updatePreview()"/>
+          <label>Post title <span style="color:var(--text-muted);text-transform:none;letter-spacing:0;font-weight:400">(be specific)</span></label>
+          <input type="text" id="titleInput" placeholder='e.g. "Need a landing page for my bakery business"' oninput="updatePreview()"/>
         </div>
 
         <div class="form-group">
-          <label>Describe What You Need</label>
-          <textarea rows="5" placeholder="Explain what you want built or done. The more detail, the better responses you'll get. No tech language needed — just describe the end result." id="descInput" oninput="updatePreview(); updateCount(this,'descCount',1000)"></textarea>
+          <label>Describe what you need</label>
+          <textarea rows="5" id="descInput" placeholder="Explain what you want built or done. The more detail you give, the better responses you'll get..." oninput="updatePreview(); updateCount(this,'descCount',1000)"></textarea>
           <div class="char-count"><span id="descCount">0</span> / 1000</div>
         </div>
 
         <div class="form-row">
           <div class="form-group">
-            <label>Skill Category Needed</label>
+            <label>Skill category needed</label>
             <select id="skillSelect" onchange="updatePreview()">
               <option value="">Select a skill...</option>
-              <option>Frontend Development</option>
-              <option>Backend Development</option>
-              <option>UI / UX Design</option>
-              <option>Cybersecurity</option>
-              <option>Mobile Development</option>
-              <option>Data Analysis</option>
-              <option>DevOps / Cloud</option>
-              <option>IT Support</option>
-              <option>Database Administration</option>
-              <option>QA Testing</option>
+              <option value="Frontend Dev">Frontend Development</option>
+              <option value="Backend Dev">Backend Development</option>
+              <option value="UI / UX Design">UI / UX Design</option>
+              <option value="Cybersecurity">Cybersecurity</option>
+              <option value="Mobile Dev">Mobile Development</option>
+              <option value="Data Analysis">Data Analysis</option>
+              <option value="DevOps">DevOps / Cloud</option>
+              <option value="IT Support">IT Support</option>
+              <option value="Database Admin">Database Administration</option>
+              <option value="QA Testing">QA Testing</option>
             </select>
           </div>
           <div class="form-group">
@@ -187,101 +368,288 @@
         <div class="form-group">
           <label>Budget</label>
           <div class="budget-row">
-            <select>
-              <option>KSh</option><option>USD</option><option>EUR</option><option>GBP</option>
+            <select id="currencySelect">
+              <option value="KSh">KSh</option>
+              <option value="USD">USD</option>
+              <option value="EUR">EUR</option>
+              <option value="GBP">GBP</option>
             </select>
-            <input type="number" placeholder="e.g. 15000"/>
+            <input type="number" id="budgetInput" placeholder="e.g. 15000" min="0"/>
           </div>
         </div>
 
         <div class="form-group">
-          <label>Preferred Contact Method</label>
+          <label>Preferred contact method</label>
           <div class="contact-options">
             <label class="contact-opt active" onclick="selectContact(this)">
-              <input type="radio" name="contact"/> 💬 Platform Messages
+              <input type="radio" name="contact"/> Platform messages
             </label>
             <label class="contact-opt" onclick="selectContact(this)">
-              <input type="radio" name="contact"/> 📧 Email Only
+              <input type="radio" name="contact"/> Email only
             </label>
           </div>
         </div>
 
         <div class="form-group">
-          <label>Additional Notes <span style="font-weight:400;color:var(--ink-3);">(optional)</span></label>
-          <textarea rows="3" placeholder="Any specific requirements, style preferences, examples of work you like, or anything else professionals should know..."></textarea>
+          <label>Additional notes <span style="color:var(--text-muted);text-transform:none;letter-spacing:0;font-weight:400">(optional)</span></label>
+          <textarea rows="3" id="notesInput" placeholder="Any specific requirements, style preferences, examples of work you like..."></textarea>
         </div>
 
+        <div id="msg" class="msg"></div>
+
         <div class="submit-area">
-          <a href="dashboard.html" class="btn btn-secondary">Save Draft</a>
-          <button class="btn-post-main" onclick="window.location='dashboard.html'">Post My Need →</button>
+          <a href="dashboard.html" class="btn-draft">← Back</a>
+          <button class="submit-btn-main" id="submitBtn" onclick="handleSubmit()">Post my need →</button>
         </div>
       </div>
 
+      <!-- SIDEBAR -->
       <div class="tips-sidebar fade-up-2">
-        <div class="preview-card">
-          <div class="preview-label">Live Preview</div>
-          <div class="preview-title" id="previewTitle" style="color:var(--ink-3);font-family:var(--font-body);font-weight:400;">Your title will appear here...</div>
-          <div class="preview-desc" id="previewDesc" style="color:var(--ink-3);">Description preview...</div>
-          <div class="preview-badges">
-            <span class="badge badge-rust" id="previewSkill" style="display:none"></span>
+
+        <!-- Live preview -->
+        <div class="glass-card">
+          <div class="preview-label">Live preview</div>
+          <div class="preview-title" id="previewTitle">Your title will appear here...</div>
+          <div class="preview-desc" id="previewDesc">Description preview...</div>
+          <div class="preview-badges" id="previewBadges"></div>
+        </div>
+
+        <!-- Tips -->
+        <div class="glass-card tips-card">
+          <h4>Tips for a great post</h4>
+          <div class="tip-item"><span><strong>Be specific.</strong> Instead of "need a website" say "need a 5-page website for my bakery with an online menu"</span></div>
+          <div class="tip-item"><span><strong>Set a realistic budget.</strong> Professionals are more likely to respond if budget expectations are clear</span></div>
+          <div class="tip-item"><span><strong>Give a real deadline.</strong> This helps pros know if they have the availability</span></div>
+          <div class="tip-item"><span><strong>Share examples.</strong> Link to websites or apps you like in the notes field</span></div>
+        </div>
+
+        <!-- Recent posts -->
+        <div class="glass-card recent-card">
+          <h4>Recent posts</h4>
+          <div id="recentPosts">
+            <div class="recent-post-item">
+              <div class="recent-post-title">Need a booking system for my salon</div>
+              <div class="recent-post-meta">Mobile Dev · Open</div>
+            </div>
+            <div class="recent-post-item">
+              <div class="recent-post-title">Security audit for our company website</div>
+              <div class="recent-post-meta">Cybersecurity · Open</div>
+            </div>
+            <div class="recent-post-item">
+              <div class="recent-post-title">Logo and branding for new startup</div>
+              <div class="recent-post-meta">UI/UX · Open</div>
+            </div>
           </div>
         </div>
 
-        <div class="tips-card">
-          <h4>💡 Tips for a great post</h4>
-          <div class="tip-item"><span class="tip-icon">🎯</span><span><strong>Be specific.</strong> Instead of "need a website" say "need a 5-page website for my bakery with an online menu"</span></div>
-          <div class="tip-item"><span class="tip-icon">💰</span><span><strong>Set a realistic budget.</strong> Professionals respond more readily when expectations are clear</span></div>
-          <div class="tip-item"><span class="tip-icon">📅</span><span><strong>Give a real deadline.</strong> Helps pros know if they have availability</span></div>
-          <div class="tip-item"><span class="tip-icon">🔗</span><span><strong>Share examples.</strong> Link to sites or apps you like in the notes field</span></div>
-        </div>
-
-        <div class="recent-posts-card">
-          <h4>🔥 Recent Posts</h4>
-          <div class="recent-post-item">
-            <div class="recent-post-title">Need a booking system for my salon</div>
-            <div class="recent-post-meta">Mobile Dev · KSh 20,000 · 3 responses</div>
-          </div>
-          <div class="recent-post-item">
-            <div class="recent-post-title">Security audit for our company website</div>
-            <div class="recent-post-meta">Cybersecurity · KSh 35,000 · 5 responses</div>
-          </div>
-          <div class="recent-post-item">
-            <div class="recent-post-title">Logo and branding for new startup</div>
-            <div class="recent-post-meta">UI/UX · KSh 8,000 · 7 responses</div>
-          </div>
-        </div>
       </div>
     </div>
   </div>
 
   <script>
+    const API = 'https://skillconnect-backend-production.up.railway.app/api'
+    let editId = null
+
+    window.addEventListener('DOMContentLoaded', () => {
+      // Nav setup
+      const user = JSON.parse(localStorage.getItem('user') || 'null')
+      const token = localStorage.getItem('token')
+
+      if (user) {
+        const initials = user.name.split(' ').map(n=>n[0]).join('').toUpperCase().slice(0,2)
+        document.getElementById('navAvatar').textContent = initials
+        document.getElementById('navAvatar').style.display = 'flex'
+        document.getElementById('navMessages').style.display = 'inline'
+        document.getElementById('navLogin').style.display = 'none'
+        document.getElementById('navRegister').style.display = 'none'
+      }
+
+      // Set min date
+      document.getElementById('deadlineInput').min = new Date().toISOString().split('T')[0]
+
+      // Check if editing existing post
+      const params = new URLSearchParams(window.location.search)
+      editId = params.get('id')
+      if (editId && token) loadPostForEdit(editId, token)
+
+      // Load recent posts
+      loadRecentPosts()
+    })
+
+    async function loadPostForEdit(id, token) {
+      try {
+        const res = await fetch(`${API}/posts/${id}`)
+        const post = await res.json()
+        if (post.posted_by !== JSON.parse(localStorage.getItem('user')).id) return
+
+        document.getElementById('titleInput').value = post.title || ''
+        document.getElementById('descInput').value = post.description || ''
+        document.getElementById('skillSelect').value = post.skill_needed || ''
+        document.getElementById('deadlineInput').value = post.deadline ? post.deadline.split('T')[0] : ''
+        document.getElementById('budgetInput').value = post.budget || ''
+        document.getElementById('submitBtn').textContent = 'Update post →'
+        document.querySelector('.post-header h1').innerHTML = 'Update your<br><em>post</em>'
+        updatePreview()
+      } catch {}
+    }
+
+    async function loadRecentPosts() {
+      try {
+        const res = await fetch(`${API}/posts`)
+        const posts = await res.json()
+        if (!Array.isArray(posts) || !posts.length) return
+
+        document.getElementById('recentPosts').innerHTML = posts.slice(0,3).map(p => `
+          <div class="recent-post-item">
+            <div class="recent-post-title">${p.title}</div>
+            <div class="recent-post-meta">${p.skill_needed || '—'} · ${p.status}</div>
+          </div>
+        `).join('')
+      } catch {}
+    }
+
+    async function handleSubmit() {
+      const token = localStorage.getItem('token')
+      if (!token) {
+        showMsg('You must be logged in to post.', 'error')
+        setTimeout(() => window.location.href = 'login.html', 1500)
+        return
+      }
+
+      const title = document.getElementById('titleInput').value.trim()
+      const description = document.getElementById('descInput').value.trim()
+      const skill_needed = document.getElementById('skillSelect').value
+      const deadline = document.getElementById('deadlineInput').value
+      const budget = document.getElementById('budgetInput').value
+      const currency = document.getElementById('currencySelect').value
+
+      if (!title) { showMsg('Please enter a post title.', 'error'); return }
+      if (!description) { showMsg('Please describe what you need.', 'error'); return }
+      if (!skill_needed) { showMsg('Please select a skill category.', 'error'); return }
+
+      const btn = document.getElementById('submitBtn')
+      btn.disabled = true
+      btn.textContent = editId ? 'Updating...' : 'Posting...'
+
+      const payload = { title, description, skill_needed, deadline: deadline || null, budget: budget ? Number(budget) : null, currency }
+
+      try {
+        const url = editId ? `${API}/posts/${editId}` : `${API}/posts`
+        const method = editId ? 'PUT' : 'POST'
+
+        const res = await fetch(url, {
+          method,
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+          body: JSON.stringify(payload)
+        })
+
+        const data = await res.json()
+
+        if (!res.ok) {
+          showMsg(data.error || 'Failed to submit post.', 'error')
+          return
+        }
+
+        showMsg(editId ? 'Post updated. Redirecting...' : 'Post published. Redirecting to dashboard...', 'success')
+        setTimeout(() => window.location.href = 'dashboard.html', 1500)
+
+      } catch {
+        showMsg('Cannot connect to server. Make sure backend is running.', 'error')
+      } finally {
+        btn.disabled = false
+        btn.textContent = editId ? 'Update post →' : 'Post my need →'
+      }
+    }
+
+    function showMsg(text, type) {
+      const el = document.getElementById('msg')
+      el.textContent = text
+      el.className = `msg ${type}`
+    }
+
     function updatePreview() {
-      const title = document.getElementById('titleInput').value;
-      const desc = document.getElementById('descInput').value;
-      const skill = document.getElementById('skillSelect').value;
-      const pt = document.getElementById('previewTitle');
-      const pd = document.getElementById('previewDesc');
-      const ps = document.getElementById('previewSkill');
-      pt.style.color = title ? 'var(--ink)' : 'var(--ink-3)';
-      pt.style.fontFamily = title ? 'var(--font-head)' : 'var(--font-body)';
-      pt.style.fontWeight = title ? '600' : '400';
-      pt.textContent = title || 'Your title will appear here...';
-      pd.style.color = desc ? 'var(--ink-2)' : 'var(--ink-3)';
-      pd.textContent = desc ? desc.substring(0, 120) + (desc.length > 120 ? '...' : '') : 'Description preview...';
-      if (skill) { ps.textContent = skill; ps.style.display = 'inline-flex'; }
-      else { ps.style.display = 'none'; }
+      const title = document.getElementById('titleInput').value
+      const desc = document.getElementById('descInput').value
+      const skill = document.getElementById('skillSelect').value
+
+      const previewTitle = document.getElementById('previewTitle')
+      previewTitle.textContent = title || 'Your title will appear here...'
+      previewTitle.className = 'preview-title' + (title ? ' has-value' : '')
+
+      document.getElementById('previewDesc').textContent =
+        desc ? desc.substring(0,120) + (desc.length > 120 ? '...' : '') : 'Description preview...'
+
+      const badges = document.getElementById('previewBadges')
+      badges.innerHTML = skill ? `<span class="preview-badge">${skill}</span>` : ''
     }
-    function updateCount(el, id, max) {
-      const n = el.value.length;
-      const el2 = document.getElementById(id);
-      el2.textContent = n;
-      el2.style.color = n > max * 0.9 ? 'var(--accent)' : 'var(--ink-3)';
+
+    function updateCount(el, countId, max) {
+      const count = el.value.length
+      const el2 = document.getElementById(countId)
+      el2.textContent = count
+      el2.style.color = count > max * 0.9 ? 'var(--danger)' : 'var(--text-muted)'
     }
+
     function selectContact(el) {
-      document.querySelectorAll('.contact-opt').forEach(o => o.classList.remove('active'));
-      el.classList.add('active');
+      document.querySelectorAll('.contact-opt').forEach(o => o.classList.remove('active'))
+      el.classList.add('active')
     }
-    document.getElementById('deadlineInput').min = new Date().toISOString().split('T')[0];
   </script>
+
+  <!-- MOBILE HAMBURGER MENU -->
+  <script>
+    (function() {
+      window.addEventListener('DOMContentLoaded', function() {
+        const nav = document.querySelector('nav');
+        if (!nav) return;
+
+        const hamburger = document.createElement('button');
+        hamburger.className = 'hamburger';
+        hamburger.setAttribute('aria-label', 'Menu');
+        hamburger.innerHTML = '<span></span><span></span><span></span>';
+        nav.appendChild(hamburger);
+
+        const mobileMenu = document.createElement('div');
+        mobileMenu.className = 'mobile-menu';
+        mobileMenu.id = 'mobileMenu';
+
+        const links = nav.querySelectorAll('a:not(.nav-logo)');
+        links.forEach(link => {
+          const clone = link.cloneNode(true);
+          mobileMenu.appendChild(clone);
+        });
+
+        const user = JSON.parse(localStorage.getItem('user') || 'null');
+        if (user) {
+          const divider = document.createElement('div');
+          divider.className = 'menu-divider';
+          mobileMenu.appendChild(divider);
+          const signout = document.createElement('a');
+          signout.href = '#';
+          signout.textContent = 'Sign out';
+          signout.style.color = 'var(--danger)';
+          signout.addEventListener('click', function(e) {
+            e.preventDefault();
+            localStorage.clear();
+            window.location.href = 'login.html';
+          });
+          mobileMenu.appendChild(signout);
+        }
+
+        document.body.appendChild(mobileMenu);
+
+        hamburger.addEventListener('click', function() {
+          mobileMenu.classList.toggle('open');
+        });
+
+        document.addEventListener('click', function(e) {
+          if (!nav.contains(e.target)) {
+            mobileMenu.classList.remove('open');
+          }
+        });
+      });
+    })();
+  </script>
+
 </body>
 </html>
