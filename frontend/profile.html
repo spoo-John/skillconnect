@@ -3,314 +3,518 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Alex Mwangi — SkillConnect Profile</title>
-  <link rel="stylesheet" href="css/style.css"/>
+  <title>Profile — SkillConnect</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    .profile-page { padding-top: var(--nav-h); }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
+    :root {
+      --bg-page: #F6F8F7;
+      --bg-surface: #FFFFFF;
+      --bg-surface-2: #FBFCFB;
+      --bg-accent-soft: #E7F0EB;
+      --bg-accent-soft-strong: #D9E9E1;
+      --border: #DDE4E1;
+      --border-strong: #C3D0CA;
+      --text-primary: #16332B;
+      --text-secondary: #56655F;
+      --text-muted: #8B958F;
+      --accent: #1B5E45;
+      --accent-hover: #164B38;
+      --danger: #B3261E;
+      --danger-bg: #FCEDEC;
+      --success: #1B5E45;
+      --success-bg: #E7F0EB;
+      --success-border: #BFDACD;
+      --star: #C9932B;
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 18px;
+      --shadow-card: 0 1px 2px rgba(22,51,43,0.04), 0 4px 16px rgba(22,51,43,0.04);
+    }
+
+    html, body {
+      min-height: 100vh;
+      background: var(--bg-page);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text-primary);
+    }
+
+    /* NAV */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      display: flex; align-items: center; gap: 24px;
+      padding: 0 32px; height: 64px;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo { font-size: 19px; font-weight: 700; color: var(--text-primary); text-decoration: none; margin-right: auto; letter-spacing: -0.2px; }
+    .nav-logo span { color: var(--accent); }
+    nav a { color: var(--text-secondary); text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.2s; }
+    nav a:hover { color: var(--text-primary); }
+    .nav-avatar {
+      width: 34px; height: 34px; border-radius: 50%;
+      background: var(--accent);
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 600; font-size: 12px; cursor: pointer; color: #fff;
+    }
+    .nav-btn { padding: 8px 18px; border-radius: var(--radius-sm); font-weight: 600; font-size: 13px; text-decoration: none; transition: all 0.2s; }
+    .nav-btn-outline { border: 1px solid var(--border-strong); color: var(--text-primary); }
+    .nav-btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+    .nav-btn-filled { background: var(--accent); color: #fff; }
+    .nav-btn-filled:hover { background: var(--accent-hover); }
+
+    /* BANNER */
     .profile-banner {
       height: 180px;
-      background: var(--ink);
+      background: var(--bg-accent-soft);
       border-bottom: 1px solid var(--border);
-      position: relative; overflow: hidden;
+      position: relative;
     }
-    .banner-dots {
+    .banner-pattern {
       position: absolute; inset: 0;
-      background-image: radial-gradient(circle, rgba(255,255,255,0.06) 1px, transparent 0);
+      background-image: radial-gradient(circle at 1px 1px, rgba(27,94,69,0.08) 1px, transparent 0);
       background-size: 28px 28px;
     }
-    .banner-accent { position: absolute; bottom: 0; left: 0; right: 0; height: 3px; background: var(--accent); }
 
-    .profile-body { max-width: 1100px; margin: 0 auto; padding: 0 40px 80px; }
+    .profile-body { max-width: 1100px; margin: 0 auto; padding: 0 40px 80px; position: relative; z-index: 1; }
 
+    /* PROFILE HEADER */
     .profile-header {
       display: flex; gap: 24px; align-items: flex-end;
-      margin-top: -46px; margin-bottom: 36px;
+      margin-top: -44px; margin-bottom: 36px;
     }
     .profile-big-av {
-      width: 92px; height: 92px; font-size: 32px;
-      border-radius: var(--radius);
-      border: 3px solid var(--bg);
+      width: 96px; height: 96px; font-size: 30px;
+      border-radius: 20px;
+      border: 4px solid var(--bg-page);
       display: flex; align-items: center; justify-content: center;
-      font-family: var(--font-head); font-weight: 700; color: white;
-      background: linear-gradient(135deg, #C8490C, #E8723A);
+      font-weight: 700; color: white;
+      background: var(--accent);
       flex-shrink: 0; position: relative;
     }
     .avail-badge {
       position: absolute; bottom: -8px; right: -8px;
-      background: var(--accent-2); color: #fff;
-      font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;
-      padding: 3px 8px; border-radius: var(--radius-pill);
-      border: 2px solid var(--bg);
+      background: var(--accent); color: #fff;
+      font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;
+      padding: 3px 8px; border-radius: 50px;
+      border: 2px solid var(--bg-page);
     }
-    .profile-header-info { flex: 1; padding-bottom: 4px; }
-    .profile-name { font-size: 30px; margin-bottom: 3px; }
-    .profile-role { font-size: 15px; color: var(--ink-2); margin-bottom: 10px; }
-    .profile-meta { display: flex; gap: 18px; flex-wrap: wrap; align-items: center; }
-    .meta-item { display: flex; align-items: center; gap: 5px; font-size: 13px; color: var(--ink-2); }
-    .meta-item .stars { color: var(--gold); }
-    .profile-header-actions { display: flex; gap: 10px; align-items: flex-end; padding-bottom: 4px; }
+    .profile-header-info { flex: 1; padding-bottom: 6px; }
+    .profile-name { font-size: 28px; font-weight: 700; margin-bottom: 4px; letter-spacing: -0.4px; }
+    .profile-role { font-size: 15px; color: var(--text-secondary); margin-bottom: 10px; }
+    .profile-meta { display: flex; gap: 20px; flex-wrap: wrap; }
+    .meta-item { font-size: 13px; color: var(--text-secondary); display: flex; align-items: center; gap: 5px; }
+    .profile-header-actions { display: flex; gap: 12px; align-items: flex-end; padding-bottom: 6px; }
 
-    .profile-layout { display: grid; grid-template-columns: 1fr 280px; gap: 24px; align-items: start; }
+    .btn-primary {
+      padding: 10px 22px; background: var(--accent); color: #fff;
+      border: none; border-radius: var(--radius-sm); font-weight: 600; font-size: 13px;
+      cursor: pointer; text-decoration: none; transition: all 0.2s;
+    }
+    .btn-primary:hover { background: var(--accent-hover); }
+    .btn-secondary {
+      padding: 10px 20px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius-sm); color: var(--text-primary);
+      font-weight: 600; font-size: 13px;
+      cursor: pointer; text-decoration: none; transition: all 0.2s;
+    }
+    .btn-secondary:hover { background: var(--bg-surface-2); border-color: var(--accent); }
 
-    .profile-section { margin-bottom: 24px; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; }
+    /* LAYOUT */
+    .profile-layout { display: grid; grid-template-columns: 1fr 300px; gap: 24px; align-items: start; }
+
+    /* CARD */
+    .glass-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md); padding: 22px;
+      margin-bottom: 18px;
+      box-shadow: var(--shadow-card);
+    }
+
     .section-heading {
-      font-size: 15px; font-weight: 600; font-family: var(--font-head);
+      font-size: 15px; font-weight: 700;
       margin-bottom: 16px; padding-bottom: 12px;
       border-bottom: 1px solid var(--border);
-      display: flex; align-items: center; gap: 6px;
+      color: var(--text-primary);
     }
-    .about-text { color: var(--ink-2); font-size: 14px; line-height: 1.8; }
-    .about-text + .about-text { margin-top: 10px; }
+    .about-text { color: var(--text-secondary); font-size: 14px; line-height: 1.8; margin-bottom: 10px; }
 
+    /* SKILLS */
     .skills-cloud { display: flex; flex-wrap: wrap; gap: 8px; }
     .skill-pill {
-      padding: 7px 16px; border-radius: var(--radius-pill);
-      background: var(--bg); border: 1.5px solid var(--border);
-      color: var(--ink-2); font-size: 13px; font-weight: 500;
+      padding: 7px 16px; border-radius: 50px;
+      background: var(--bg-accent-soft);
+      border: 1px solid var(--bg-accent-soft-strong);
+      color: var(--accent); font-size: 13px; font-weight: 600;
       transition: all 0.2s; cursor: default;
     }
-    .skill-pill:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-bg); }
+    .skill-pill:hover { background: var(--bg-accent-soft-strong); }
 
-    .portfolio-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+    /* PORTFOLIO */
+    .portfolio-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 14px; }
     .portfolio-card {
       border-radius: var(--radius-sm);
       border: 1px solid var(--border);
       overflow: hidden;
-      background: var(--bg);
-      transition: all 0.25s;
+      background: var(--bg-surface-2);
+      transition: all 0.2s;
     }
-    .portfolio-card:hover { transform: translateY(-3px); border-color: var(--border-2); box-shadow: var(--shadow-md); }
-    .portfolio-thumb {
-      height: 110px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 36px;
-      background: var(--bg);
-      border-bottom: 1px solid var(--border);
-    }
-    .portfolio-info { padding: 14px; }
-    .portfolio-title { font-family: var(--font-head); font-weight: 600; font-size: 14px; margin-bottom: 4px; }
-    .portfolio-desc { font-size: 12px; color: var(--ink-2); line-height: 1.5; }
-    .portfolio-link { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; color: var(--accent); margin-top: 8px; text-decoration: none; font-weight: 600; }
+    .portfolio-card:hover { border-color: var(--accent); }
+    .portfolio-thumb { height: 110px; display: flex; align-items: center; justify-content: center; background: var(--bg-accent-soft); }
+    .portfolio-info { padding: 12px; }
+    .portfolio-title { font-weight: 700; font-size: 13px; margin-bottom: 4px; }
+    .portfolio-desc { font-size: 12px; color: var(--text-secondary); line-height: 1.5; }
+    .portfolio-link { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; color: var(--accent); margin-top: 6px; text-decoration: none; font-weight: 600; }
 
+    /* REVIEWS */
     .review-summary {
       display: flex; gap: 24px; align-items: center;
-      padding: 18px; background: var(--bg); border-radius: var(--radius-sm);
-      border: 1px solid var(--border); margin-bottom: 16px;
+      padding: 20px;
+      background: var(--bg-surface-2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm); margin-bottom: 16px;
     }
-    .big-rating { font-family: var(--font-head); font-size: 48px; font-weight: 700; line-height: 1; color: var(--ink); }
-    .big-stars { font-size: 18px; color: var(--gold); margin: 4px 0; }
+    .big-rating { font-size: 46px; font-weight: 700; line-height: 1; color: var(--accent); }
+    .stars { color: var(--star); }
     .rating-bars { flex: 1; }
-    .rating-bar-row { display: flex; align-items: center; gap: 10px; margin-bottom: 5px; font-size: 12px; color: var(--ink-3); }
+    .rating-bar-row { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; font-size: 12px; color: var(--text-secondary); }
     .bar-track { flex: 1; height: 5px; background: var(--border); border-radius: 3px; }
-    .bar-fill { height: 100%; border-radius: 3px; background: var(--gold); }
+    .bar-fill { height: 100%; border-radius: 3px; background: var(--star); }
 
-    .review-card { padding: 18px; border-radius: var(--radius-sm); background: var(--bg); border: 1px solid var(--border); margin-bottom: 10px; }
-    .review-card:last-child { margin-bottom: 0; }
+    .review-card {
+      padding: 18px;
+      background: var(--bg-surface-2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm); margin-bottom: 10px;
+    }
     .review-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
     .reviewer { display: flex; align-items: center; gap: 10px; }
-    .rev-av { width: 34px; height: 34px; font-size: 13px; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; font-family: var(--font-head); font-weight: 700; color: white; }
-    .rev-name { font-weight: 600; font-size: 14px; color: var(--ink); }
-    .rev-date { font-size: 12px; color: var(--ink-3); }
-    .rev-stars { color: var(--gold); font-size: 14px; }
-    .review-text { font-size: 14px; color: var(--ink-2); line-height: 1.65; }
+    .rev-av { width: 34px; height: 34px; font-size: 13px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; color: white; }
+    .rev-name { font-weight: 700; font-size: 14px; }
+    .rev-date { font-size: 12px; color: var(--text-muted); }
+    .review-text { font-size: 13px; color: var(--text-secondary); line-height: 1.6; }
 
-    /* Contact card */
+    /* CONTACT CARD */
     .contact-card {
-      padding: 24px; border-radius: var(--radius);
-      background: var(--bg-card); border: 1px solid var(--border);
-      position: sticky; top: calc(var(--nav-h) + 20px);
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md); padding: 22px;
+      position: sticky; top: 84px; margin-bottom: 16px;
+      box-shadow: var(--shadow-card);
     }
     .contact-rate { text-align: center; margin-bottom: 18px; padding-bottom: 18px; border-bottom: 1px solid var(--border); }
-    .rate-big { font-family: var(--font-head); font-size: 34px; font-weight: 700; color: var(--ink); }
-    .rate-label { font-size: 13px; color: var(--ink-3); }
+    .rate-big { font-size: 26px; font-weight: 700; color: var(--accent); }
+    .rate-label { font-size: 12px; color: var(--text-secondary); margin-top: 2px; }
     .contact-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 18px; }
-    .c-stat { text-align: center; padding: 10px; background: var(--bg); border-radius: var(--radius-sm); border: 1px solid var(--border); }
-    .c-stat-val { font-family: var(--font-head); font-weight: 700; font-size: 18px; color: var(--ink); }
-    .c-stat-label { font-size: 10px; color: var(--ink-3); text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
-    .btn-hire {
+    .c-stat { text-align: center; padding: 12px; background: var(--bg-surface-2); border-radius: var(--radius-sm); border: 1px solid var(--border); }
+    .c-stat-val { font-weight: 700; font-size: 17px; color: var(--text-primary); }
+    .c-stat-label { font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px; }
+    .contact-btn-main {
       width: 100%; padding: 13px;
-      background: var(--ink); color: #fff;
-      font-family: var(--font-body); font-weight: 700; font-size: 15px;
-      border: none; border-radius: var(--radius-sm); cursor: pointer;
-      transition: background 0.2s; margin-bottom: 8px;
+      background: var(--accent); color: #fff;
+      font-weight: 600; font-size: 14px;
+      border: none; border-radius: 50px; cursor: pointer; transition: all 0.2s;
+      margin-bottom: 10px; font-family: 'Inter', sans-serif;
     }
-    .btn-hire:hover { background: var(--accent); }
-    .btn-quote {
+    .contact-btn-main:hover { background: var(--accent-hover); }
+    .contact-btn-sec {
       width: 100%; padding: 11px;
-      background: transparent; color: var(--ink);
-      font-family: var(--font-body); font-weight: 600; font-size: 14px;
-      border: 1.5px solid var(--border); border-radius: var(--radius-sm); cursor: pointer;
-      transition: border-color 0.2s;
+      background: var(--bg-surface-2);
+      border: 1px solid var(--border-strong);
+      border-radius: 50px; color: var(--text-primary);
+      font-weight: 600; font-size: 13px; cursor: pointer; transition: all 0.2s;
+      font-family: 'Inter', sans-serif;
     }
-    .btn-quote:hover { border-color: var(--border-2); }
-    .response-time { text-align: center; margin-top: 12px; font-size: 12px; color: var(--ink-3); }
-    .response-time span { color: var(--accent-2); font-weight: 600; }
+    .contact-btn-sec:hover { background: var(--bg-accent-soft); border-color: var(--accent); }
+    .response-time { text-align: center; margin-top: 12px; font-size: 12px; color: var(--text-secondary); }
+    .response-time span { color: var(--accent); font-weight: 600; }
 
     .verified-card {
-      margin-top: 12px; padding: 16px;
-      border-radius: var(--radius-sm);
-      background: var(--accent-2-bg);
-      border: 1px solid rgba(46,94,62,0.2);
+      background: var(--success-bg);
+      border: 1px solid var(--success-border);
+      border-radius: var(--radius-md); padding: 16px;
     }
-    .verified-title { font-size: 13px; font-weight: 700; color: var(--accent-2); margin-bottom: 6px; }
-    .verified-text { font-size: 12px; color: var(--ink-2); line-height: 1.6; }
+    .verified-title { font-size: 13px; font-weight: 700; color: var(--success); margin-bottom: 6px; }
+    .verified-text { font-size: 12px; color: var(--text-secondary); line-height: 1.6; }
+
+    /* OWN PROFILE EDIT */
+    .edit-banner {
+      background: var(--bg-accent-soft);
+      border: 1px solid var(--bg-accent-soft-strong);
+      border-radius: var(--radius-sm); padding: 14px 18px;
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 20px; font-size: 14px; color: var(--text-primary);
+    }
+
+    .loading { text-align: center; padding: 60px; color: var(--text-muted); font-size: 15px; }
+    .empty { text-align: center; padding: 40px; color: var(--text-muted); font-size: 14px; }
+
+    @keyframes fadeInUp { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+    .fade-up { animation: fadeInUp 0.4s ease both; }
+    .fade-up-2 { animation: fadeInUp 0.4s 0.08s ease both; }
+    .fade-up-3 { animation: fadeInUp 0.4s 0.16s ease both; }
   </style>
+
+  <!-- MOBILE RESPONSIVE STYLES -->
+  <style>
+    @media (max-width: 768px) {
+      html, body { overflow-x: hidden; }
+      nav { padding: 0 16px !important; height: 56px !important; gap: 12px !important; }
+      .nav-logo { font-size: 17px !important; }
+      nav a:not(.nav-logo):not(.nav-btn):not(.nav-avatar):not(#navDash):not(#navMessages):not(.active) { display: none !important; }
+      .hamburger { display: flex !important; }
+      .mobile-menu.open { display: flex !important; }
+    }
+    @media (max-width: 900px) {
+      .profile-layout { grid-template-columns: 1fr !important; }
+      .contact-card { position: relative !important; top: 0 !important; }
+      .profile-header { flex-wrap: wrap !important; margin-top: -30px !important; }
+      .profile-body { padding: 0 20px 60px !important; }
+    }
+    @media (max-width: 600px) {
+      .glass-card { padding: 16px !important; }
+      .portfolio-grid { grid-template-columns: 1fr !important; }
+    }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; background: none; border: none; }
+    .hamburger span { display: block; width: 22px; height: 2px; background: var(--text-primary); border-radius: 2px; transition: all 0.3s; }
+    .mobile-menu { display: none; position: fixed; top: 56px; left: 0; right: 0; background: rgba(255,255,255,0.98); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); padding: 12px 16px; z-index: 99; flex-direction: column; gap: 4px; }
+    .mobile-menu a { padding: 12px 16px; border-radius: 10px; color: var(--text-secondary) !important; text-decoration: none; font-size: 15px; font-weight: 500; display: block !important; }
+    .mobile-menu a:hover { background: var(--bg-surface-2); color: var(--text-primary) !important; }
+    .mobile-menu .menu-divider { height: 1px; background: var(--border); margin: 8px 0; }
+    @media (max-width: 768px) { .hamburger { display: flex !important; } }
+  </style>
+
 </head>
 <body>
+
   <nav>
     <a href="index.html" class="nav-logo">Skill<span>Connect</span></a>
     <a href="browse.html">Browse Pros</a>
     <a href="post-need.html">Post a Need</a>
-    <a href="login.html" class="nav-btn nav-btn-outline">Log In</a>
-    <a href="register.html" class="nav-btn nav-btn-filled">Get Started</a>
+    <a href="messages.html" id="navMessages" style="display:none">Messages</a>
+    <div class="nav-avatar" id="navAvatar" style="display:none">?</div>
+    <a href="login.html" class="nav-btn nav-btn-outline" id="navLogin">Log In</a>
+    <a href="register.html" class="nav-btn nav-btn-filled" id="navRegister">Get Started</a>
   </nav>
 
-  <div class="profile-page">
-    <div class="profile-banner">
-      <div class="banner-dots"></div>
-      <div class="banner-accent"></div>
-    </div>
-
-    <div class="profile-body">
-      <div class="profile-header fade-up">
-        <div class="profile-big-av">AM<span class="avail-badge">Available</span></div>
-        <div class="profile-header-info">
-          <h1 class="profile-name">Alex Mwangi</h1>
-          <div class="profile-role">Frontend Developer · Nairobi, Kenya</div>
-          <div class="profile-meta">
-            <span class="meta-item"><span class="stars">★★★★★</span> 5.0 · 34 reviews</span>
-            <span class="meta-item">🕐 Member since Jan 2024</span>
-            <span class="meta-item">✅ 28 jobs completed</span>
-          </div>
-        </div>
-        <div class="profile-header-actions">
-          <a href="messages.html" class="btn btn-secondary" style="padding:10px 18px;font-size:13px;">💬 Message</a>
-          <a href="messages.html" class="btn btn-primary" style="padding:10px 20px;font-size:13px;">Hire Alex →</a>
-        </div>
-      </div>
-
-      <div class="profile-layout">
-        <div>
-          <div class="profile-section fade-up">
-            <div class="section-heading">👤 About</div>
-            <p class="about-text">I'm a frontend developer based in Nairobi with 5+ years of experience building beautiful, fast, and accessible websites for small businesses and startups across East Africa.</p>
-            <p class="about-text">I specialise in translating designs into pixel-perfect, responsive websites that work on every device. I've worked with restaurants, NGOs, retail brands, and tech startups — and I speak plain English, not tech jargon.</p>
-            <p class="about-text">If you need a website that looks great and actually converts visitors into customers, I'm your guy.</p>
-          </div>
-
-          <div class="profile-section fade-up-2">
-            <div class="section-heading">🛠️ Skills & Technologies</div>
-            <div class="skills-cloud">
-              <span class="skill-pill">React.js</span><span class="skill-pill">HTML5 / CSS3</span><span class="skill-pill">JavaScript</span>
-              <span class="skill-pill">Figma</span><span class="skill-pill">Tailwind CSS</span><span class="skill-pill">Next.js</span>
-              <span class="skill-pill">Responsive Design</span><span class="skill-pill">Git / GitHub</span>
-              <span class="skill-pill">WordPress</span><span class="skill-pill">SEO Basics</span>
-            </div>
-          </div>
-
-          <div class="profile-section fade-up-3">
-            <div class="section-heading">💼 Portfolio</div>
-            <div class="portfolio-grid">
-              <div class="portfolio-card">
-                <div class="portfolio-thumb">🍽️</div>
-                <div class="portfolio-info">
-                  <div class="portfolio-title">Mama's Kitchen Website</div>
-                  <div class="portfolio-desc">A full restaurant website with online menu, gallery and contact booking form.</div>
-                  <a href="#" class="portfolio-link">View project →</a>
-                </div>
-              </div>
-              <div class="portfolio-card">
-                <div class="portfolio-thumb">🛒</div>
-                <div class="portfolio-info">
-                  <div class="portfolio-title">Fashion Store E-Commerce</div>
-                  <div class="portfolio-desc">Shopify-based storefront with custom product pages and cart integration.</div>
-                  <a href="#" class="portfolio-link">View project →</a>
-                </div>
-              </div>
-              <div class="portfolio-card">
-                <div class="portfolio-thumb">🌿</div>
-                <div class="portfolio-info">
-                  <div class="portfolio-title">NGO Landing Page</div>
-                  <div class="portfolio-desc">Clean, accessible landing page for a health NGO with donation integration.</div>
-                  <a href="#" class="portfolio-link">View project →</a>
-                </div>
-              </div>
-              <div class="portfolio-card">
-                <div class="portfolio-thumb">📱</div>
-                <div class="portfolio-info">
-                  <div class="portfolio-title">Startup Dashboard UI</div>
-                  <div class="portfolio-desc">React-based admin dashboard with charts, tables, and dark mode.</div>
-                  <a href="#" class="portfolio-link">View project →</a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="profile-section fade-up">
-            <div class="section-heading">⭐ Reviews (34)</div>
-            <div class="review-summary">
-              <div>
-                <div class="big-rating">5.0</div>
-                <div class="big-stars">★★★★★</div>
-                <div style="font-size:12px;color:var(--ink-3);margin-top:2px;">34 reviews</div>
-              </div>
-              <div class="rating-bars">
-                <div class="rating-bar-row"><span>5★</span><div class="bar-track"><div class="bar-fill" style="width:88%"></div></div><span>30</span></div>
-                <div class="rating-bar-row"><span>4★</span><div class="bar-track"><div class="bar-fill" style="width:12%"></div></div><span>4</span></div>
-                <div class="rating-bar-row"><span>3★</span><div class="bar-track"><div class="bar-fill" style="width:0%"></div></div><span>0</span></div>
-                <div class="rating-bar-row"><span>2★</span><div class="bar-track"><div class="bar-fill" style="width:0%"></div></div><span>0</span></div>
-                <div class="rating-bar-row"><span>1★</span><div class="bar-track"><div class="bar-fill" style="width:0%"></div></div><span>0</span></div>
-              </div>
-            </div>
-            <div class="review-card">
-              <div class="review-header">
-                <div class="reviewer"><div class="rev-av" style="background:linear-gradient(135deg,#C8490C,#E8723A);">G</div><div><div class="rev-name">Grace Wambui</div><div class="rev-date">March 2025</div></div></div>
-                <div class="rev-stars">★★★★★</div>
-              </div>
-              <p class="review-text">Alex built my restaurant website in under a week. He was patient with my changes and the final result was beyond what I expected. Highly recommend!</p>
-            </div>
-            <div class="review-card">
-              <div class="review-header">
-                <div class="reviewer"><div class="rev-av" style="background:linear-gradient(135deg,#2E5E3E,#4A8C62);">P</div><div><div class="rev-name">Peter Njoroge</div><div class="rev-date">February 2025</div></div></div>
-                <div class="rev-stars">★★★★★</div>
-              </div>
-              <p class="review-text">Professional, fast, and great communication throughout. The website works perfectly on mobile too. Will definitely hire again.</p>
-            </div>
-            <div class="review-card">
-              <div class="review-header">
-                <div class="reviewer"><div class="rev-av" style="background:linear-gradient(135deg,#7B3F9E,#A86CC1);">L</div><div><div class="rev-name">Linda Ouma</div><div class="rev-date">January 2025</div></div></div>
-                <div class="rev-stars">★★★★☆</div>
-              </div>
-              <p class="review-text">Great work overall. Alex delivered on time and was easy to work with. Only small feedback is I wanted slightly more updates during the project, but the result was excellent.</p>
-            </div>
-          </div>
-        </div>
-
-        <div>
-          <div class="contact-card fade-up-2">
-            <div class="contact-rate">
-              <div class="rate-big">KSh 2,500</div>
-              <div class="rate-label">per hour</div>
-            </div>
-            <div class="contact-stats">
-              <div class="c-stat"><div class="c-stat-val">28</div><div class="c-stat-label">Jobs Done</div></div>
-              <div class="c-stat"><div class="c-stat-val">5.0</div><div class="c-stat-label">Rating</div></div>
-              <div class="c-stat"><div class="c-stat-val">100%</div><div class="c-stat-label">On Time</div></div>
-              <div class="c-stat"><div class="c-stat-val">1 hr</div><div class="c-stat-label">Avg Reply</div></div>
-            </div>
-            <button class="btn-hire" onclick="window.location='messages.html'">💬 Send a Message</button>
-            <button class="btn-quote">📋 Request a Quote</button>
-            <div class="response-time">Typically responds in <span>under 1 hour</span></div>
-          </div>
-
-          <div class="verified-card">
-            <div class="verified-title">✅ Verified Professional</div>
-            <div class="verified-text">Identity verified · Portfolio reviewed · Background checked by SkillConnect team</div>
-          </div>
-        </div>
-      </div>
-    </div>
+  <div id="pageContent">
+    <div class="loading">Loading profile...</div>
   </div>
+
+  <script>
+    const API = 'https://skillconnect-backend-production.up.railway.app/api'
+    const COLORS = ['#1B5E45', '#2F6F91', '#8B5E34', '#6B5B95', '#4A7856']
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const loggedUser = JSON.parse(localStorage.getItem('user') || 'null')
+      if (loggedUser) {
+        const initials = loggedUser.name.split(' ').map(n=>n[0]).join('').toUpperCase().slice(0,2)
+        document.getElementById('navAvatar').textContent = initials
+        document.getElementById('navAvatar').style.display = 'flex'
+        document.getElementById('navMessages').style.display = 'inline'
+        document.getElementById('navLogin').style.display = 'none'
+        document.getElementById('navRegister').style.display = 'none'
+      }
+
+      const params = new URLSearchParams(window.location.search)
+      const profileId = params.get('id') || (loggedUser ? loggedUser.id : null)
+
+      if (!profileId) {
+        document.getElementById('pageContent').innerHTML = `<div class="loading">No profile found. <a href="browse.html" style="color:var(--accent)">Browse professionals →</a></div>`
+        return
+      }
+
+      loadProfile(profileId, loggedUser)
+    })
+
+    async function loadProfile(id, loggedUser) {
+      try {
+        const res = await fetch(`${API}/users/${id}`)
+        if (!res.ok) throw new Error('Not found')
+        const user = await res.json()
+        renderProfile(user, loggedUser)
+      } catch {
+        document.getElementById('pageContent').innerHTML = `<div class="loading">Profile not found. <a href="browse.html" style="color:var(--accent)">Browse professionals →</a></div>`
+      }
+    }
+
+    function renderProfile(user, loggedUser) {
+      const initials = user.name.split(' ').map(n=>n[0]).join('').toUpperCase().slice(0,2)
+      const color = COLORS[user.id % COLORS.length] || COLORS[0]
+      const isOwn = loggedUser && loggedUser.id === user.id
+
+      let skills = []
+      try { skills = Array.isArray(user.skills) ? user.skills : JSON.parse(user.skills || '[]') } catch {}
+
+      const msgUrl = `messages.html?to=${user.id}`
+
+      document.title = `${user.name} — SkillConnect`
+
+      document.getElementById('pageContent').innerHTML = `
+        <div class="profile-banner"><div class="banner-pattern"></div></div>
+
+        <div class="profile-body">
+
+          ${isOwn ? `
+          <div class="edit-banner fade-up">
+            <span>This is your profile — keep it up to date to attract more clients.</span>
+            <a href="dashboard.html" class="btn-secondary" style="padding:8px 16px;font-size:12px;">Go to dashboard</a>
+          </div>` : ''}
+
+          <!-- HEADER -->
+          <div class="profile-header fade-up">
+            <div class="profile-big-av" style="background:${color}">
+              ${initials}
+              <span class="avail-badge">Available</span>
+            </div>
+            <div class="profile-header-info">
+              <h1 class="profile-name">${user.name}</h1>
+              <div class="profile-role">${skills[0] || 'Professional'} · SkillConnect</div>
+              <div class="profile-meta">
+                <span class="meta-item"><span class="stars">★★★★★</span> New member</span>
+                <span class="meta-item">Verified account</span>
+                ${user.portfolio_link ? `<span class="meta-item"><a href="${user.portfolio_link}" target="_blank" style="color:var(--accent);text-decoration:none;">Portfolio ↗</a></span>` : ''}
+              </div>
+            </div>
+            ${!isOwn ? `
+            <div class="profile-header-actions">
+              <a href="${msgUrl}" class="btn-secondary">Message</a>
+              <a href="${msgUrl}" class="btn-primary">Hire ${user.name.split(' ')[0]} →</a>
+            </div>` : ''}
+          </div>
+
+          <div class="profile-layout">
+            <!-- LEFT -->
+            <div>
+              <!-- ABOUT -->
+              <div class="glass-card fade-up">
+                <div class="section-heading">About</div>
+                ${user.bio
+                  ? `<p class="about-text">${user.bio}</p>`
+                  : `<p class="about-text" style="color:var(--text-muted);">No bio added yet.</p>`
+                }
+              </div>
+
+              <!-- SKILLS -->
+              <div class="glass-card fade-up-2">
+                <div class="section-heading">Skills and technologies</div>
+                ${skills.length
+                  ? `<div class="skills-cloud">${skills.map(s=>`<span class="skill-pill">${s}</span>`).join('')}</div>`
+                  : `<p style="color:var(--text-muted);font-size:14px;">No skills listed yet.</p>`
+                }
+              </div>
+
+              <!-- PORTFOLIO -->
+              ${user.portfolio_link ? `
+              <div class="glass-card fade-up-3">
+                <div class="section-heading">Portfolio</div>
+                <div style="padding:16px;background:var(--bg-surface-2);border-radius:var(--radius-sm);border:1px solid var(--border);">
+                  <div style="font-size:13px;color:var(--text-secondary);margin-bottom:8px;">External portfolio</div>
+                  <a href="${user.portfolio_link}" target="_blank" class="portfolio-link" style="font-size:14px;">${user.portfolio_link} →</a>
+                </div>
+              </div>` : ''}
+
+              <!-- REVIEWS -->
+              <div class="glass-card fade-up">
+                <div class="section-heading">Reviews</div>
+                <div class="empty" style="padding:24px;">No reviews yet — be the first to work with ${user.name.split(' ')[0]}!</div>
+              </div>
+            </div>
+
+            <!-- RIGHT -->
+            <div>
+              <div class="contact-card fade-up-2">
+                <div class="contact-rate">
+                  <div class="rate-big">Available</div>
+                  <div class="rate-label">for hire on SkillConnect</div>
+                </div>
+                <div class="contact-stats">
+                  <div class="c-stat"><div class="c-stat-val">${skills.length}</div><div class="c-stat-label">Skills</div></div>
+                  <div class="c-stat"><div class="c-stat-val">New</div><div class="c-stat-label">Member</div></div>
+                  <div class="c-stat"><div class="c-stat-val">Yes</div><div class="c-stat-label">Verified</div></div>
+                  <div class="c-stat"><div class="c-stat-val">—</div><div class="c-stat-label">Avg reply</div></div>
+                </div>
+                ${!isOwn ? `
+                <button class="contact-btn-main" onclick="window.location='${msgUrl}'">Send a message</button>
+                <button class="contact-btn-sec">Request a quote</button>
+                <div class="response-time">Member of <span>SkillConnect</span></div>
+                ` : `
+                <a href="dashboard.html" class="contact-btn-main" style="display:block;text-align:center;text-decoration:none;">Go to dashboard →</a>
+                `}
+              </div>
+
+              <div class="verified-card">
+                <div class="verified-title">Verified professional</div>
+                <div class="verified-text">Account verified · Skills listed · Active on SkillConnect</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `
+    }
+  </script>
+
+  <!-- MOBILE HAMBURGER MENU -->
+  <script>
+    (function() {
+      window.addEventListener('DOMContentLoaded', function() {
+        const nav = document.querySelector('nav');
+        if (!nav) return;
+
+        const hamburger = document.createElement('button');
+        hamburger.className = 'hamburger';
+        hamburger.setAttribute('aria-label', 'Menu');
+        hamburger.innerHTML = '<span></span><span></span><span></span>';
+        nav.appendChild(hamburger);
+
+        const mobileMenu = document.createElement('div');
+        mobileMenu.className = 'mobile-menu';
+        mobileMenu.id = 'mobileMenu';
+
+        const links = nav.querySelectorAll('a:not(.nav-logo)');
+        links.forEach(link => {
+          const clone = link.cloneNode(true);
+          mobileMenu.appendChild(clone);
+        });
+
+        const user = JSON.parse(localStorage.getItem('user') || 'null');
+        if (user) {
+          const divider = document.createElement('div');
+          divider.className = 'menu-divider';
+          mobileMenu.appendChild(divider);
+          const signout = document.createElement('a');
+          signout.href = '#';
+          signout.textContent = 'Sign out';
+          signout.style.color = 'var(--danger)';
+          signout.addEventListener('click', function(e) {
+            e.preventDefault();
+            localStorage.clear();
+            window.location.href = 'login.html';
+          });
+          mobileMenu.appendChild(signout);
+        }
+
+        document.body.appendChild(mobileMenu);
+
+        hamburger.addEventListener('click', function() {
+          mobileMenu.classList.toggle('open');
+        });
+
+        document.addEventListener('click', function(e) {
+          if (!nav.contains(e.target)) {
+            mobileMenu.classList.remove('open');
+          }
+        });
+      });
+    })();
+  </script>
+
 </body>
 </html>
