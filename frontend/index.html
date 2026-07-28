@@ -4,177 +4,287 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>SkillConnect — Find Tech Talent</title>
-  <link rel="stylesheet" href="css/style.css"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    /* ── HERO ── */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg-page: #F6F8F7;
+      --bg-surface: #FFFFFF;
+      --bg-surface-2: #FBFCFB;
+      --bg-accent-soft: #E7F0EB;
+      --bg-accent-soft-strong: #D9E9E1;
+      --border: #DDE4E1;
+      --border-strong: #C3D0CA;
+      --text-primary: #16332B;
+      --text-secondary: #56655F;
+      --text-muted: #8B958F;
+      --accent: #1B5E45;
+      --accent-hover: #164B38;
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 18px;
+      --shadow-card: 0 1px 2px rgba(22,51,43,0.04), 0 4px 16px rgba(22,51,43,0.04);
+    }
+
+    html, body {
+      min-height: 100vh;
+      background: var(--bg-page);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text-primary);
+    }
+
+    /* NAV */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      display: flex; align-items: center; gap: 24px;
+      padding: 0 40px; height: 68px;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo { font-size: 20px; font-weight: 700; color: var(--text-primary); text-decoration: none; margin-right: auto; letter-spacing: -0.3px; }
+    .nav-logo span { color: var(--accent); }
+    nav a { color: var(--text-secondary); text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.2s; }
+    nav a:hover { color: var(--text-primary); }
+    .nav-btn { padding: 8px 18px; border-radius: var(--radius-sm); font-weight: 600; font-size: 13px; text-decoration: none; transition: all 0.2s; }
+    .nav-btn-outline { border: 1px solid var(--border-strong); color: var(--text-primary); }
+    .nav-btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+    .nav-btn-filled { background: var(--accent); color: #fff; }
+    .nav-btn-filled:hover { background: var(--accent-hover); }
+    .nav-avatar {
+      width: 34px; height: 34px; border-radius: 50%;
+      background: var(--accent);
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 600; font-size: 12px; cursor: pointer; color: #fff;
+    }
+
+    /* PAGE WRAPPER */
+    .page { position: relative; z-index: 1; }
+
+    /* SECTION */
+    section { max-width: 1200px; margin: 0 auto; padding: 80px 40px; }
+
+    /* HERO */
     .hero {
-      min-height: calc(100vh - var(--nav-h));
+      min-height: calc(100vh - 68px);
       display: flex; align-items: center;
       padding: 80px 40px;
       max-width: 1200px; margin: 0 auto;
-      gap: 80px;
+      gap: 60px;
     }
-    .hero-left { flex: 1.1; }
-    .hero-right { flex: 0.9; display: flex; justify-content: flex-end; align-items: center; }
+    .hero-left { flex: 1; }
+    .hero-right { flex: 1; display: flex; justify-content: center; }
 
-    .hero-eyebrow {
-      display: inline-flex; align-items: center; gap: 8px;
-      margin-bottom: 28px;
+    .hero-eyebrow { display: inline-flex; align-items: center; gap: 8px; margin-bottom: 26px; }
+    .hero-eyebrow-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: var(--accent);
     }
-    .hero-dot {
-      width: 8px; height: 8px; border-radius: 50%;
-      background: var(--accent-2);
+    .hero-eyebrow-text { font-size: 13px; font-weight: 600; color: var(--accent); text-transform: uppercase; letter-spacing: 1.2px; }
+
+    .hero h1 { font-size: clamp(34px,5vw,56px); font-weight: 700; line-height: 1.15; margin-bottom: 22px; letter-spacing: -1px; }
+    .hero h1 em { font-style: normal; color: var(--accent); }
+    .hero-sub { font-size: 16px; color: var(--text-secondary); line-height: 1.7; max-width: 480px; margin-bottom: 36px; }
+    .hero-ctas { display: flex; gap: 16px; flex-wrap: wrap; }
+
+    .btn-primary {
+      padding: 13px 26px; background: var(--accent); color: #fff;
+      border: none; border-radius: var(--radius-sm); font-weight: 600; font-size: 15px;
+      cursor: pointer; text-decoration: none; transition: all 0.2s;
     }
-    .hero-eyebrow-text { font-size: 12px; font-weight: 600; color: var(--accent-2); text-transform: uppercase; letter-spacing: 2px; }
-
-    .hero h1 { margin-bottom: 24px; }
-    .hero h1 em { font-style: italic; color: var(--accent); }
-
-    .hero-sub {
-      font-size: 17px;
-      color: var(--ink-2);
-      line-height: 1.75;
-      max-width: 480px;
-      margin-bottom: 40px;
+    .btn-primary:hover { background: var(--accent-hover); }
+    .btn-secondary {
+      padding: 13px 26px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-strong);
+      color: var(--text-primary); border-radius: var(--radius-sm); font-weight: 600; font-size: 15px;
+      cursor: pointer; text-decoration: none; transition: all 0.2s;
     }
-    .hero-ctas { display: flex; gap: 14px; flex-wrap: wrap; }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
 
-    /* Hero visual — stacked cards */
-    .hero-cards { display: flex; flex-direction: column; gap: 14px; width: 300px; }
-    .hero-pro-card {
-      background: var(--bg-card);
+    /* Hero card stack */
+    .hero-card-stack { position: relative; width: 340px; height: 400px; }
+    .hero-card {
+      position: absolute; padding: 20px; border-radius: var(--radius-md); width: 260px;
+      background: var(--bg-surface);
       border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 20px 22px;
-      box-shadow: var(--shadow-sm);
-      transition: transform 0.3s, box-shadow 0.3s;
+      box-shadow: var(--shadow-card);
     }
-    .hero-pro-card:nth-child(2) { margin-left: 20px; }
-    .hero-pro-card:hover { transform: translateX(-4px); box-shadow: var(--shadow-md); }
-    .hpc-top { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
-    .hpc-name { font-family: var(--font-head); font-weight: 600; font-size: 15px; }
-    .hpc-role { font-size: 12px; color: var(--ink-3); }
-    .hpc-skills { display: flex; gap: 6px; flex-wrap: wrap; }
-    .hpc-rate { margin-top: 12px; font-size: 13px; color: var(--ink-2); font-weight: 600; border-top: 1px solid var(--border); padding-top: 10px; }
+    .hero-card-1 { top: 0; left: 0; }
+    .hero-card-2 { top: 120px; right: 0; }
+    .hero-card-3 { bottom: 0; left: 30px; }
+    .hero-card-name { font-weight: 700; font-size: 15px; margin-bottom: 4px; }
+    .hero-card-role { font-size: 12px; color: var(--text-secondary); margin-bottom: 12px; }
+    .hero-card-skills { display: flex; gap: 6px; flex-wrap: wrap; }
+    .skill-tag { display: inline-block; padding: 3px 10px; border-radius: 50px; background: var(--bg-accent-soft); color: var(--accent); font-size: 11px; font-weight: 600; }
 
-    /* ── STATS BAR ── */
+    /* STATS BAR */
     .stats-bar {
       border-top: 1px solid var(--border);
       border-bottom: 1px solid var(--border);
-      background: var(--bg-card);
       padding: 36px 40px;
-      display: flex; justify-content: center; gap: 80px;
-      flex-wrap: wrap;
+      display: flex; justify-content: center; gap: 80px; flex-wrap: wrap;
+      background: var(--bg-surface);
+      position: relative; z-index: 1;
     }
     .stat-item { text-align: center; }
-    .stat-num { font-family: var(--font-head); font-size: 40px; font-weight: 700; color: var(--accent); line-height: 1; }
-    .stat-label { font-size: 12px; color: var(--ink-3); margin-top: 6px; text-transform: uppercase; letter-spacing: 1.5px; font-weight: 600; }
+    .stat-num { font-size: 32px; font-weight: 700; color: var(--accent); line-height: 1; }
+    .stat-label { font-size: 12px; color: var(--text-muted); margin-top: 6px; text-transform: uppercase; letter-spacing: 0.8px; }
 
-    /* ── HOW IT WORKS ── */
-    .section-header { text-align: center; margin-bottom: 52px; }
-    .section-header p { color: var(--ink-2); margin-top: 14px; font-size: 16px; max-width: 520px; margin-left: auto; margin-right: auto; }
+    /* SECTION HEADER */
+    .section-header { text-align: center; margin-bottom: 44px; }
+    .section-header p { color: var(--text-secondary); margin-top: 12px; font-size: 16px; }
+    .section-header h2 { font-size: clamp(26px,4vw,38px); font-weight: 700; margin-top: 16px; letter-spacing: -0.6px; }
 
-    .how-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+    .badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 14px; border-radius: 50px; font-size: 12px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.8px;
+    }
+    .badge-1 { background: var(--bg-accent-soft); color: var(--accent); border: 1px solid var(--bg-accent-soft-strong); }
+    .badge-2 { background: #EFEAF7; color: #5B4B8A; border: 1px solid #E0D6F0; }
+    .badge-3 { background: var(--bg-accent-soft); color: var(--accent); border: 1px solid var(--bg-accent-soft-strong); }
+
+    /* HOW IT WORKS */
+    .how-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; }
     .how-card {
-      padding: 36px 32px;
-      background: var(--bg-card);
-      border-right: 1px solid var(--border);
-      transition: background 0.2s;
+      padding: 30px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md); position: relative; overflow: hidden;
+      transition: transform 0.2s, border-color 0.2s;
+      box-shadow: var(--shadow-card);
     }
-    .how-card:last-child { border-right: none; }
-    .how-card:hover { background: var(--accent-bg); }
-    .how-num { font-family: var(--font-head); font-size: 13px; font-weight: 600; color: var(--accent); letter-spacing: 1px; margin-bottom: 18px; text-transform: uppercase; }
-    .how-icon { font-size: 28px; margin-bottom: 14px; }
-    .how-card h3 { margin-bottom: 10px; font-size: 19px; }
-    .how-card p { color: var(--ink-2); font-size: 14px; line-height: 1.75; }
+    .how-card:hover { transform: translateY(-4px); border-color: var(--accent); }
+    .how-num { font-size: 60px; font-weight: 700; position: absolute; top: -6px; right: 16px; opacity: 0.06; line-height: 1; }
+    .how-card h3 { font-size: 17px; font-weight: 700; margin-bottom: 10px; }
+    .how-card p { color: var(--text-secondary); font-size: 14px; line-height: 1.7; }
 
-    /* ── CATEGORIES ── */
-    .cat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+    /* CATEGORIES */
+    .cat-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 14px; }
     .cat-card {
-      padding: 28px 20px;
-      border-radius: var(--radius);
-      background: var(--bg-card);
+      padding: 24px 18px;
+      background: var(--bg-surface);
       border: 1px solid var(--border);
-      text-align: center;
-      cursor: pointer;
-      text-decoration: none;
-      transition: all 0.2s;
-      display: block;
+      border-radius: var(--radius-md); text-align: center;
+      cursor: pointer; text-decoration: none;
+      transition: all 0.2s; display: block;
     }
-    .cat-card:hover { border-color: var(--accent); background: var(--accent-bg); transform: translateY(-3px); box-shadow: var(--shadow-md); }
-    .cat-icon { font-size: 32px; margin-bottom: 12px; }
-    .cat-name { font-family: var(--font-head); font-weight: 600; font-size: 15px; color: var(--ink); margin-bottom: 4px; }
-    .cat-count { font-size: 12px; color: var(--ink-3); font-weight: 500; }
+    .cat-card:hover { border-color: var(--accent); background: var(--bg-accent-soft); transform: translateY(-3px); }
+    .cat-name { font-weight: 600; font-size: 14px; color: var(--text-primary); margin-bottom: 4px; }
+    .cat-count { font-size: 12px; color: var(--text-muted); }
 
-    /* ── WHY US ── */
-    .why-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+    /* WHY US */
+    .why-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 18px; }
     .why-item {
-      display: flex; gap: 20px; align-items: flex-start;
-      padding: 28px;
-      border-radius: var(--radius);
-      background: var(--bg-card);
+      display: flex; gap: 18px; align-items: flex-start; padding: 26px;
+      background: var(--bg-surface);
       border: 1px solid var(--border);
-      transition: box-shadow 0.2s;
+      border-radius: var(--radius-md);
     }
-    .why-item:hover { box-shadow: var(--shadow-md); }
     .why-icon-wrap {
-      width: 46px; height: 46px; border-radius: var(--radius-sm);
-      background: var(--bg);
-      border: 1px solid var(--border);
+      width: 44px; height: 44px; border-radius: var(--radius-sm);
+      background: var(--bg-accent-soft);
       display: flex; align-items: center; justify-content: center;
-      font-size: 20px; flex-shrink: 0;
+      flex-shrink: 0;
     }
-    .why-item h3 { margin-bottom: 6px; font-size: 17px; }
-    .why-item p { color: var(--ink-2); font-size: 14px; line-height: 1.7; }
+    .why-item h3 { font-size: 16px; font-weight: 700; margin-bottom: 6px; }
+    .why-item p { color: var(--text-secondary); font-size: 14px; line-height: 1.6; }
 
-    /* ── TESTIMONIALS ── */
-    .testi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    /* TESTIMONIALS */
+    .testi-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 18px; }
     .testi-card {
-      padding: 28px;
-      border-radius: var(--radius);
-      background: var(--bg-card);
+      padding: 26px;
+      background: var(--bg-surface);
       border: 1px solid var(--border);
+      border-radius: var(--radius-md);
     }
-    .testi-quote { font-family: var(--font-head); font-size: 15px; color: var(--ink-2); line-height: 1.75; margin-bottom: 22px; font-style: italic; }
+    .testi-quote { font-size: 14px; color: var(--text-secondary); line-height: 1.7; margin-bottom: 18px; }
     .testi-author { display: flex; align-items: center; gap: 12px; }
-    .testi-name { font-weight: 600; font-size: 14px; }
-    .testi-role { font-size: 12px; color: var(--ink-3); }
+    .testi-av { width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; color: #fff; }
+    .testi-name { font-weight: 700; font-size: 14px; }
+    .testi-role { font-size: 12px; color: var(--text-muted); }
 
-    /* ── CTA BANNER ── */
+    /* CTA BANNER */
     .cta-banner {
       margin: 0 40px 80px;
-      padding: 64px 60px;
-      border-radius: var(--radius);
-      background: var(--ink);
+      padding: 56px;
+      border-radius: var(--radius-lg);
+      background: var(--bg-accent-soft);
+      border: 1px solid var(--bg-accent-soft-strong);
       text-align: center;
+      position: relative; z-index: 1;
     }
-    .cta-banner h2 { margin-bottom: 16px; color: #fff; }
-    .cta-banner p { color: rgba(255,255,255,0.6); margin-bottom: 36px; font-size: 16px; }
-    .cta-banner-btns { display: flex; justify-content: center; gap: 14px; flex-wrap: wrap; }
-    .btn-cta-primary {
-      background: var(--accent); color: #fff;
-      padding: 14px 28px; border-radius: var(--radius-sm);
-      font-size: 15px; font-weight: 600; text-decoration: none;
-      transition: all 0.2s; display: inline-block;
+    .cta-banner h2 { font-size: clamp(26px,4vw,36px); font-weight: 700; margin-bottom: 14px; letter-spacing: -0.5px; }
+    .cta-banner p { color: var(--text-secondary); margin-bottom: 28px; font-size: 16px; }
+    .cta-banner-btns { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 32px 40px;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 16px;
+      position: relative; z-index: 1;
     }
-    .btn-cta-primary:hover { background: #A83A08; transform: translateY(-1px); }
-    .btn-cta-secondary {
-      background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.85);
-      border: 1px solid rgba(255,255,255,0.2);
-      padding: 14px 28px; border-radius: var(--radius-sm);
-      font-size: 15px; font-weight: 600; text-decoration: none;
-      transition: all 0.2s; display: inline-block;
-    }
-    .btn-cta-secondary:hover { background: rgba(255,255,255,0.15); }
+    .footer-links { display: flex; gap: 24px; }
+    .footer-links a { color: var(--text-secondary); text-decoration: none; font-size: 14px; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--text-primary); }
+    footer span { font-size: 13px; color: var(--text-muted); }
+
+    @keyframes fadeInUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+    .fade-up   { animation: fadeInUp 0.5s ease both; }
+    .fade-up-2 { animation: fadeInUp 0.5s 0.08s ease both; }
+    .fade-up-3 { animation: fadeInUp 0.5s 0.16s ease both; }
+    .fade-up-4 { animation: fadeInUp 0.5s 0.24s ease both; }
   </style>
+
+  <!-- MOBILE RESPONSIVE STYLES -->
+  <style>
+    @media (max-width: 768px) {
+      html, body { overflow-x: hidden; }
+      nav { padding: 0 16px !important; height: 56px !important; gap: 12px !important; }
+      .nav-logo { font-size: 17px !important; }
+      nav a:not(.nav-logo):not(.nav-btn):not(.nav-avatar):not(#navDash) { display: none !important; }
+      .hamburger { display: flex !important; }
+      .mobile-menu.open { display: flex !important; }
+      .hero { flex-direction: column !important; padding: 40px 20px !important; gap: 32px !important; min-height: auto !important; text-align: center; }
+      .hero-right { display: none !important; }
+      .hero-ctas, .cta-banner-btns { justify-content: center !important; }
+      .hero-eyebrow { justify-content: center; }
+      .stats-bar { display: grid !important; grid-template-columns: repeat(2,1fr) !important; padding: 24px 20px !important; gap: 20px !important; }
+      section { padding: 48px 20px !important; }
+      .how-grid, .testi-grid, .why-grid { grid-template-columns: 1fr !important; gap: 14px !important; }
+      .cat-grid { grid-template-columns: repeat(2,1fr) !important; gap: 12px !important; }
+      .cta-banner { margin: 0 16px 48px !important; padding: 36px 20px !important; }
+      .cta-banner-btns { flex-direction: column !important; align-items: center; }
+      footer { flex-direction: column !important; text-align: center; gap: 12px !important; padding: 24px 20px !important; }
+      .footer-links { flex-wrap: wrap; justify-content: center; }
+    }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; background: none; border: none; }
+    .hamburger span { display: block; width: 22px; height: 2px; background: var(--text-primary); border-radius: 2px; transition: all 0.3s; }
+    .mobile-menu { display: none; position: fixed; top: 56px; left: 0; right: 0; background: rgba(255,255,255,0.98); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); padding: 12px 16px; z-index: 99; flex-direction: column; gap: 4px; }
+    .mobile-menu a { padding: 12px 16px; border-radius: 10px; color: var(--text-secondary) !important; text-decoration: none; font-size: 15px; font-weight: 500; display: block !important; }
+    .mobile-menu a:hover { background: var(--bg-surface-2); color: var(--text-primary) !important; }
+    .mobile-menu .menu-divider { height: 1px; background: var(--border); margin: 8px 0; }
+    @media (max-width: 768px) { .hamburger { display: flex !important; } }
+  </style>
+
 </head>
 <body>
+
+  <!-- NAV -->
   <nav>
     <a href="index.html" class="nav-logo">Skill<span>Connect</span></a>
     <a href="browse.html">Browse Pros</a>
     <a href="post-need.html">Post a Need</a>
-    <a href="login.html" class="nav-btn nav-btn-outline">Log In</a>
-    <a href="register.html" class="nav-btn nav-btn-filled">Get Started</a>
+    <div class="nav-avatar" id="navAvatar" style="display:none;">?</div>
+    <a href="dashboard.html" id="navDash" style="display:none;">Dashboard</a>
+    <a href="login.html" class="nav-btn nav-btn-outline" id="navLogin">Log In</a>
+    <a href="register.html" class="nav-btn nav-btn-filled" id="navRegister">Get Started</a>
   </nav>
 
   <div class="page">
@@ -183,56 +293,42 @@
     <div class="hero">
       <div class="hero-left">
         <div class="hero-eyebrow fade-up">
-          <span class="hero-dot"></span>
-          <span class="hero-eyebrow-text">500+ Verified Professionals</span>
+          <span class="hero-eyebrow-dot"></span>
+          <span class="hero-eyebrow-text" id="eyebrowText">Verified professionals</span>
         </div>
-        <h1 class="fade-up-2">Find the right<br><em>tech talent</em>, fast.</h1>
+        <h1 class="fade-up-2">Find the right<br><em>tech talent</em>,<br>fast.</h1>
         <p class="hero-sub fade-up-3">SkillConnect bridges the gap between non-tech businesses and skilled professionals. No agencies. No middlemen. Just results.</p>
         <div class="hero-ctas fade-up-4">
-          <a href="post-need.html" class="btn btn-primary">Post a Need →</a>
-          <a href="browse.html" class="btn btn-secondary">Browse Professionals</a>
+          <a href="post-need.html" class="btn-primary">Post a need →</a>
+          <a href="browse.html" class="btn-secondary">Browse professionals</a>
         </div>
       </div>
       <div class="hero-right fade-up-3">
-        <div class="hero-cards">
-          <div class="hero-pro-card">
-            <div class="hpc-top">
-              <div class="avatar" style="background:linear-gradient(135deg,#C8490C,#E8723A);">AM</div>
-              <div>
-                <div class="hpc-name">Alex Mwangi</div>
-                <div class="hpc-role">Frontend Developer · ⭐ 5.0</div>
-              </div>
+        <div class="hero-card-stack">
+          <div class="hero-card hero-card-1">
+            <div class="hero-card-name">Alex Mwangi</div>
+            <div class="hero-card-role">Frontend Developer</div>
+            <div class="hero-card-skills">
+              <span class="skill-tag">React</span>
+              <span class="skill-tag">CSS</span>
+              <span class="skill-tag">Figma</span>
             </div>
-            <div class="hpc-skills">
-              <span class="skill-tag">React</span><span class="skill-tag">CSS</span><span class="skill-tag">Figma</span>
-            </div>
-            <div class="hpc-rate">KSh 2,500 / hr</div>
           </div>
-          <div class="hero-pro-card">
-            <div class="hpc-top">
-              <div class="avatar" style="background:linear-gradient(135deg,#2E5E3E,#4A8C62);">SK</div>
-              <div>
-                <div class="hpc-name">Sara Kimani</div>
-                <div class="hpc-role">Cybersecurity · ⭐ 4.9</div>
-              </div>
+          <div class="hero-card hero-card-2">
+            <div class="hero-card-name">Sara Kimani</div>
+            <div class="hero-card-role">Cybersecurity Analyst</div>
+            <div class="hero-card-skills">
+              <span class="skill-tag">Pentest</span>
+              <span class="skill-tag">SIEM</span>
             </div>
-            <div class="hpc-skills">
-              <span class="skill-tag">Pen Testing</span><span class="skill-tag">SIEM</span>
-            </div>
-            <div class="hpc-rate">KSh 4,000 / hr</div>
           </div>
-          <div class="hero-pro-card">
-            <div class="hpc-top">
-              <div class="avatar" style="background:linear-gradient(135deg,#1D3C6E,#3060A8);">DO</div>
-              <div>
-                <div class="hpc-name">David Osei</div>
-                <div class="hpc-role">Backend Engineer · ⭐ 4.8</div>
-              </div>
+          <div class="hero-card hero-card-3">
+            <div class="hero-card-name">David Osei</div>
+            <div class="hero-card-role">Backend Engineer</div>
+            <div class="hero-card-skills">
+              <span class="skill-tag">Node.js</span>
+              <span class="skill-tag">MongoDB</span>
             </div>
-            <div class="hpc-skills">
-              <span class="skill-tag">Node.js</span><span class="skill-tag">MongoDB</span>
-            </div>
-            <div class="hpc-rate">KSh 3,200 / hr</div>
           </div>
         </div>
       </div>
@@ -240,131 +336,122 @@
 
     <!-- STATS -->
     <div class="stats-bar">
-      <div class="stat-item"><div class="stat-num">500+</div><div class="stat-label">Professionals</div></div>
-      <div class="stat-item"><div class="stat-num">1.2k</div><div class="stat-label">Jobs Posted</div></div>
-      <div class="stat-item"><div class="stat-num">98%</div><div class="stat-label">Satisfaction</div></div>
-      <div class="stat-item"><div class="stat-num">12</div><div class="stat-label">Skill Categories</div></div>
+      <div class="stat-item"><div class="stat-num" id="statPros">—</div><div class="stat-label">Professionals</div></div>
+      <div class="stat-item"><div class="stat-num" id="statPosts">—</div><div class="stat-label">Jobs posted</div></div>
+      <div class="stat-item"><div class="stat-num">98%</div><div class="stat-label">Satisfaction rate</div></div>
+      <div class="stat-item"><div class="stat-num">12</div><div class="stat-label">Skill categories</div></div>
     </div>
 
     <!-- HOW IT WORKS -->
     <section>
       <div class="section-header">
-        <span class="badge badge-rust">How It Works</span>
-        <h2 style="margin-top:16px;">From idea to done<br>in three steps</h2>
+        <span class="badge badge-1">How it works</span>
+        <h2>From idea to done<br>in three steps</h2>
         <p>Simple, transparent, and built for people who don't speak tech.</p>
       </div>
       <div class="how-grid">
         <div class="how-card fade-up">
-          <div class="how-num">Step 01</div>
-          <div class="how-icon">📋</div>
-          <h3>Post Your Need</h3>
+          <div class="how-num">01</div>
+          <h3>Post your need</h3>
           <p>Describe what you need in plain language. No tech jargon required — just tell us what you want to achieve.</p>
         </div>
         <div class="how-card fade-up-2">
-          <div class="how-num">Step 02</div>
-          <div class="how-icon">🎯</div>
-          <h3>Get Matched</h3>
+          <div class="how-num">02</div>
+          <h3>Get matched</h3>
           <p>Browse verified professionals filtered by skill. Check profiles, reviews, and portfolios before you decide.</p>
         </div>
         <div class="how-card fade-up-3">
-          <div class="how-num">Step 03</div>
-          <div class="how-icon">🚀</div>
-          <h3>Get It Done</h3>
+          <div class="how-num">03</div>
+          <h3>Get it done</h3>
           <p>Message directly through the platform. No middlemen, no agency fees. Just you and your chosen professional.</p>
         </div>
       </div>
     </section>
 
     <!-- CATEGORIES -->
-    <section style="background: var(--bg-card); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); max-width: 100%; padding: 80px 40px;">
-      <div style="max-width:1200px; margin: 0 auto;">
-        <div class="section-header">
-          <span class="badge badge-blue">Skills Available</span>
-          <h2 style="margin-top:16px;">Whatever you need,<br>we have it covered</h2>
-          <p>From websites to security audits — find the right expert for the job.</p>
-        </div>
-        <div class="cat-grid">
-          <a href="browse.html" class="cat-card"><div class="cat-icon">🖥️</div><div class="cat-name">Frontend Dev</div><div class="cat-count">84 professionals</div></a>
-          <a href="browse.html" class="cat-card"><div class="cat-icon">⚙️</div><div class="cat-name">Backend Dev</div><div class="cat-count">72 professionals</div></a>
-          <a href="browse.html" class="cat-card"><div class="cat-icon">🔐</div><div class="cat-name">Cybersecurity</div><div class="cat-count">38 professionals</div></a>
-          <a href="browse.html" class="cat-card"><div class="cat-icon">📱</div><div class="cat-name">Mobile Dev</div><div class="cat-count">55 professionals</div></a>
-          <a href="browse.html" class="cat-card"><div class="cat-icon">🎨</div><div class="cat-name">UI / UX Design</div><div class="cat-count">61 professionals</div></a>
-          <a href="browse.html" class="cat-card"><div class="cat-icon">📊</div><div class="cat-name">Data Analysis</div><div class="cat-count">44 professionals</div></a>
-          <a href="browse.html" class="cat-card"><div class="cat-icon">☁️</div><div class="cat-name">DevOps / Cloud</div><div class="cat-count">29 professionals</div></a>
-          <a href="browse.html" class="cat-card"><div class="cat-icon">🛠️</div><div class="cat-name">IT Support</div><div class="cat-count">47 professionals</div></a>
-        </div>
+    <section>
+      <div class="section-header">
+        <span class="badge badge-2">Skills available</span>
+        <h2>Whatever you need,<br>we have it covered</h2>
+        <p>From websites to security audits — find the right expert for the job.</p>
+      </div>
+      <div class="cat-grid">
+        <a href="browse.html" class="cat-card"><div class="cat-name">Frontend Dev</div><div class="cat-count">Browse professionals</div></a>
+        <a href="browse.html" class="cat-card"><div class="cat-name">Backend Dev</div><div class="cat-count">Browse professionals</div></a>
+        <a href="browse.html" class="cat-card"><div class="cat-name">Cybersecurity</div><div class="cat-count">Browse professionals</div></a>
+        <a href="browse.html" class="cat-card"><div class="cat-name">Mobile Dev</div><div class="cat-count">Browse professionals</div></a>
+        <a href="browse.html" class="cat-card"><div class="cat-name">UI / UX Design</div><div class="cat-count">Browse professionals</div></a>
+        <a href="browse.html" class="cat-card"><div class="cat-name">Data Analysis</div><div class="cat-count">Browse professionals</div></a>
+        <a href="browse.html" class="cat-card"><div class="cat-name">DevOps / Cloud</div><div class="cat-count">Browse professionals</div></a>
+        <a href="browse.html" class="cat-card"><div class="cat-name">IT Support</div><div class="cat-count">Browse professionals</div></a>
       </div>
     </section>
 
     <!-- WHY US -->
     <section>
       <div class="section-header">
-        <span class="badge badge-green">Why SkillConnect</span>
-        <h2 style="margin-top:16px;">Built differently,<br>for a reason</h2>
+        <span class="badge badge-3">Why SkillConnect</span>
+        <h2>Built differently,<br>for a reason</h2>
       </div>
       <div class="why-grid">
         <div class="why-item">
-          <div class="why-icon-wrap">🚫</div>
-          <div><h3>No Agencies</h3><p>Cut out the middlemen. Work directly with the professional doing your project and keep more money in your pocket.</p></div>
+          <div class="why-icon-wrap"></div>
+          <div><h3>No agencies</h3><p>Cut out the middlemen. Work directly with the professional doing your project and keep more money in your pocket.</p></div>
         </div>
         <div class="why-item">
-          <div class="why-icon-wrap">✅</div>
-          <div><h3>Verified Profiles</h3><p>Every professional goes through a vetting process. You see real skills, real portfolios, and real reviews.</p></div>
+          <div class="why-icon-wrap"></div>
+          <div><h3>Verified profiles</h3><p>Every professional goes through a vetting process. You see real skills, real portfolios, and real reviews.</p></div>
         </div>
         <div class="why-item">
-          <div class="why-icon-wrap">💬</div>
-          <div><h3>Direct Messaging</h3><p>Communicate directly through our platform. Discuss scope, timeline and budget — all in one place.</p></div>
+          <div class="why-icon-wrap"></div>
+          <div><h3>Direct messaging</h3><p>Communicate directly through our platform. Discuss scope, timeline and budget — all in one place.</p></div>
         </div>
         <div class="why-item">
-          <div class="why-icon-wrap">🆓</div>
-          <div><h3>Free to Post</h3><p>Posting a need costs nothing. Browse all professionals for free. No hidden fees, no subscriptions.</p></div>
+          <div class="why-icon-wrap"></div>
+          <div><h3>Free to post</h3><p>Posting a need costs nothing. Browse all professionals for free. No hidden fees, no subscriptions.</p></div>
         </div>
       </div>
     </section>
 
     <!-- TESTIMONIALS -->
-    <section style="background: var(--bg-card); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); max-width:100%; padding: 80px 40px;">
-      <div style="max-width:1200px; margin:0 auto;">
-        <div class="section-header">
-          <span class="badge badge-gold">Testimonials</span>
-          <h2 style="margin-top:16px;">People love<br>SkillConnect</h2>
+    <section>
+      <div class="section-header">
+        <span class="badge badge-1">Testimonials</span>
+        <h2>People love<br>SkillConnect</h2>
+      </div>
+      <div class="testi-grid">
+        <div class="testi-card">
+          <p class="testi-quote">I needed a website for my restaurant and had no idea where to start. Found an amazing developer here within 2 days. The whole process was so easy.</p>
+          <div class="testi-author">
+            <div class="testi-av" style="background:#8B5E34">G</div>
+            <div><div class="testi-name">Grace Wambui</div><div class="testi-role">Restaurant Owner, Nairobi</div></div>
+          </div>
         </div>
-        <div class="testi-grid">
-          <div class="testi-card">
-            <p class="testi-quote">"I needed a website for my restaurant and had no idea where to start. Found an amazing developer on here within 2 days. The whole process was so easy."</p>
-            <div class="testi-author">
-              <div class="avatar" style="background:linear-gradient(135deg,#C8490C,#E8723A);width:38px;height:38px;font-size:14px;">G</div>
-              <div><div class="testi-name">Grace Wambui</div><div class="testi-role">Restaurant Owner, Nairobi</div></div>
-            </div>
+        <div class="testi-card">
+          <p class="testi-quote">As a cybersecurity analyst, SkillConnect helped me find clients who actually needed my skills. No more cold emails — clients come to me now.</p>
+          <div class="testi-author">
+            <div class="testi-av" style="background:#2F6F91">J</div>
+            <div><div class="testi-name">James Oduya</div><div class="testi-role">Cybersecurity Analyst</div></div>
           </div>
-          <div class="testi-card">
-            <p class="testi-quote">"As a cybersecurity analyst, SkillConnect helped me find clients who actually needed my skills. No more cold emails — clients come to me now."</p>
-            <div class="testi-author">
-              <div class="avatar" style="background:linear-gradient(135deg,#2E5E3E,#4A8C62);width:38px;height:38px;font-size:14px;">J</div>
-              <div><div class="testi-name">James Oduya</div><div class="testi-role">Cybersecurity Analyst</div></div>
-            </div>
-          </div>
-          <div class="testi-card">
-            <p class="testi-quote">"Our NGO needed a mobile app on a tight budget. We posted our need and had 5 professionals reach out in the first day. Incredible platform."</p>
-            <div class="testi-author">
-              <div class="avatar" style="background:linear-gradient(135deg,#1D3C6E,#3060A8);width:38px;height:38px;font-size:14px;">A</div>
-              <div><div class="testi-name">Amara Diallo</div><div class="testi-role">NGO Director, Accra</div></div>
-            </div>
+        </div>
+        <div class="testi-card">
+          <p class="testi-quote">Our NGO needed a mobile app on a tight budget. We posted our need and had 5 professionals reach out in the first day. Incredible platform.</p>
+          <div class="testi-author">
+            <div class="testi-av" style="background:#1B5E45">A</div>
+            <div><div class="testi-name">Amara Diallo</div><div class="testi-role">NGO Director, Accra</div></div>
           </div>
         </div>
       </div>
     </section>
 
     <!-- CTA BANNER -->
-    <div style="max-width:1200px; margin: 80px auto;">
-      <div class="cta-banner">
-        <span class="badge badge-rust" style="margin-bottom:20px;display:inline-flex;">🎉 Join 1,200+ users today</span>
-        <h2>Ready to get started?</h2>
-        <p>Whether you need help or you have skills to offer — you belong here.</p>
-        <div class="cta-banner-btns">
-          <a href="register.html" class="btn-cta-primary">I Need Help With Something</a>
-          <a href="register.html" class="btn-cta-secondary">I Offer Tech Skills</a>
-        </div>
+    <div class="cta-banner">
+      <span class="badge badge-1" style="margin-bottom:20px;display:inline-flex;">Join today</span>
+      <h2>Ready to get started?</h2>
+      <p>Whether you need help or you have skills to offer — you belong here.</p>
+      <div class="cta-banner-btns">
+        <a href="register.html" class="btn-primary">I need help with something</a>
+        <a href="register.html" class="btn-secondary">I offer tech skills</a>
       </div>
     </div>
 
@@ -372,12 +459,107 @@
       <a href="index.html" class="nav-logo">Skill<span>Connect</span></a>
       <div class="footer-links">
         <a href="browse.html">Browse</a>
-        <a href="post-need.html">Post a Need</a>
+        <a href="post-need.html">Post a need</a>
         <a href="login.html">Login</a>
         <a href="register.html">Register</a>
       </div>
       <span>© 2025 SkillConnect. All rights reserved.</span>
     </footer>
   </div>
+
+  <script>
+    const API = 'https://skillconnect-backend-production.up.railway.app/api'
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const user = JSON.parse(localStorage.getItem('user') || 'null')
+      if (user) {
+        const initials = user.name.split(' ').map(n=>n[0]).join('').toUpperCase().slice(0,2)
+        document.getElementById('navAvatar').textContent = initials
+        document.getElementById('navAvatar').style.display = 'flex'
+        document.getElementById('navDash').style.display = 'inline'
+        document.getElementById('navLogin').style.display = 'none'
+        document.getElementById('navRegister').style.display = 'none'
+      }
+
+      loadStats()
+    })
+
+    async function loadStats() {
+      try {
+        const [prosRes, postsRes] = await Promise.all([
+          fetch(`${API}/users`),
+          fetch(`${API}/posts`)
+        ])
+        const pros = await prosRes.json()
+        const posts = await postsRes.json()
+
+        const proCount = Array.isArray(pros) ? pros.length : 0
+        const postCount = Array.isArray(posts) ? posts.length : 0
+
+        document.getElementById('statPros').textContent = proCount > 0 ? proCount + '+' : '0'
+        document.getElementById('statPosts').textContent = postCount > 0 ? postCount + '+' : '0'
+        document.getElementById('eyebrowText').textContent = `${proCount} verified professional${proCount !== 1 ? 's' : ''}`
+      } catch {
+        document.getElementById('statPros').textContent = '—'
+        document.getElementById('statPosts').textContent = '—'
+      }
+    }
+  </script>
+
+  <!-- MOBILE HAMBURGER MENU -->
+  <script>
+    (function() {
+      window.addEventListener('DOMContentLoaded', function() {
+        const nav = document.querySelector('nav');
+        if (!nav) return;
+
+        const hamburger = document.createElement('button');
+        hamburger.className = 'hamburger';
+        hamburger.setAttribute('aria-label', 'Menu');
+        hamburger.innerHTML = '<span></span><span></span><span></span>';
+        nav.appendChild(hamburger);
+
+        const mobileMenu = document.createElement('div');
+        mobileMenu.className = 'mobile-menu';
+        mobileMenu.id = 'mobileMenu';
+
+        const links = nav.querySelectorAll('a:not(.nav-logo)');
+        links.forEach(link => {
+          const clone = link.cloneNode(true);
+          mobileMenu.appendChild(clone);
+        });
+
+        const user = JSON.parse(localStorage.getItem('user') || 'null');
+        if (user) {
+          const divider = document.createElement('div');
+          divider.className = 'menu-divider';
+          mobileMenu.appendChild(divider);
+          const signout = document.createElement('a');
+          signout.href = '#';
+          signout.textContent = 'Sign out';
+          signout.style.color = 'var(--danger, #B3261E)';
+          signout.addEventListener('click', function(e) {
+            e.preventDefault();
+            localStorage.clear();
+            window.location.href = 'login.html';
+          });
+          mobileMenu.appendChild(signout);
+        }
+
+        document.body.appendChild(mobileMenu);
+
+        hamburger.addEventListener('click', function() {
+          mobileMenu.classList.toggle('open');
+        });
+
+        document.addEventListener('click', function(e) {
+          if (!nav.contains(e.target)) {
+            mobileMenu.classList.remove('open');
+          }
+        });
+      });
+    })();
+  </script>
+
 </body>
 </html>
