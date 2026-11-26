@@ -23,5 +23,11 @@ app.get('/', (req, res) => {
   res.json({ message: 'SkillConnect API running ✅' })
 })
 
-const PORT = process.env.PORT || 5000
-app.listen(PORT, () => console.log(`Server running on port ${PORT} ✅`))
+// On Vercel the app runs as a serverless function, so it's exported instead of listening.
+// Locally (and on Railway/Render) it starts a normal server.
+if (!process.env.VERCEL) {
+  const PORT = process.env.PORT || 5000
+  app.listen(PORT, () => console.log(`Server running on port ${PORT} ✅`))
+}
+
+module.exports = app
