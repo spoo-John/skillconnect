@@ -1,0 +1,533 @@
+/*
+ * Home. The hero and two "bands" are full-screen photos with text set on a dark scrim.
+ * Text on photos is always white whatever the colour scheme, so it uses fixed colours, not theme tokens.
+ */
+
+.hero,
+.band {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: flex;
+  color: #fff;
+}
+
+/* The hero slides up under the transparent navbar so the photo fills the whole screen. */
+.hero {
+  min-height: 100svh;
+  margin-top: calc(-1 * var(--nav-h) - 1px);
+  align-items: center;
+}
+
+.heroInner,
+.bandInner {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+}
+
+.heroInner {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 32px;
+  padding-top: calc(var(--nav-h) + 72px);
+  padding-bottom: 96px;
+}
+
+.heroText {
+  max-width: 600px;
+}
+
+.heroText > * {
+  animation: rise 0.8s var(--ease-out) both;
+}
+
+.heroText > :nth-child(1) {
+  animation-delay: 0.15s;
+}
+
+.heroText > :nth-child(2) {
+  animation-delay: 0.3s;
+}
+
+.heroText > :nth-child(3) {
+  animation-delay: 0.42s;
+}
+
+.heroText > :nth-child(4) {
+  animation-delay: 0.54s;
+}
+
+.title {
+  font-size: clamp(44px, 7vw, 88px);
+  line-height: 1.02;
+  letter-spacing: -0.04em;
+  font-weight: 650;
+  text-wrap: balance;
+}
+
+.line {
+  display: block;
+}
+
+.rotator {
+  display: grid;
+  color: #6fd3a5;
+}
+
+.rotator > span {
+  grid-area: 1 / 1;
+  transition: opacity 0.5s var(--ease-out), transform 0.5s var(--ease-out), filter 0.5s var(--ease-out);
+  white-space: nowrap;
+}
+
+.wordIn {
+  opacity: 1;
+  transform: none;
+}
+
+.wordOut {
+  opacity: 0;
+  transform: translateY(-0.4em);
+  filter: blur(6px);
+}
+
+.wordIdle {
+  opacity: 0;
+  transform: translateY(0.4em);
+  filter: blur(6px);
+}
+
+.lead {
+  max-width: 32rem;
+  margin-top: 24px;
+  font-size: clamp(16px, 1.6vw, 19px);
+  line-height: 1.55;
+  color: rgb(255 255 255 / 0.82);
+}
+
+.ctas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 36px;
+}
+
+/* On photos the brand green is lifted a step so it holds against dark backgrounds in both themes. */
+.ctaPrimary {
+  background: #2f8a63;
+  color: #fff;
+}
+
+.ctaPrimary:hover:not(:disabled) {
+  background: #38a173;
+}
+
+.ctaGlass {
+  background: rgb(255 255 255 / 0.1);
+  border-color: rgb(255 255 255 / 0.32);
+  color: #fff;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.ctaGlass:hover:not(:disabled) {
+  background: rgb(255 255 255 / 0.18);
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 22px;
+  font-size: 13px;
+  color: rgb(255 255 255 / 0.72);
+  font-variant-numeric: tabular-nums;
+}
+
+.liveDot {
+  position: relative;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #6fd3a5;
+  flex-shrink: 0;
+}
+
+.liveDot::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: #6fd3a5;
+  animation: ping 1.8s var(--ease-out) infinite;
+}
+
+@keyframes ping {
+  from {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  to {
+    transform: scale(3);
+    opacity: 0;
+  }
+}
+
+.floatCard {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+  padding: 10px 16px 10px 10px;
+  border: 1px solid rgb(255 255 255 / 0.18);
+  border-radius: 14px;
+  background: rgb(255 255 255 / 0.1);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  color: #fff;
+  animation: rise 0.8s 0.8s var(--ease-out) both, float 6s 1.6s ease-in-out infinite;
+}
+
+.floatCard:hover {
+  background: rgb(255 255 255 / 0.16);
+  text-decoration: none;
+}
+
+.floatCard > span:last-child {
+  display: grid;
+}
+
+.floatName {
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.floatSub {
+  font-size: 12px;
+  opacity: 0.72;
+  white-space: nowrap;
+}
+
+.scrollCue {
+  position: absolute;
+  z-index: 1;
+  left: 50%;
+  bottom: 24px;
+  width: 24px;
+  height: 38px;
+  margin-left: -12px;
+  border: 1.5px solid rgb(255 255 255 / 0.5);
+  border-radius: 12px;
+  animation: rise 0.8s 1s var(--ease-out) both;
+}
+
+.scrollCue span {
+  position: absolute;
+  left: 50%;
+  top: 8px;
+  width: 3px;
+  height: 7px;
+  margin-left: -1.5px;
+  border-radius: 2px;
+  background: #fff;
+  animation: wheel 1.8s ease-in-out infinite;
+}
+
+@keyframes wheel {
+  0% {
+    opacity: 0;
+    transform: translateY(0);
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+}
+
+/* ---------- Marquee (on the page background, under the hero) ---------- */
+
+.marquee {
+  overflow: hidden;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--border);
+  mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+}
+
+.marqueeTrack {
+  display: flex;
+  gap: 12px;
+  width: max-content;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  animation: marquee linear infinite;
+}
+
+.marquee:hover .marqueeTrack,
+.marquee:focus-within .marqueeTrack {
+  animation-play-state: paused;
+}
+
+@keyframes marquee {
+  to {
+    transform: translateX(calc(-50% - 6px));
+  }
+}
+
+.marqueeItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 44px;
+  padding: 0 16px 0 8px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--text);
+  transition: border-color 0.15s;
+}
+
+.marqueeItem .floatSub {
+  color: var(--text-2);
+  opacity: 1;
+}
+
+.marqueeItem:hover {
+  border-color: var(--border-strong);
+  text-decoration: none;
+}
+
+/* ---------- Skills (plain section between the photos) ---------- */
+
+.section {
+  padding-top: 96px;
+  padding-bottom: 96px;
+}
+
+.h2 {
+  margin-bottom: 28px;
+  font-size: clamp(28px, 3.6vw, 44px);
+  letter-spacing: -0.03em;
+}
+
+.skills {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.skill {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 52px;
+  padding: 0 16px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 500;
+  transition: border-color 0.2s, transform 0.2s var(--ease-out), box-shadow 0.2s;
+}
+
+.skill:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
+  text-decoration: none;
+}
+
+.arrow {
+  color: var(--text-3);
+  transition: transform 0.2s var(--ease-out), color 0.2s;
+}
+
+.skill:hover .arrow {
+  color: var(--accent-text);
+  transform: translateX(3px);
+}
+
+/* ---------- Full-screen photo bands ---------- */
+
+.band {
+  min-height: 100svh;
+  align-items: center;
+}
+
+.bandInner {
+  display: flex;
+  padding-top: 96px;
+  padding-bottom: 96px;
+}
+
+.bandRight .bandInner {
+  justify-content: flex-end;
+}
+
+.bandText {
+  max-width: 460px;
+}
+
+.band .h2 {
+  color: #fff;
+}
+
+.steps {
+  position: relative;
+  display: grid;
+  gap: 32px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* The line that joins the step numbers draws itself when the list scrolls into view. */
+.steps::before {
+  content: '';
+  position: absolute;
+  left: 15px;
+  top: 32px;
+  bottom: 32px;
+  width: 2px;
+  background: rgb(111 211 165 / 0.45);
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform 1.1s var(--ease-out) 0.2s;
+}
+
+.stepsOn::before {
+  transform: scaleY(1);
+}
+
+.step {
+  position: relative;
+  display: flex;
+  gap: 18px;
+  opacity: 0;
+  transform: translateX(-14px);
+  transition: opacity 0.6s var(--ease-out), transform 0.6s var(--ease-out);
+}
+
+.stepsOn .step {
+  opacity: 1;
+  transform: none;
+}
+
+.step h3 {
+  margin-bottom: 4px;
+  font-size: 18px;
+}
+
+.step p {
+  color: rgb(255 255 255 / 0.78) !important;
+  font-size: 15px;
+}
+
+.stepNum {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: #2f8a63;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  box-shadow: 0 0 0 4px rgb(47 138 99 / 0.25);
+}
+
+.proLead {
+  margin-bottom: 32px;
+  color: rgb(255 255 255 / 0.82);
+  font-size: 17px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .step {
+    opacity: 1;
+    transform: none;
+  }
+
+  .steps::before {
+    transform: none;
+  }
+}
+
+/* ---------- Small screens: text sits at the bottom of each photo ---------- */
+
+@media (max-width: 900px) {
+  .hero,
+  .band {
+    align-items: flex-end;
+  }
+
+  .heroInner {
+    flex-direction: column;
+    align-items: flex-start;
+    padding-top: 160px;
+    padding-bottom: 88px;
+  }
+
+  .floatCard {
+    display: none;
+  }
+
+  .band {
+    min-height: 92svh;
+  }
+
+  .bandInner {
+    padding-top: 200px;
+    padding-bottom: 64px;
+  }
+
+  .bandRight .bandInner {
+    justify-content: flex-start;
+  }
+
+  .section {
+    padding-top: 64px;
+    padding-bottom: 64px;
+  }
+}
+
+@media (max-width: 600px) {
+  .ctas a {
+    flex: 1 1 auto;
+  }
+
+  .scrollCue {
+    display: none;
+  }
+}
+
+/* CSS modules scope keyframe names, so the shared ones are declared here too. */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}

@@ -1,0 +1,50 @@
+.page {
+  max-width: 680px;
+  padding-top: 48px;
+}
+
+.page h2 {
+  margin: 40px 0 10px;
+  font-size: 17px;
+}
+
+.page p {
+  color: var(--text-2);
+  margin-bottom: 12px;
+}
+
+.updated {
+  margin-top: 8px;
+  margin-bottom: 32px !important;
+  font-size: 13px;
+  color: var(--text-3) !important;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.table th,
+.table td {
+  padding: 10px 12px 10px 0;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+  vertical-align: top;
+}
+
+.table th {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-3);
+}
+
+.table td:first-child {
+  width: 42%;
+  color: var(--text);
+}
+
+.table td:last-child {
+  color: var(--text-2);
+}

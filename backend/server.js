@@ -4,7 +4,12 @@ require('dotenv').config()
 
 const app = express()
 
-app.use(cors())
+// Restrict to the deployed frontend(s) when CORS_ORIGIN is set (comma-separated).
+const allowedOrigins = (process.env.CORS_ORIGIN || '')
+  .split(',')
+  .map((o) => o.trim())
+  .filter(Boolean)
+app.use(cors(allowedOrigins.length ? { origin: allowedOrigins } : {}))
 app.use(express.json())
 
 // Routes
